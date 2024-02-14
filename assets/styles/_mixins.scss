@@ -1,0 +1,20 @@
+@mixin scrollbar {
+
+		box-sizing: border-box;
+		&::-webkit-scrollbar {
+			width: var(--scrollbar-width);
+			height: var(--scrollbar-width);
+	  	}
+	   
+		&::-webkit-scrollbar-track {
+			background: var(--color-main-15);
+	  	}
+	   
+		&::-webkit-scrollbar-thumb {
+			background: var(--color-main-65);
+	  	}
+
+	scrollbar-color: var(--color-main-45) var(--color-main-25);
+  	scrollbar-width: thin;
+  	scrollbar-height: thin;
+}
