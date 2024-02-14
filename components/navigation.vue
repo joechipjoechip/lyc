@@ -3,16 +3,19 @@
 
 <template>
     <nav class="nav-wrapper">
+
         <div class="nav-logo">
             <img src="/images/core/logo-chrome.png" alt="">
             <img src="/images/core/logo-typo-chrome.png" alt="">
         </div>
+
         <div class="nav-inner">
             <NuxtLink to="/contact">Marketplace</NuxtLink>
             <NuxtLink to="/">Whitepaper</NuxtLink>
             <NuxtLink to="/">About us</NuxtLink>
             <NuxtLink to="/">Sign in</NuxtLink>
         </div>
+        
     </nav>
 </template>
 

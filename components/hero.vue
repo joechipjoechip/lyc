@@ -1,11 +1,13 @@
 <script setup>
-
+//
 </script>
 
 <template>
     <section class="hero-wrapper">
 
         <div class="hero-inner">
+
+            <HeroPortal />
 
             <p>The first crypto treasure hunt</p>
             <p>Augmented reality play-to-earn</p>
