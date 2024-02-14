@@ -1,16 +1,10 @@
 <script setup>
 import Navigation from '@/components/navigation.vue';
-
-useHead({
-  htmlAttrs: {
-    class: 'dark'
-  },
-})
 </script>
 
 <template>
     <div class="layout-default">
-        <Navigation />
+        <Navigation class="nav" />
         <main>
             <NuxtPage />
         </main>
@@ -21,7 +15,12 @@ useHead({
 .layout-default {
     position: relative;
 
+    .nav {
+        z-index: 100;
+    }
+    
     main {
+        z-index: 90;
         border: solid 1px blue;
         margin-top: $layoutNavHeightDesktop;
     }

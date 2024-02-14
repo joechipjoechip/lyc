@@ -3,8 +3,10 @@
 </script>
 
 <template>
-    <Hero />
-    <!-- here, other slots/modules -->
+    <div>
+        <Hero />
+        <!-- here, other slots/modules -->
+    </div>
 </template>
 
 <style lang="scss" scoped>
