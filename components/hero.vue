@@ -7,7 +7,8 @@
 
         <div class="hero-inner">
 
-            <p>ceci est hero</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
 
         </div>
 
@@ -27,6 +28,11 @@
             max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
             border: solid 4px orange;
+            text-align: center;
+
+            p {
+                text-transform: uppercase;
+            }
         }
     }
 </style>
