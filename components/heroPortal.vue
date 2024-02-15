@@ -5,6 +5,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 // import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
@@ -42,8 +43,8 @@ async function initScene(){
         
         // lights
         const lightOne = new THREE.HemisphereLight(0xFF0000, 0x0000FF, 1)
-        const lightTwo = new THREE.PointLight( 0xffffff, 2, 20 )
-        lightTwo.position.set( 0, 0.25, 1 )
+        const lightTwo = new THREE.PointLight( 0xffffff, 1, 10 )
+        lightTwo.position.set( 0, 0.65, 2 )
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
@@ -73,38 +74,6 @@ async function initScene(){
     })
 }
 
-async function initEnvMap(){
-
-    return new Promise(res => {
-
-        const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
-        envMapTexture = cubeTextureLoader.load(
-            [
-                "3d/envMap/0/px.jpg",
-                "3d/envMap/0/nx.jpg",
-                "3d/envMap/0/py.jpg",
-                "3d/envMap/0/ny.jpg",
-                "3d/envMap/0/pz.jpg",
-                "3d/envMap/0/nz.jpg",
-            ]
-        )
-
-        portal.traverse((child) => {
-            if(child instanceof THREE.Mesh){
-                child.material.envMap = envMapTexture;
-                child.material.envMapIntensity = 0.15;
-                child.material.transparent = true;
-                child.material.opacity = 0.7;
-                child.material.metalness = 0.9;
-                child.material.roughness = 0.05;
-            }
-        })
-
-        res()
-    })
-
-}
-
 async function initRenderer(){
     return new Promise(res => {
 
@@ -128,11 +97,53 @@ async function initRenderer(){
         composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderPass = new RenderPass(scene, camera);
         composer.addPass(renderPass)
+
+        initPostProcs(width, height)
         
         clock = new THREE.Clock();
 
         res()
     })
+}
+
+async function initEnvMap(){
+
+    return new Promise(res => {
+
+        const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+        envMapTexture = cubeTextureLoader.load(
+            [
+                "3d/envMap/0/px.jpg",
+                "3d/envMap/0/nx.jpg",
+                "3d/envMap/0/py.jpg",
+                "3d/envMap/0/ny.jpg",
+                "3d/envMap/0/pz.jpg",
+                "3d/envMap/0/nz.jpg",
+            ]
+        )
+
+        portal.traverse((child) => {
+            if(child instanceof THREE.Mesh){
+                child.material.envMap = envMapTexture;
+                child.material.envMapIntensity = 0.45;
+                child.material.transparent = true;
+                child.material.opacity = 0.7;
+                child.material.metalness = 0.9;
+                child.material.roughness = 0.05;
+            }
+        })
+
+        res()
+    })
+
+}
+
+function initPostProcs(width, height){
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 0.7;
+    bloomPass.strength = 0.2;
+    bloomPass.radius = 0.5;
+    composer.addPass(bloomPass);
 }
 
 function mainTick(){
@@ -141,7 +152,7 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.y += 0.01;
+        portal.rotation.y += 0.005;
 
         composer.render();
         // renderer.render(scene, camera);
