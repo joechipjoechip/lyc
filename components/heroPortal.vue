@@ -42,8 +42,7 @@ async function initScene(){
         // portal.rotation.set(0.5, 0.5, 0.5)
         
         // lights
-        const lightOne = new THREE.AmbientLight( 0xffffff, 0.5)
-        lightOne.position.set( 0, 0.65, 2 )
+        const lightOne = new THREE.AmbientLight( 0xffffff, 0.05)
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
@@ -128,7 +127,6 @@ async function initEnvMap(){
 
                 if( child.name.includes("emissive") ) {
 
-                    console.log("emissive spotted")
                     const emissiveMaterial = new THREE.MeshStandardMaterial({ 
                         color: 0x4BBCFF, 
                         emissive: 0x4BBCFF, 
@@ -136,6 +134,8 @@ async function initEnvMap(){
                     })
 
                     child.material = emissiveMaterial
+
+                    console.log("emissive spotted and replaced")
 
                 } else {
                     child.material.envMap = envMapTexture;
