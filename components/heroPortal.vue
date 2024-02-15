@@ -6,6 +6,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 // import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
+const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath("js/draco/");
@@ -20,6 +21,7 @@ let clock = null
 let camera = null
 let scene = null
 let portal = null
+let envMapTexture = null
 let deltaTime = 0
 
 onMounted(() => {
@@ -40,7 +42,7 @@ async function initScene(){
         
         // lights
         const lightOne = new THREE.HemisphereLight(0xFF0000, 0x0000FF, 1)
-        const lightTwo = new THREE.PointLight( 0x0000ff, 2, 20 )
+        const lightTwo = new THREE.PointLight( 0xffffff, 2, 20 )
         lightTwo.position.set( 0, 0.25, 1 )
     
         // camera
@@ -56,16 +58,51 @@ async function initScene(){
             portal.scale.set(0.05, 0.05, 0.05)
             portal.position.set(0, 0, 0)
 
-            // fill scene
-            scene = new THREE.Scene()
-            scene.add(camera)
-            scene.add(lightOne)
-            scene.add(lightTwo)
-            scene.add(portal)
-        
-            res()
+            initEnvMap().then(() => {
+                // fill scene
+                scene = new THREE.Scene()
+                scene.add(camera)
+                // scene.add(lightOne)
+                scene.add(lightTwo)
+                scene.add(portal)
+            
+                res()
+            })
+
         })
     })
+}
+
+async function initEnvMap(){
+
+    return new Promise(res => {
+
+        const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+        envMapTexture = cubeTextureLoader.load(
+            [
+                "3d/envMap/0/px.jpg",
+                "3d/envMap/0/nx.jpg",
+                "3d/envMap/0/py.jpg",
+                "3d/envMap/0/ny.jpg",
+                "3d/envMap/0/pz.jpg",
+                "3d/envMap/0/nz.jpg",
+            ]
+        )
+
+        portal.traverse((child) => {
+            if(child instanceof THREE.Mesh){
+                child.material.envMap = envMapTexture;
+                child.material.envMapIntensity = 0.15;
+                child.material.transparent = true;
+                child.material.opacity = 0.7;
+                child.material.metalness = 0.9;
+                child.material.roughness = 0.05;
+            }
+        })
+
+        res()
+    })
+
 }
 
 async function initRenderer(){
@@ -113,6 +150,7 @@ function mainTick(){
 
     window.requestAnimationFrame(mainTick);
 }
+
 
 </script>
 
