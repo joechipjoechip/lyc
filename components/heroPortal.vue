@@ -2,6 +2,14 @@
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+// import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+
+const glbLoader = new GLTFLoader()
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath("js/draco/");
+glbLoader.setDRACOLoader(dracoLoader);
 
 const canvas = ref(null)
 const frameRate = 1/60
@@ -16,62 +24,78 @@ let deltaTime = 0
 
 onMounted(() => {
     console.log("mounted du hero portal")
-    initScene()
-    initRenderer()
-    mainTick()
-
-    // composer.render()
-    // renderer.render(scene, camera)
+    initScene().then(() => initRenderer().then(() => mainTick()))
 })
 
-function initScene(){
-    const { width, height } = canvas.value.getBoundingClientRect()
+async function initScene(){
+    return new Promise(res => {
 
-    scene = new THREE.Scene()
-
-    // box
-    const geometry = new THREE.BoxGeometry(1,1,1)
-    const material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF })
-    portal = new THREE.Mesh(geometry, material)
-    portal.rotation.set(0.5, 0.5, 0.5)
+        const { width, height } = canvas.value.getBoundingClientRect()
     
-    // lights
-    const lightOne = new THREE.HemisphereLight(0xFF0000, 0x0000FF, 1)
-
-    // camera
-    camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
-    camera.position.set(0, 0, -2)
-    camera.lookAt(portal.position)
+        // portal dummy (box)
+        // const geometry = new THREE.BoxGeometry(1,1,1)
+        // const material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF })
+        // portal = new THREE.Mesh(geometry, material)
+        // portal.rotation.set(0.5, 0.5, 0.5)
+        
+        // lights
+        const lightOne = new THREE.HemisphereLight(0xFF0000, 0x0000FF, 1)
+        const lightTwo = new THREE.PointLight( 0x0000ff, 2, 20 )
+        lightTwo.position.set( 0, 0.25, 1 )
     
+        // camera
+        camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
+        camera.position.set(0, 0.25, 2)
 
-    scene.add(camera)
-    scene.add(lightOne)
-    scene.add(portal)
+        // glb model
+        glbLoader.load("3d/models/portal.glb", (glb) => {
+            portal = glb.scene
+
+            console.log("portal", portal)
+
+            portal.scale.set(0.05, 0.05, 0.05)
+            portal.position.set(0, 0, 0)
+
+            // fill scene
+            scene = new THREE.Scene()
+            scene.add(camera)
+            scene.add(lightOne)
+            scene.add(lightTwo)
+            scene.add(portal)
+        
+            res()
+        })
+    })
 }
 
-function initRenderer(){
-    const { width, height } = canvas.value.getBoundingClientRect()
+async function initRenderer(){
+    return new Promise(res => {
 
-    renderer = new THREE.WebGLRenderer({
-        canvas: canvas.value,
-        antialias: true
-    });
-
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    // renderer.setClearColor();
-    // renderer.outputEncoding = THREE.sRGBEncoding;
-    // renderer.shadowMap.enabled = true;
-    // renderer.shadowMap.type = THREE.PCFShadowMap;
-
+        const { width, height } = canvas.value.getBoundingClientRect()
     
-    composer = new EffectComposer(renderer);
-    composer.setSize(width, height);
-    composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderPass = new RenderPass(scene, camera);
-    composer.addPass(renderPass)
+        renderer = new THREE.WebGLRenderer({
+            canvas: canvas.value,
+            antialias: true
+        });
     
-    clock = new THREE.Clock();
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        // renderer.setClearColor();
+        // renderer.outputEncoding = THREE.sRGBEncoding;
+        // renderer.shadowMap.enabled = true;
+        // renderer.shadowMap.type = THREE.PCFShadowMap;
+    
+        
+        composer = new EffectComposer(renderer);
+        composer.setSize(width, height);
+        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderPass = new RenderPass(scene, camera);
+        composer.addPass(renderPass)
+        
+        clock = new THREE.Clock();
+
+        res()
+    })
 }
 
 function mainTick(){
@@ -80,8 +104,10 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.x += 0.01;
+        portal.rotation.y += 0.01;
+
         composer.render();
+        // renderer.render(scene, camera);
         deltaTime = deltaTime % frameRate;
     }
 
