@@ -42,9 +42,8 @@ async function initScene(){
         // portal.rotation.set(0.5, 0.5, 0.5)
         
         // lights
-        const lightOne = new THREE.HemisphereLight(0xFF0000, 0x0000FF, 1)
-        const lightTwo = new THREE.PointLight( 0xffffff, 1, 10 )
-        lightTwo.position.set( 0, 0.65, 2 )
+        const lightOne = new THREE.AmbientLight( 0xffffff, 0.5)
+        lightOne.position.set( 0, 0.65, 2 )
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
@@ -63,8 +62,7 @@ async function initScene(){
                 // fill scene
                 scene = new THREE.Scene()
                 scene.add(camera)
-                // scene.add(lightOne)
-                scene.add(lightTwo)
+                scene.add(lightOne)
                 scene.add(portal)
             
                 res()
@@ -84,23 +82,24 @@ async function initRenderer(){
             antialias: true
         });
     
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(width, height)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         // renderer.setClearColor();
-        // renderer.outputEncoding = THREE.sRGBEncoding;
+        // renderer.outputEncoding = THREE.sRGBEncoding
+        renderer.outputColorSpace = THREE.SRGBColorSpace
         // renderer.shadowMap.enabled = true;
         // renderer.shadowMap.type = THREE.PCFShadowMap;
     
         
-        composer = new EffectComposer(renderer);
-        composer.setSize(width, height);
-        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderPass = new RenderPass(scene, camera);
+        composer = new EffectComposer(renderer)
+        composer.setSize(width, height)
+        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        renderPass = new RenderPass(scene, camera)
         composer.addPass(renderPass)
 
         initPostProcs(width, height)
         
-        clock = new THREE.Clock();
+        clock = new THREE.Clock()
 
         res()
     })
@@ -110,7 +109,7 @@ async function initEnvMap(){
 
     return new Promise(res => {
 
-        const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+        const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
                 "3d/envMap/0/px.jpg",
@@ -124,12 +123,28 @@ async function initEnvMap(){
 
         portal.traverse((child) => {
             if(child instanceof THREE.Mesh){
-                child.material.envMap = envMapTexture;
-                child.material.envMapIntensity = 0.45;
-                child.material.transparent = true;
-                child.material.opacity = 0.7;
-                child.material.metalness = 0.9;
-                child.material.roughness = 0.05;
+
+                console.log(child.name)
+
+                if( child.name.includes("emissive") ) {
+
+                    console.log("emissive spotted")
+                    const emissiveMaterial = new THREE.MeshStandardMaterial({ 
+                        color: 0x4BBCFF, 
+                        emissive: 0x4BBCFF, 
+                        emissiveIntensity: 30
+                    })
+
+                    child.material = emissiveMaterial
+
+                } else {
+                    child.material.envMap = envMapTexture;
+                    child.material.envMapIntensity = 0.45;
+                    // child.material.transparent = true;
+                    // child.material.opacity = 0.7;
+                    child.material.metalness = 0.9;
+                    child.material.roughness = 0.05;
+                }
             }
         })
 
@@ -139,11 +154,11 @@ async function initEnvMap(){
 }
 
 function initPostProcs(width, height){
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85);
-    bloomPass.threshold = 0.7;
-    bloomPass.strength = 0.2;
-    bloomPass.radius = 0.5;
-    composer.addPass(bloomPass);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
+    bloomPass.threshold = 0.05
+    bloomPass.strength = 0.35
+    bloomPass.radius = 0.95
+    composer.addPass(bloomPass)
 }
 
 function mainTick(){
@@ -152,7 +167,7 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.y += 0.005;
+        portal.rotation.y -= 0.0025;
 
         composer.render();
         // renderer.render(scene, camera);
