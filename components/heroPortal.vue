@@ -18,8 +18,9 @@ onMounted(() => {
     console.log("mounted du hero portal")
     initScene()
     initRenderer()
-    // mainTick()
-    composer.render()
+    mainTick()
+
+    // composer.render()
     // renderer.render(scene, camera)
 })
 
@@ -79,27 +80,12 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-
-        this.sequencesManager.current.checkStuffsToAnimateAtRender(deltaTime, this.viewPos);
-
-        // NOW COMPUTE RENDER
-        if( this.sequencesManager.current.composer ){
-            // console.log("use composer : ", this.sequencesManager.current.name);
-            
-            this.sequencesManager.current.composer.render();
-            
-        } else {
-            // console.log("use classic renderer : ", this.sceneBundle.current.name);
-
-            this.renderer.render(this.sceneBundle.current.scene, this.sceneBundle.current.camera);
-
-        }
-
+        portal.rotation.x += 0.01;
+        composer.render();
         deltaTime = deltaTime % frameRate;
-
     }
 
-    window.requestAnimationFrame(this.mainTick);
+    window.requestAnimationFrame(mainTick);
 }
 
 </script>
