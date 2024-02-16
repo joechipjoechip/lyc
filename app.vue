@@ -1,3 +1,10 @@
+<script setup>
+import { useGlobalEvents } from "@/composables/globalEvents"
+
+useGlobalEvents()
+
+</script>
+
 <template>
     <NuxtLayout />
 </template>

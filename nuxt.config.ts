@@ -16,6 +16,12 @@ export default defineNuxtConfig({
 		}
 	},
 
+	// modules: [
+	// 	'@vueuse/motion/nuxt',
+	// 	'@pinia/nuxt',
+	// 	'@pinia-plugin-persistedstate/nuxt'
+	// ],
+
 	app: {
 		pageTransition: { 
 			name: 'page', 
