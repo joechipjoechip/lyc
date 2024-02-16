@@ -30,7 +30,6 @@ export function useGlobalEvents() {
 	}
 	
 	function handleTouchMove( event ){
-        console.log("touche move well")
 		$emit("main-touch-move", event)
 	}
     

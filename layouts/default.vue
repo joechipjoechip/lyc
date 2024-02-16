@@ -14,6 +14,7 @@ import Navigation from '@/components/navigation.vue';
 <style lang="scss" scoped>
 .layout-default {
     position: relative;
+    background-color: var(--color-contrast-100);
 
     .nav {
         z-index: 100;

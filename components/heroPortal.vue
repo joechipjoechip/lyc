@@ -8,7 +8,10 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 import { useElementVisibility } from "@vueuse/core" 
+import { useGetEventPosition } from '@/composables/getEventPosition'
+import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 
+const { $on } = useNuxtApp()
 const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
 const dracoLoader = new DRACOLoader()
@@ -28,6 +31,8 @@ let portal = null
 let envMapTexture = null
 let deltaTime = 0
 
+
+
 onMounted(() => {
     console.log("mounted du hero portal")
     initScene().then(() => initRenderer().then(() => mainTick()))
@@ -40,6 +45,16 @@ watch(() => canvasIsVisible.value, newVal => {
         // dispose ?
     }
 })
+
+$on("main-touch-move", handleTouchMove)
+const normalizedMousePosition = reactive({ x: 0, y: 0 })
+
+function handleTouchMove(event){
+    const { x, y } = useGetEventPosition(event)
+    const { normalizedX, normalizedY } = useNormalizePosition(x, y)
+    normalizedMousePosition.x = normalizedX
+    normalizedMousePosition.y = normalizedY
+}
 
 async function initScene(){
     return new Promise(res => {
@@ -57,7 +72,7 @@ async function initScene(){
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
-        camera.position.set(0, 0.25, 2)
+        camera.position.set(0, 0.25, 2.5)
 
         // glb model
         glbLoader.load("3d/models/portal.glb", (glb) => {
@@ -191,8 +206,8 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.y -= 0.0025;
-        portal.rotation.x = Math.sin(clock.getElapsedTime()) / 5;
+        portal.rotation.y = normalizedMousePosition.x * 0.7;
+        portal.rotation.x = normalizedMousePosition.y * -0.05;
 
         composer.render();
         // renderer.render(scene, camera);
