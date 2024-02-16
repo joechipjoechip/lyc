@@ -87,24 +87,26 @@ async function initScene(){
                 scene.add(camera)
                 scene.add(lightOne)
                 scene.add(portal)
+
+                glbLoader.load("3d/models/box.glb", (glb) => {
+                    box = glb.scene
+
+                    box.name = "box"
+                    box.scale.set(0.5, 0.5, 0.5)
+                    box.position.set(...boxPosition)
+
+                    initEnvMapAndMaterials(box)
+
+                    scene.add(box)
+                    
+                    res()
+                })
             
-                res()
             })
 
         })
 
-        glbLoader.load("3d/models/box.glb", (glb) => {
-            box = glb.scene
-
-            box.name = "box"
-            box.scale.set(0.5, 0.5, 0.5)
-            box.position.set(...boxPosition)
-
-            initEnvMapAndMaterials(box)
-
-            scene.add(box)
-
-        })
+       
     })
 }
 
