@@ -7,6 +7,13 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 // import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
+const props = defineProps({
+    isVisible: {
+        type: Boolean,
+        default: true
+    }
+})
+
 const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
 const dracoLoader = new DRACOLoader()
@@ -29,6 +36,14 @@ onMounted(() => {
     console.log("mounted du hero portal")
     initScene().then(() => initRenderer().then(() => mainTick()))
 })
+
+// watch(() => props.isVisible, newVal => {
+//     if( newVal ){
+//         mainTick()
+//     } else {
+//         // dispose ?
+//     }
+// })
 
 async function initScene(){
     return new Promise(res => {
@@ -174,7 +189,7 @@ function mainTick(){
         deltaTime = deltaTime % frameRate;
     }
 
-    window.requestAnimationFrame(mainTick);
+    props.isVisible && window.requestAnimationFrame(mainTick);
 }
 
 
@@ -192,14 +207,14 @@ function mainTick(){
 <style lang="scss" scoped>
     .portal {
         &-wrapper {
-            border: solid 10px green;
+            // border: solid 10px green;
             font-size: var(--font-size-big);
             color: var(--color-main-80);
         }
     }
 
     canvas {
-        border: solid 1px pink;
+        // border: solid 1px pink;
         width: 100%;
     }
 </style>

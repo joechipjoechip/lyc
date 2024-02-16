@@ -1,5 +1,9 @@
 <script setup>
-//
+import { useElementVisibility } from "@vueuse/core"
+
+const heroPortal = ref(null)
+const heroPortalIsVisible = useElementVisibility(heroPortal)
+
 </script>
 
 <template>
@@ -7,7 +11,10 @@
 
         <div class="hero-inner">
 
-            <HeroPortal />
+            <HeroPortal 
+                ref="heroPortal"
+                :isVisible="heroPortalIsVisible"
+            />
 
             <p>The first crypto treasure hunt</p>
             <p>Augmented reality play-to-earn</p>
@@ -21,7 +28,7 @@
 <style lang="scss" scoped>
     .hero {
         &-wrapper {
-            border: solid 10px green;
+            // border: solid 10px green;
             font-size: var(--font-size-big);
             color: var(--color-main-80);
         }
@@ -29,7 +36,7 @@
         &-inner {
             max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
-            border: solid 4px orange;
+            // border: solid 4px orange;
             text-align: center;
 
             p {

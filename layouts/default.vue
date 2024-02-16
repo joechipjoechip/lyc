@@ -21,7 +21,7 @@ import Navigation from '@/components/navigation.vue';
     
     main {
         z-index: 90;
-        border: solid 1px blue;
+        // border: solid 1px blue;
         margin-top: $layoutNavHeightDesktop;
     }
 }
