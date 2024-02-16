@@ -34,7 +34,7 @@ let deltaTime = 0
 
 // positions
 let portalPosition = [0,0,0]
-let boxPosition = [0, 0.05, -1]
+let boxPosition = [0, 0.5, 0]
 
 
 
@@ -180,8 +180,6 @@ async function initEnvMapAndMaterials(model){
                     })
 
                     child.material = emissiveMaterial
-
-                    console.log("emissive spotted and replaced")
 
                 } else {
 
