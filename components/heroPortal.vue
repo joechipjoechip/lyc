@@ -150,25 +150,24 @@ async function initEnvMap(){
 
                 } else {
 
-                    const portalMaterial = new THREE.MeshPhysicalMaterial( {
+                    child.material = new THREE.MeshPhysicalMaterial( {
                         transmission: 1,
-                        roughness: 0.05,
+                        roughness: 0.1,
                         envMap: envMapTexture,
-                        envMapIntensity: 0.45,
+                        envMapIntensity: 0.75,
                         metalness: 0.95,
-                        ior: 0.5,
-                        iridescence: 0.8,
+                        ior: 0.9,
+                        iridescence: 1,
                         iridescenceIOR: 2,
                         reflectivity: 0.9,
                         sheenColor: new THREE.Color(0x780bfe),
                         clearcoat: 0.8,
                         clearcoatRoughness: 0,
                         transparent: 0.5,
-                        opacity: 0.5,
+                        opacity: 0.95,
                         thickness: 0.8
-                    } )
+                    })
 
-                    child.material = portalMaterial
                 }
             }
         })
@@ -193,6 +192,7 @@ function mainTick(){
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
         portal.rotation.y -= 0.0025;
+        portal.rotation.x = Math.sin(clock.getElapsedTime()) / 5;
 
         composer.render();
         // renderer.render(scene, camera);
