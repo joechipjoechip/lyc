@@ -7,12 +7,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 // import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
-const props = defineProps({
-    isVisible: {
-        type: Boolean,
-        default: true
-    }
-})
+import { useElementVisibility } from "@vueuse/core" 
 
 const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
@@ -21,6 +16,7 @@ dracoLoader.setDecoderPath("js/draco/");
 glbLoader.setDRACOLoader(dracoLoader);
 
 const canvas = ref(null)
+const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
 let renderer = null
 let composer = null
@@ -37,13 +33,13 @@ onMounted(() => {
     initScene().then(() => initRenderer().then(() => mainTick()))
 })
 
-// watch(() => props.isVisible, newVal => {
-//     if( newVal ){
-//         mainTick()
-//     } else {
-//         // dispose ?
-//     }
-// })
+watch(() => canvasIsVisible.value, newVal => {
+    if( newVal ){
+        renderer && mainTick()
+    } else {
+        // dispose ?
+    }
+})
 
 async function initScene(){
     return new Promise(res => {
@@ -189,7 +185,8 @@ function mainTick(){
         deltaTime = deltaTime % frameRate;
     }
 
-    props.isVisible && window.requestAnimationFrame(mainTick);
+    // console.log("hey tick")
+    canvasIsVisible.value && window.requestAnimationFrame(mainTick);
 }
 
 

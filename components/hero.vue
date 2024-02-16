@@ -1,23 +1,71 @@
-<script setup>
-import { useElementVisibility } from "@vueuse/core"
-
-const heroPortal = ref(null)
-const heroPortalIsVisible = useElementVisibility(heroPortal)
-
-</script>
-
 <template>
     <section class="hero-wrapper">
 
         <div class="hero-inner">
 
-            <HeroPortal 
-                ref="heroPortal"
-                :isVisible="heroPortalIsVisible"
-            />
+            <HeroPortal />
 
             <p>The first crypto treasure hunt</p>
             <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+            <p>The first crypto treasure hunt</p>
+            <p>Augmented reality play-to-earn</p>
+
+
+    
 
         </div>
 
