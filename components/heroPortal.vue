@@ -66,12 +66,6 @@ async function initScene(){
 
         const { width, height } = canvas.value.getBoundingClientRect()
     
-        // portal dummy (box)
-        // const geometry = new THREE.BoxGeometry(1,1,1)
-        // const material = new THREE.MeshPhongMaterial({ color: 0xFFFFFF })
-        // portal = new THREE.Mesh(geometry, material)
-        // portal.rotation.set(0.5, 0.5, 0.5)
-        
         // lights
         const lightOne = new THREE.AmbientLight( 0xffffff, 0.5)
     
@@ -236,7 +230,7 @@ function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0.05
     bloomPass.strength = 0.35
-    bloomPass.radius = 0.95
+    bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
 
