@@ -149,12 +149,26 @@ async function initEnvMap(){
                     console.log("emissive spotted and replaced")
 
                 } else {
-                    child.material.envMap = envMapTexture;
-                    child.material.envMapIntensity = 0.45;
-                    child.material.transparent = true;
-                    child.material.opacity = 0.8;
-                    child.material.metalness = 0.9;
-                    child.material.roughness = 0.005;
+
+                    const portalMaterial = new THREE.MeshPhysicalMaterial( {
+                        transmission: 1,
+                        roughness: 0.05,
+                        envMap: envMapTexture,
+                        envMapIntensity: 0.45,
+                        metalness: 0.95,
+                        ior: 0.5,
+                        iridescence: 0.8,
+                        iridescenceIOR: 2,
+                        reflectivity: 0.9,
+                        sheenColor: new THREE.Color(0x780bfe),
+                        clearcoat: 0.8,
+                        clearcoatRoughness: 0,
+                        transparent: 0.5,
+                        opacity: 0.5,
+                        thickness: 0.8
+                    } )
+
+                    child.material = portalMaterial
                 }
             }
         })
