@@ -122,12 +122,12 @@ async function initEnvMap(){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/0/px.jpg",
-                "3d/envMap/0/nx.jpg",
-                "3d/envMap/0/py.jpg",
-                "3d/envMap/0/ny.jpg",
-                "3d/envMap/0/pz.jpg",
-                "3d/envMap/0/nz.jpg",
+                "3d/envMap/1/px.png",
+                "3d/envMap/1/nx.png",
+                "3d/envMap/1/py.png",
+                "3d/envMap/1/ny.png",
+                "3d/envMap/1/pz.png",
+                "3d/envMap/1/nz.png",
             ]
         )
 
@@ -151,10 +151,10 @@ async function initEnvMap(){
                 } else {
                     child.material.envMap = envMapTexture;
                     child.material.envMapIntensity = 0.45;
-                    // child.material.transparent = true;
-                    // child.material.opacity = 0.7;
+                    child.material.transparent = true;
+                    child.material.opacity = 0.8;
                     child.material.metalness = 0.9;
-                    child.material.roughness = 0.05;
+                    child.material.roughness = 0.005;
                 }
             }
         })
