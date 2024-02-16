@@ -28,8 +28,13 @@ let clock = null
 let camera = null
 let scene = null
 let portal = null
+let box = null
 let envMapTexture = null
 let deltaTime = 0
+
+// positions
+let portalPosition = [0,0,0]
+let boxPosition = [0, 0.05, -1]
 
 
 
@@ -68,22 +73,21 @@ async function initScene(){
         // portal.rotation.set(0.5, 0.5, 0.5)
         
         // lights
-        const lightOne = new THREE.AmbientLight( 0xffffff, 0.05)
+        const lightOne = new THREE.AmbientLight( 0xffffff, 0.5)
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
-        camera.position.set(0, 0.25, 2.5)
+        camera.position.set(0, 0.25, 2.35)
 
-        // glb model
+        // glb models
         glbLoader.load("3d/models/portal.glb", (glb) => {
             portal = glb.scene
 
-            console.log("portal", portal)
-
+            portal.name = "portal"
             portal.scale.set(0.05, 0.05, 0.05)
-            portal.position.set(0, 0, 0)
+            portal.position.set(...portalPosition)
 
-            initEnvMap().then(() => {
+            initEnvMapAndMaterials(portal).then(() => {
                 // fill scene
                 scene = new THREE.Scene()
                 scene.add(camera)
@@ -92,6 +96,19 @@ async function initScene(){
             
                 res()
             })
+
+        })
+
+        glbLoader.load("3d/models/box.glb", (glb) => {
+            box = glb.scene
+
+            box.name = "box"
+            box.scale.set(0.5, 0.5, 0.5)
+            box.position.set(...boxPosition)
+
+            initEnvMapAndMaterials(box)
+
+            scene.add(box)
 
         })
     })
@@ -130,7 +147,10 @@ async function initRenderer(){
     })
 }
 
-async function initEnvMap(){
+async function initEnvMapAndMaterials(model){
+
+    const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0xffdc5f)
+    const emissiveIntentisty = model.name === "portal" ? 30 : 8
 
     return new Promise(res => {
 
@@ -146,7 +166,7 @@ async function initEnvMap(){
             ]
         )
 
-        portal.traverse((child) => {
+        model.traverse((child) => {
             if(child instanceof THREE.Mesh){
 
                 console.log(child.name)
@@ -154,9 +174,9 @@ async function initEnvMap(){
                 if( child.name.includes("emissive") ) {
 
                     const emissiveMaterial = new THREE.MeshStandardMaterial({ 
-                        color: 0x4BBCFF, 
-                        emissive: 0x4BBCFF, 
-                        emissiveIntensity: 30
+                        color: colorEmissive, 
+                        emissive: colorEmissive, 
+                        emissiveIntensity: emissiveIntentisty
                     })
 
                     child.material = emissiveMaterial
@@ -165,23 +185,45 @@ async function initEnvMap(){
 
                 } else {
 
-                    child.material = new THREE.MeshPhysicalMaterial( {
-                        transmission: 1,
-                        roughness: 0.1,
-                        envMap: envMapTexture,
-                        envMapIntensity: 0.75,
-                        metalness: 0.95,
-                        ior: 0.9,
-                        iridescence: 1,
-                        iridescenceIOR: 2,
-                        reflectivity: 0.9,
-                        sheenColor: new THREE.Color(0x780bfe),
-                        clearcoat: 0.8,
-                        clearcoatRoughness: 0,
-                        transparent: 0.5,
-                        opacity: 0.95,
-                        thickness: 0.8
-                    })
+                    if( model.name === "portal" ){
+                        child.material = new THREE.MeshPhysicalMaterial( {
+                            transmission: 1,
+                            roughness: 0.1,
+                            envMap: envMapTexture,
+                            envMapIntensity: 0.75,
+                            metalness: 0.95,
+                            ior: 0.9,
+                            iridescence: 1,
+                            iridescenceIOR: 2,
+                            reflectivity: 0.9,
+                            sheenColor: new THREE.Color(0x780bfe),
+                            clearcoat: 0.8,
+                            clearcoatRoughness: 0,
+                            transparent: 0.5,
+                            opacity: 0.95,
+                            thickness: 0.8
+                        })
+                    }
+
+                    if( model.name === "box" ){
+                        child.material = new THREE.MeshPhysicalMaterial( {
+                            transmission: 1.3,
+                            roughness: 0.3,
+                            envMap: envMapTexture,
+                            envMapIntensity: 1,
+                            metalness: 0.8,
+                            ior: 0.9,
+                            iridescence: 1,
+                            iridescenceIOR: 1.3,
+                            reflectivity: 0.55,
+                            sheenColor: new THREE.Color(0xfe34e3),
+                            clearcoat: 0.8,
+                            clearcoatRoughness: 0,
+                            transparent: true,
+                            opacity: 0.85,
+                            thickness: 0.8
+                        })
+                    }
 
                 }
             }
@@ -208,6 +250,9 @@ function mainTick(){
     if( deltaTime >= frameRate ){
         portal.rotation.y = normalizedMousePosition.x * 0.7;
         portal.rotation.x = normalizedMousePosition.y * -0.05;
+
+        box.rotation.y = normalizedMousePosition.x * 1.4;
+        box.rotation.x = normalizedMousePosition.y * -0.6;
 
         composer.render();
         // renderer.render(scene, camera);

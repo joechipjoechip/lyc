@@ -16,6 +16,7 @@ import Navigation from '@/components/navigation.vue';
     position: relative;
     background-color: var(--color-contrast-100);
 
+
     .nav {
         z-index: 100;
     }
@@ -23,7 +24,7 @@ import Navigation from '@/components/navigation.vue';
     main {
         z-index: 90;
         // border: solid 1px blue;
-        margin-top: $layoutNavHeightDesktop;
+        padding-top: calc($layoutNavHeightDesktop + 3rem);
     }
 }
 
