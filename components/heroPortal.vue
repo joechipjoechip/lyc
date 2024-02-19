@@ -37,8 +37,9 @@ let envMapTexture = null
 let deltaTime = 0
 
 // positions
-let portalPosition = [0,0,0]
-let boxPosition = [0, 0.5, 0]
+const portalPosition = [0,0,0]
+const boxPosition = [0, 0.5, 0]
+const cameraPosition = [0, 0.25, store.isMobile ? 3.2 : 2.35]
 
 
 
@@ -77,7 +78,7 @@ async function initScene(){
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
-        camera.position.set(0, 0.25, 2.35)
+        camera.position.set(...cameraPosition)
 
         // glb models
         glbLoader.load("3d/models/portal.glb", (glb) => {
@@ -269,9 +270,10 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    console.log("x gyro : ", x)
-    normalizedPosition.x = x.toFixed(2) / -7
-    normalizedPosition.y = y.toFixed(2) / -7
+    normalizedPosition.x = x.toFixed(3) / -6
+    normalizedPosition.y = y.toFixed(3) / -4
+
+    console.log("x gyro : ", normalizedPosition.x)
 }
 
 </script>
@@ -299,5 +301,10 @@ function handleGyro(event){
     canvas {
         // border: solid 1px pink;
         width: 100%;
+
+        @media #{$mobile}{
+            border: solid 1px red;
+            height: 80vh;
+        }
     }
 </style>
