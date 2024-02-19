@@ -22,14 +22,16 @@ function handleClickWallClick(){
         gyroPermission().then(response => {
             if( response ){
                 addGyroListeners()
+                store.setGyroIsAllowed(true)
             }
         })
     } else {
         addGyroListeners()
+        store.setGyroIsAllowed(true)
     }
 
     clickWallIsDisplayed.value = false
-    store.setGyroIsAllowed(true)
+    
 }
 
 </script>
