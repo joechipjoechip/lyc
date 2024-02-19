@@ -38,9 +38,11 @@ export function addGyroListeners(){
     useEventListener("devicemotion", handleDeviceMotion)
 
     function handleDeviceMotion(event){
+        console.log("gyro event handler triggered, go debounce")
         useDebounceFn(() => {
+            console.log("debounced triggered, go emit")
             $emit("main-device-motion", event)
-        }, 500, { maxWait: 2000 })
+        }, 500, { maxWait: 1000 })
     }
     
 }
