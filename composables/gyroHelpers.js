@@ -34,11 +34,11 @@ export async function gyroPermission(){
     })
 }
 
+const handleDeviceMotion = (event) => {
+    $emit("main-device-motion", event)
+}
+
 export function addGyroListeners(){
     useEventListener("devicemotion", handleDeviceMotion)
-
-    const handleDeviceMotion = (event) => {
-        $emit("main-device-motion", event)
-    }
 }
 
