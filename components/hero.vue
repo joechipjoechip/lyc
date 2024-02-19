@@ -2,71 +2,9 @@
     <section class="hero-wrapper">
 
         <div class="hero-inner">
-
             <HeroPortal />
-
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-            <p>The first crypto treasure hunt</p>
-            <p>Augmented reality play-to-earn</p>
-
-
-    
-
+            <MicroTitle text="The first crypto treasure hunt" />
+            <MicroTitle text="Augmented reality play-to-earn" :isGradient="true"/>
         </div>
 
     </section>
