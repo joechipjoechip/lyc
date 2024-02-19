@@ -1,9 +1,20 @@
 <script setup>
 import Navigation from '@/components/navigation.vue';
+import { gyroDetection, gyroPermission } from "@/composables/getGyro";
+
+const clickWallIsDisplayed = ref(false)
+
+if( gyroDetection() ){
+    clickWallIsDisplayed.value = true
+}
 </script>
 
 <template>
     <div class="layout-default">
+        <div class="clickWall" v-if="clickWallIsDisplayed">
+            azy click
+        </div>
+
         <Navigation class="nav" />
         <main>
             <NuxtPage />
@@ -26,6 +37,19 @@ import Navigation from '@/components/navigation.vue';
         // border: solid 1px blue;
         padding-top: calc($layoutNavHeightDesktop + 3rem);
     }
+}
+
+.clickWall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: pink;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 </style>

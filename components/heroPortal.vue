@@ -182,10 +182,10 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1,
-                            roughness: 0.1,
+                            roughness: 0.05,
                             envMap: envMapTexture,
-                            envMapIntensity: 0.75,
-                            metalness: 0.95,
+                            envMapIntensity: 0.55,
+                            metalness: 0.75,
                             ior: 0.9,
                             iridescence: 1,
                             iridescenceIOR: 2,
