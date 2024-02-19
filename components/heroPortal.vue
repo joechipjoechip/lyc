@@ -278,7 +278,7 @@ function handleGyro(event){
     normalizedPosition.x = x / 4
     normalizedPosition.y = z / 6
 
-    console.log("x gyro : ", normalizedPosition.x)
+    console.log("x gyro : ", normalizedPosition.z)
 }
 
 // function makeTween(goToX, goToY){

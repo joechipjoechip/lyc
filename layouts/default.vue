@@ -5,7 +5,7 @@ import { useMainStore } from "@/stores/main"
 
 const store = useMainStore()
 
-const clickWallIsDisplayed = ref(false)
+const clickWallIsDisplayed = ref(store.isMobile)
 const gyroDetected = ref(gyroDetection())
 const gyroIsAllowed = ref(false)
 
@@ -17,15 +17,19 @@ onMounted(() => {
 
 
 function handleClickWallClick(){
-    gyroPermission().then(response => {
-        gyroIsAllowed.value = response
-        clickWallIsDisplayed.value = false
-        store.setGyroIsAllowed(gyroIsAllowed.value)
 
-        if( gyroIsAllowed.value ){
-            addGyroListeners()
-        }
-    })
+    if( store.isIOS ){
+        gyroPermission().then(response => {
+            if( response ){
+                addGyroListeners()
+            }
+        })
+    } else {
+        addGyroListeners()
+    }
+
+    clickWallIsDisplayed.value = false
+    store.setGyroIsAllowed(true)
 }
 
 </script>
@@ -33,11 +37,11 @@ function handleClickWallClick(){
 <template>
     <div class="layout-default">
         <div 
-            v-if="clickWallIsDisplayed"
+            v-if="clickWallIsDisplayed && store.isMobile"
             @click="handleClickWallClick"
             class="clickWall" 
         >
-            welcome and click here to activate your device motions
+            welcome, click here to activate your device motions
         </div>
 
         <Navigation class="nav" />
