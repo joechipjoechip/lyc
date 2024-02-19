@@ -271,8 +271,8 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    const goToX = x.toFixed(3) / -6
-    const goToY = y.toFixed(3) / -4
+    const goToX = x.toFixed(3) / 4
+    const goToY = y.toFixed(3) / 6
 
     makeTween(goToX, goToY)
 
@@ -286,7 +286,7 @@ function makeTween(goToX, goToY){
     }
 
     gsap.to(animatedObject, {
-        duration: 0.2,
+        duration: 0.099,
         x: goToX,
         y: goToY,
         
