@@ -1,6 +1,6 @@
 <script setup>
 import * as THREE from 'three'
-import * as gsap from "gsap"
+import { gsap } from 'gsap';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
