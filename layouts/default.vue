@@ -3,16 +3,40 @@ import Navigation from '@/components/navigation.vue';
 import { gyroDetection, gyroPermission } from "@/composables/getGyro";
 
 const clickWallIsDisplayed = ref(false)
+const responseGyro = ref()
+const gyroDetected = ref(gyroDetection())
 
-if( gyroDetection() ){
+if( gyroDetected.value ){
     clickWallIsDisplayed.value = true
+}
+
+function handleClickWallClick(){
+    
+    window.DeviceMotionEvent.requestPermission()
+            .then( response => {
+                // (optional) Do something after API prompt dismissed.
+                if ( response === "granted" ) {
+                    responseGyro.value = response
+                } else {
+                    responseGyro.value = response
+                }
+            })
+            .catch(error => {
+                responseGyro.value = error
+            })
+
 }
 </script>
 
 <template>
     <div class="layout-default">
-        <div class="clickWall" v-if="clickWallIsDisplayed">
-            azy click
+        <div 
+            v-if="clickWallIsDisplayed"
+            @click="handleClickWallClick"
+            class="clickWall" 
+        >
+            gyro detected : {{ gyroDetected }}<br>
+            azy click : {{ responseGyro }}
         </div>
 
         <Navigation class="nav" />

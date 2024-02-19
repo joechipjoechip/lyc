@@ -12,20 +12,21 @@ export function gyroDetection(){
     }
 }
 
-export function gyroPermission(){
-    let gyroIsAllowed = false
+export async function gyroPermission(){
+    return new Promise(res => {
 
-    DeviceMotionEvent.requestPermission()
-        .then( response => {
-            // (optional) Do something after API prompt dismissed.
-            if ( response == "granted" ) {
-                gyroIsAllowed = true
-            }
-            return gyroIsAllowed
-        })
-        .catch(() => {
-            gyroIsAllowed = false
-            return gyroIsAllowed
-        })
-        
+        DeviceMotionEvent.requestPermission()
+            .then( response => {
+                // (optional) Do something after API prompt dismissed.
+                if ( response == "granted" ) {
+                    res("true")
+                } else {
+                    res("false not allowed")
+                }
+            })
+            .catch(() => {
+                res("false not grabed")
+            })
+
+    })
 }
