@@ -303,7 +303,6 @@ function handleGyro(event){
         width: 100%;
 
         @media #{$mobile}{
-            border: solid 1px red;
             height: 80vh;
         }
     }

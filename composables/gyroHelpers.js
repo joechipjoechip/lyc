@@ -1,4 +1,4 @@
-import { useEventListener } from "@vueuse/core";
+import { useEventListener, useDebounceFn } from "@vueuse/core";
 const { $emit } = useNuxtApp()
 
 export function gyroDetection(){
@@ -38,7 +38,9 @@ export function addGyroListeners(){
     useEventListener("devicemotion", handleDeviceMotion)
 
     function handleDeviceMotion(event){
-        $emit("main-device-motion", event)
+        useDebounceFn(() => {
+            $emit("main-device-motion", event)
+        }, 500, { maxWait: 2000 })
     }
     
 }
