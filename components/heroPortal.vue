@@ -190,7 +190,7 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1,
-                            roughness: 0.05,
+                            roughness: 0.25,
                             envMap: envMapTexture,
                             envMapIntensity: 0.55,
                             metalness: 0.75,
@@ -202,7 +202,7 @@ async function initEnvMapAndMaterials(model){
                             clearcoat: 0.8,
                             clearcoatRoughness: 0,
                             transparent: 0.5,
-                            opacity: 0.95,
+                            opacity: 0.65,
                             thickness: 0.8
                         })
                     }
@@ -210,7 +210,7 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "box" ){
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1.3,
-                            roughness: 0.3,
+                            roughness: 0.1,
                             envMap: envMapTexture,
                             envMapIntensity: 1,
                             metalness: 0.8,
@@ -275,8 +275,8 @@ function handleGyro(event){
     // const goToY = (y / 6).toFixed(2)
     // makeTween(goToX, goToY)
     
-    normalizedPosition.x = (x / 4).toFixed(2) 
-    normalizedPosition.y = (y / 6).toFixed(2)
+    normalizedPosition.x = x / 4
+    normalizedPosition.y = y / 6
 
     console.log("x gyro : ", normalizedPosition.x)
 }
@@ -325,9 +325,10 @@ function handleGyro(event){
     canvas {
         // border: solid 1px pink;
         width: 100%;
+        height: 80vh;
 
         @media #{$mobile}{
-            height: 80vh;
+            border: solid 1px red;
         }
     }
 </style>
