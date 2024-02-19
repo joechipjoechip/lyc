@@ -267,38 +267,14 @@ function mainTick(){
 
 // - - - - 
 $on("main-device-motion", handleGyro)
-const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y, z } = event.accelerationIncludingGravity
-    // const goToX = (x / 4).toFixed(2) 
-    // const goToY = (y / 6).toFixed(2)
-    // makeTween(goToX, goToY)
-    
     normalizedPosition.x = x / 4
     normalizedPosition.y = z / 6
 
     console.log("x gyro : ", normalizedPosition.z)
 }
-
-// function makeTween(goToX, goToY){
-//     const animatedObject = {
-//         x: normalizedPosition.x,
-//         y: normalizedPosition.y
-//     }
-
-//     gsap.to(animatedObject, {
-//         duration: 0.099,
-//         x: goToX,
-//         y: goToY,
-        
-//         onUpdate: () => {
-//             normalizedPosition.x = animatedObject.x
-//             normalizedPosition.y = animatedObject.y
-//         }
-//     })
-
-// }
 
 </script>
 
@@ -306,8 +282,6 @@ function handleGyro(event){
     <section class="portal-wrapper">
 
         <canvas ref="canvas"></canvas>
-
-        <p>{{ gyroEvent }}</p>
 
     </section>
 
@@ -325,10 +299,10 @@ function handleGyro(event){
     canvas {
         // border: solid 1px pink;
         width: 100%;
-        height: 80vh;
+        height: 70vh;
         
         @media #{$mobile}{
-            height: 90vh;
+            height: 80vh;
         }
     }
 </style>

@@ -1,4 +1,7 @@
 <script setup>
+import navData from "@/assets/data/navData.js"
+
+console.log("navData", navData)
 </script>
 
 <template>
@@ -10,10 +13,12 @@
         </div>
 
         <div class="nav-inner">
-            <NuxtLink to="/contact">Marketplace</NuxtLink>
-            <NuxtLink to="/">Whitepaper</NuxtLink>
-            <NuxtLink to="/">About us</NuxtLink>
-            <NuxtLink to="/">Sign in</NuxtLink>
+            <NuxtLink 
+                v-for="navItem in navData" :key="navItem.id"
+                :to="navItem.route"
+            >
+                {{ navItem.name }}
+            </NuxtLink>
         </div>
         
     </nav>
