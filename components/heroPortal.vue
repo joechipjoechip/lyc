@@ -271,8 +271,8 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    const goToX = x.toFixed(3) / 4
-    const goToY = y.toFixed(3) / 6
+    const goToX = (x / 4).toFixed(3) 
+    const goToY = (y / 6).toFixed(3)
 
     makeTween(goToX, goToY)
 
