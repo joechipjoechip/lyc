@@ -1,3 +1,6 @@
+import { useEventListener } from "@vueuse/core";
+const { $emit } = useNuxtApp()
+
 export function gyroDetection(){
     let gyroIsDetected = false
 
@@ -19,14 +22,24 @@ export async function gyroPermission(){
             .then( response => {
                 // (optional) Do something after API prompt dismissed.
                 if ( response == "granted" ) {
-                    res("true")
+                    res(true)
                 } else {
-                    res("false not allowed")
+                    res(false)
                 }
             })
             .catch(() => {
-                res("false not grabed")
+                res(false)
             })
 
     })
 }
+
+export function addGyroListeners(){
+    useEventListener("devicemotion", handleDeviceMotion)
+
+    function handleDeviceMotion(event){
+        $emit("main-device-motion", event)
+    }
+    
+}
+

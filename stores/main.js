@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('storedUser',
-	{
+export const useMainStore = defineStore('storedMain', {
 
 		state: () => ({
 			gyroIsAllowed: false,

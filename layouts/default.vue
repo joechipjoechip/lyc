@@ -1,31 +1,33 @@
 <script setup>
 import Navigation from '@/components/navigation.vue';
-import { gyroDetection, gyroPermission } from "@/composables/getGyro";
+import { gyroDetection, gyroPermission, addGyroListeners } from "@/composables/gyroHelpers";
+import { useMainStore } from "@/stores/main"
+
+const store = useMainStore()
 
 const clickWallIsDisplayed = ref(false)
-const responseGyro = ref()
 const gyroDetected = ref(gyroDetection())
+const gyroIsAllowed = ref(false)
 
-if( gyroDetected.value ){
-    clickWallIsDisplayed.value = true
-}
+onMounted(() => {
+    if( gyroDetected.value ){
+        clickWallIsDisplayed.value = true
+    }
+})
+
 
 function handleClickWallClick(){
-    
-    window.DeviceMotionEvent.requestPermission()
-            .then( response => {
-                // (optional) Do something after API prompt dismissed.
-                if ( response === "granted" ) {
-                    responseGyro.value = response
-                } else {
-                    responseGyro.value = response
-                }
-            })
-            .catch(error => {
-                responseGyro.value = error
-            })
+    gyroPermission().then(response => {
+        gyroIsAllowed.value = response
+        clickWallIsDisplayed.value = false
+        setGyroIsAllowed(gyroIsAllowed.value)
 
+        if( gyroIsAllowed.value ){
+            addGyroListeners()
+        }
+    })
 }
+
 </script>
 
 <template>
@@ -35,8 +37,7 @@ function handleClickWallClick(){
             @click="handleClickWallClick"
             class="clickWall" 
         >
-            gyro detected : {{ gyroDetected }}<br>
-            azy click : {{ responseGyro }}
+            welcome and click here to activate your device motions
         </div>
 
         <Navigation class="nav" />
@@ -64,12 +65,14 @@ function handleClickWallClick(){
 }
 
 .clickWall {
+    z-index: 150;
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: pink;
+    height: 100vh;
+    background-color: var(--color-contrast-100);
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;

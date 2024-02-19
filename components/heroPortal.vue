@@ -257,6 +257,14 @@ function mainTick(){
     canvasIsVisible.value && window.requestAnimationFrame(mainTick);
 }
 
+// - - - - 
+$on("main-device-motion", handleGyro)
+const gyroEvent = ref()
+
+function handleGyro(event){
+    gyroEvent.value = event
+    console.log("gyro : ", event)
+}
 
 </script>
 
@@ -264,6 +272,8 @@ function mainTick(){
     <section class="portal-wrapper">
 
         <canvas ref="canvas"></canvas>
+
+        <p>{{ gyroEvent }}</p>
 
     </section>
 
