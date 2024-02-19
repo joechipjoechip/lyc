@@ -11,6 +11,10 @@ import { useElementVisibility } from "@vueuse/core"
 import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 
+import { useMainStore } from '@/stores/main';
+
+const store = useMainStore()
+
 const { $on } = useNuxtApp()
 const loadingManager = new THREE.LoadingManager();
 const glbLoader = new GLTFLoader()
@@ -52,13 +56,15 @@ watch(() => canvasIsVisible.value, newVal => {
 })
 
 $on("main-touch-move", handleTouchMove)
-const normalizedMousePosition = reactive({ x: 0, y: 0 })
+const normalizedPosition = reactive({ x: 0, y: 0 })
 
 function handleTouchMove(event){
+    if( store.gyroIsAllowed ){ return }
+
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
-    normalizedMousePosition.x = normalizedX
-    normalizedMousePosition.y = normalizedY
+    normalizedPosition.x = normalizedX
+    normalizedPosition.y = normalizedY
 }
 
 async function initScene(){
@@ -242,11 +248,11 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.y = normalizedMousePosition.x * 0.7;
-        portal.rotation.x = normalizedMousePosition.y * -0.05;
+        portal.rotation.y = normalizedPosition.x * 0.7;
+        portal.rotation.x = normalizedPosition.y * -0.05;
 
-        box.rotation.y = normalizedMousePosition.x * 1.4;
-        box.rotation.x = normalizedMousePosition.y * -0.6;
+        box.rotation.y = normalizedPosition.x * 1.4;
+        box.rotation.x = normalizedPosition.y * -0.6;
 
         composer.render();
         // renderer.render(scene, camera);
@@ -262,8 +268,9 @@ $on("main-device-motion", handleGyro)
 const gyroEvent = ref()
 
 function handleGyro(event){
-    gyroEvent.value = event
-    console.log("gyro : ", event)
+    const { x, y } = event.accelerationIncludingGravity
+    normalizedPosition.x = x / 9
+    normalizedPosition.y = y / 9
 }
 
 </script>
