@@ -271,32 +271,34 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    const goToX = (x / 4).toFixed(3) 
-    const goToY = (y / 6).toFixed(3)
-
-    makeTween(goToX, goToY)
+    // const goToX = (x / 4).toFixed(2) 
+    // const goToY = (y / 6).toFixed(2)
+    // makeTween(goToX, goToY)
+    
+    normalizedPosition.x = (x / 4).toFixed(2) 
+    normalizedPosition.y = (y / 6).toFixed(2)
 
     console.log("x gyro : ", normalizedPosition.x)
 }
 
-function makeTween(goToX, goToY){
-    const animatedObject = {
-        x: normalizedPosition.x,
-        y: normalizedPosition.y
-    }
+// function makeTween(goToX, goToY){
+//     const animatedObject = {
+//         x: normalizedPosition.x,
+//         y: normalizedPosition.y
+//     }
 
-    gsap.to(animatedObject, {
-        duration: 0.099,
-        x: goToX,
-        y: goToY,
+//     gsap.to(animatedObject, {
+//         duration: 0.099,
+//         x: goToX,
+//         y: goToY,
         
-        onUpdate: () => {
-            normalizedPosition.x = animatedObject.x
-            normalizedPosition.y = animatedObject.y
-        }
-    })
+//         onUpdate: () => {
+//             normalizedPosition.x = animatedObject.x
+//             normalizedPosition.y = animatedObject.y
+//         }
+//     })
 
-}
+// }
 
 </script>
 
