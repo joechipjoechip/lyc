@@ -2,16 +2,14 @@ import { useEventListener } from "@vueuse/core";
 const { $emit } = useNuxtApp()
 
 export function gyroDetection(){
-    let gyroIsDetected = false
 
     if ( typeof( DeviceMotionEvent ) !== "undefined" && typeof( DeviceMotionEvent.requestPermission ) === "function" ) {
         // (optional) Do something before API request prompt.
-        gyroIsDetected = true
-        return gyroIsDetected
+        return true
         
     } else {
         console.log( "DeviceMotionEvent is not defined" );
-        return gyroIsDetected
+        return false
     }
 }
 

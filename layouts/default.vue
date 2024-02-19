@@ -1,15 +1,15 @@
 <script setup>
-import Navigation from '@/components/navigation.vue';
 import { gyroDetection, gyroPermission, addGyroListeners } from "@/composables/gyroHelpers";
 import { useMainStore } from "@/stores/main"
 
 const store = useMainStore()
 
-const clickWallIsDisplayed = ref(store.isMobile)
-const gyroDetected = ref(gyroDetection())
-const gyroIsAllowed = ref(false)
+const clickWallIsDisplayed = ref(false)
+const gyroDetected = ref(false)
 
 onMounted(() => {
+    gyroDetected.value = gyroDetection()
+
     if( gyroDetected.value ){
         clickWallIsDisplayed.value = true
     }
@@ -46,7 +46,8 @@ function handleClickWallClick(){
             welcome, click here to activate your device motions
         </div>
 
-        <Navigation class="nav" />
+        <NavigationMobile v-if="store.isMobile" />
+        <NavigationDesktop v-else class="nav"/>
         <main>
             <NuxtPage />
         </main>
