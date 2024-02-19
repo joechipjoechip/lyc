@@ -58,6 +58,7 @@ function handleClickWallClick(){
 .layout-default {
     position: relative;
     background-color: var(--color-contrast-100);
+    min-height: 100vh;
 
 
     .nav {

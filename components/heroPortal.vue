@@ -125,7 +125,8 @@ async function initRenderer(){
     
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
-            antialias: true
+            antialias: true,
+            precision: "highp"
         });
     
         renderer.setSize(width, height)
@@ -299,10 +300,10 @@ function handleGyro(event){
     canvas {
         // border: solid 1px pink;
         width: 100%;
-        height: 70vh;
+        // min-height: 70vh;
         
         @media #{$mobile}{
-            height: 80vh;
+            // min-height: 80vh;
         }
     }
 </style>
