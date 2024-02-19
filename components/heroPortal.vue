@@ -40,7 +40,7 @@ let deltaTime = 0
 // positions
 const portalPosition = [0,0,0]
 const boxPosition = [0, 0.5, 0]
-const cameraPosition = [0, 0.25, store.isMobile ? 3.2 : 2.35]
+const cameraPosition = [0, 0.25, store.isMobile ? 3 : 2.35]
 
 
 
@@ -270,13 +270,13 @@ $on("main-device-motion", handleGyro)
 const gyroEvent = ref()
 
 function handleGyro(event){
-    const { x, y } = event.accelerationIncludingGravity
+    const { x, y, z } = event.accelerationIncludingGravity
     // const goToX = (x / 4).toFixed(2) 
     // const goToY = (y / 6).toFixed(2)
     // makeTween(goToX, goToY)
     
     normalizedPosition.x = x / 4
-    normalizedPosition.y = y / 6
+    normalizedPosition.y = z / 6
 
     console.log("x gyro : ", normalizedPosition.x)
 }
@@ -326,9 +326,9 @@ function handleGyro(event){
         // border: solid 1px pink;
         width: 100%;
         height: 80vh;
-
+        
         @media #{$mobile}{
-            border: solid 1px red;
+            height: 90vh;
         }
     }
 </style>
