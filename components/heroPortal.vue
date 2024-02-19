@@ -269,8 +269,9 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    normalizedPosition.x = x / 9
-    normalizedPosition.y = y / 9
+    console.log("x gyro : ", x)
+    normalizedPosition.x = x.toFixed(2) / -7
+    normalizedPosition.y = y.toFixed(2) / -7
 }
 
 </script>
