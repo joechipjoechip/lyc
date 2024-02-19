@@ -36,16 +36,12 @@ export async function gyroPermission(){
 
 export function addGyroListeners(){
     useEventListener("devicemotion", (event) => {
-        console.log("devicemotion triggered, go debounce")
         handleDeviceMotion(event)
-        
     })
 
     const handleDeviceMotion = useDebounceFn((event) => {
-        
-        console.log("gyro event handler triggered, go emit, event : ", event)
         $emit("main-device-motion", event)
-    }, 500, { maxWait: 1000 })
+    }, 150, { maxWait: 200 })
     
 }
 

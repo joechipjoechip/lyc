@@ -1,5 +1,6 @@
 <script setup>
-import * as THREE from 'three';
+import * as THREE from 'three'
+import * as gsap from "gsap"
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -270,10 +271,31 @@ const gyroEvent = ref()
 
 function handleGyro(event){
     const { x, y } = event.accelerationIncludingGravity
-    normalizedPosition.x = x.toFixed(3) / -6
-    normalizedPosition.y = y.toFixed(3) / -4
+    const goToX = x.toFixed(3) / -6
+    const goToY = y.toFixed(3) / -4
+
+    makeTween(goToX, goToY)
 
     console.log("x gyro : ", normalizedPosition.x)
+}
+
+function makeTween(goToX, goToY){
+    const animatedObject = {
+        x: normalizedPosition.x,
+        y: normalizedPosition.y
+    }
+
+    gsap.to(animatedObject, {
+        duration: 0.2,
+        x: goToX,
+        y: goToY,
+        
+        onUpdate: () => {
+            normalizedPosition.x = animatedObject.x
+            normalizedPosition.y = animatedObject.y
+        }
+    })
+
 }
 
 </script>
