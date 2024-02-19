@@ -20,7 +20,7 @@ function handleClickWallClick(){
     gyroPermission().then(response => {
         gyroIsAllowed.value = response
         clickWallIsDisplayed.value = false
-        setGyroIsAllowed(gyroIsAllowed.value)
+        store.setGyroIsAllowed(gyroIsAllowed.value)
 
         if( gyroIsAllowed.value ){
             addGyroListeners()
