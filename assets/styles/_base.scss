@@ -20,6 +20,12 @@
     --font-size-big-plus: 2rem;
     --font-size-bigest: 2.25rem;
 
+    --gradient-one: linear-gradient(
+        50deg,
+        #5b92ff 0%,
+        #3bfdf0 100%
+    );
+
     &.light {
         color: rgba(0,0,0, 0.8);
         background-color: rgba(255,255,255, 0.9);
