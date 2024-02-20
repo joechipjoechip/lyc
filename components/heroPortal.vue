@@ -40,7 +40,7 @@ let curtainMaterial = null
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
-const boxPosition = store.isMobile ? [0, 0.8, 0] : [0, 0.5, 0]
+const boxPosition = store.isMobile ? [0, 0.75, 0] : [0, 0.4, 0]
 const cameraPosition =  store.isMobile ? [0, 0.25, 3.15 ] : [0, 0.25, 2.35]
 
 
@@ -156,7 +156,7 @@ async function initRenderer(){
 async function initEnvMapAndMaterials(model){
 
     const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0xffdc5f)
-    const emissiveIntentisty = model.name === "portal" ? 30 : 8
+    const emissiveIntentisty = model.name === "portal" ? 30 : 12
 
     return new Promise(res => {
 
@@ -293,20 +293,20 @@ async function initEnvMapAndMaterials(model){
 
                     if( model.name === "box" ){
                         child.material = new THREE.MeshPhysicalMaterial( {
-                            transmission: 1.3,
-                            roughness: 0.1,
+                            transmission: 1.7,
+                            roughness: 0.3,
                             envMap: envMapTexture,
                             envMapIntensity: 1,
-                            metalness: 0.8,
-                            ior: 0.9,
-                            iridescence: 1,
-                            iridescenceIOR: 1.3,
-                            reflectivity: 0.55,
+                            metalness: 0.85,
+                            ior: 1.9,
+                            iridescence: 2,
+                            iridescenceIOR: 2.3,
+                            reflectivity: 0.95,
                             sheenColor: new THREE.Color(0xfe34e3),
                             clearcoat: 0.8,
                             clearcoatRoughness: 0,
                             transparent: true,
-                            opacity: 0.85,
+                            opacity: 0.75,
                             thickness: 0.8
                         })
                     }
