@@ -2,9 +2,11 @@
     <section class="hero-wrapper">
 
         <div class="hero-inner">
-            <HeroPortal />
-            <MicroTitle text="The first crypto treasure hunt" />
-            <MicroTitle text="Augmented reality play-to-earn" :isGradient="true"/>
+            <HeroPortal class="heroPortal-wrappper" />
+            <div class="text">
+                <MicroTitle text="The first crypto treasure hunt" />
+                <MicroTitle text="Augmented reality play-to-earn" :isGradient="true"/>
+            </div>
         </div>
 
     </section>
@@ -25,8 +27,17 @@
             // border: solid 4px orange;
             text-align: center;
 
-            p {
-                text-transform: uppercase;
+            .heroPortal-wrapper {
+                position: relative;
+                z-index: 50;
+            }
+
+            .text {
+                position: relative;
+                z-index: 70;
+                @media #{$mobile}{
+                    margin-top: -25rem;
+                }
             }
         }
     }

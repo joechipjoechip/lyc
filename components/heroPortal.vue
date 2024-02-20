@@ -38,8 +38,8 @@ let envMapTexture = null
 let deltaTime = 0
 
 // positions
-const portalPosition = [0,0,0]
-const boxPosition = [0, 0.5, 0]
+const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
+const boxPosition = store.isMobile ? [0, 0.8, 0] : [0, 0.5, 0]
 const cameraPosition = [0, 0.25, store.isMobile ? 3 : 2.35]
 
 
