@@ -127,7 +127,7 @@ async function initRenderer(){
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
             antialias: true,
-            precision: "highp"
+            // precision: "highp"
         });
     
         renderer.setSize(width, height)
@@ -198,41 +198,23 @@ async function initEnvMapAndMaterials(model){
                                 transmission: 1,
                                 roughness: 0.15,
                                 envMap: envMapTexture,
-                                envMapIntensity: 0.55,
-                                metalness: 0.75,
-                                ior: 0.9,
-                                iridescence: 1,
+                                envMapIntensity: 0.5,
+                                metalness: 0.95,
+                                ior: 1.9,
+                                iridescence: 1.9,
                                 iridescenceIOR: 2,
                                 reflectivity: 0.9,
                                 sheenColor: new THREE.Color(0x780bfe),
-                                clearcoat: 0.8,
+                                clearcoat: 1.8,
                                 clearcoatRoughness: 0,
                                 transparent: true,
-                                opacity: 0.95,
+                                opacity: 0.99,
                                 thickness: 0.8
                             })
                         }
 
                         if( child.name === "curtain" ){
-                            // child.material = new THREE.MeshPhysicalMaterial({
-                            //     transmission: 1,
-                            //     roughness: 0.15,
-                            //     envMap: envMapTexture,
-                            //     envMapIntensity: 0.55,
-                            //     metalness: 0.75,
-                            //     ior: 0.9,
-                            //     iridescence: 1,
-                            //     iridescenceIOR: 2,
-                            //     reflectivity: 0.9,
-                            //     sheenColor: new THREE.Color(0x780bfe),
-                            //     clearcoat: 0.8,
-                            //     clearcoatRoughness: 0,
-                            //     transparent: 0.5,
-                            //     opacity: 0.25,
-                            //     thickness: 0.8
-                            // })
-                             
-                            
+
                             child.material = curtainMaterial = new THREE.ShaderMaterial({
 
                                 uniforms: {
@@ -339,8 +321,8 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.05
-    bloomPass.strength = 0.25
+    bloomPass.threshold = 0.005
+    bloomPass.strength = 0.27
     bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
