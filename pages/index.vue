@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="page-index">
         <Hero />
         <!-- here, other slots/modules -->
     </div>

@@ -59,9 +59,9 @@ console.log("navData", navData)
         &-inner {
             // border: solid 1px red;
             margin-right: 2rem;
-
+            
             * {
-                font-size: var(--font-size-big-plus);
+                font-size: var(--font-size-medium);
                 text-transform: uppercase;
                 color: var(--color-main-100);
 

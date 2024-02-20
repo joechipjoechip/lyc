@@ -75,7 +75,7 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightOne = new THREE.AmbientLight( 0xffffff, 0.5)
+        const lightOne = new THREE.AmbientLight( 0xffffff, 0.9)
     
         // camera
         camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
@@ -191,7 +191,7 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1,
-                            roughness: 0.25,
+                            roughness: 0.15,
                             envMap: envMapTexture,
                             envMapIntensity: 0.55,
                             metalness: 0.75,
@@ -203,7 +203,7 @@ async function initEnvMapAndMaterials(model){
                             clearcoat: 0.8,
                             clearcoatRoughness: 0,
                             transparent: 0.5,
-                            opacity: 0.65,
+                            opacity: 0.85,
                             thickness: 0.8
                         })
                     }
@@ -303,7 +303,7 @@ function handleGyro(event){
         // min-height: 70vh;
         
         @media #{$mobile}{
-            // min-height: 80vh;
+            min-height: 80vh;
         }
     }
 </style>
