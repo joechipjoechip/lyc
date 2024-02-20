@@ -219,7 +219,7 @@ async function initEnvMapAndMaterials(model){
 
                                 uniforms: {
                                     iTime: { value: 1.0 },
-                                    iResolution: { value: new THREE.Vector2(1) }
+                                    iResolution: { value: new THREE.Vector2(2) }
                                 },
 
                                 vertexShader: `
@@ -244,17 +244,18 @@ async function initEnvMapAndMaterials(model){
                                     
                                     vec2 rot(vec2 p,float a)
                                     {
-                                        float c=cos(a*15.83);
-                                        float s=sin(a*15.83);
+                                        float c=cos(a*15.);
+                                        float s=sin(a*15.);
                                         return p*mat2(s,c,c,-s);
                                     }
 
                                     void main()
                                     {
                                         vec2 uv = vec2(vUv.xy);
+                                        // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
-                                        uv=vec2(.125,.75)+(uv-vec2(.9125,.175))*.03;
-                                        float T=iTime*.25;
+                                        uv=vec2(.125,.75)+(uv-vec2(-0.9125,.75))*.23;
+                                        float T=iTime*0.75;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.1,0)),
@@ -272,17 +273,17 @@ async function initEnvMapAndMaterials(model){
                                             float wb=.005+i/N*0.1;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*23.*wp);
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7+T*wt+(uv.y+1.1)*15.*wp);
-                                            c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/2.)-0.25)*4.)*17.*wp);
+                                            c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/5.)-0.925)*2.)*17.*wp);
                                             c.zx=rot(c.zx,c.y*c.z*wb+1.6-T*0.65*wt+(uv.x+.17)*23.*wp);
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
                                             float w=(1.5-i/N)*.5;
                                             c0+=c*w;
                                             w0+=w;
                                         }
-                                        c0=c0/w0*1.6+.5;//*(1.-pow(uv.y-.5,2.)*2.)*2.+.5;
+                                        c0=c0/w0*1.9+.5;//*(1.-pow(uv.y-.5,2.)*2.)*10.+.5;
                                         c0*=.5+dot(c0,vec3(1,1,1))/sqrt(3.)*.4;
                                         c0+=pow(length(sin(c0*PI*10.))/sqrt(3.)*1.0,20.)*(.03+.7*c0);
-
+                                        c0 = clamp(c0, 0., vUv.x);
                                         gl_FragColor=vec4(c0,1.0);
                                     }
                                 `
