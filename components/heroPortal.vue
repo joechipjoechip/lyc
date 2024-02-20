@@ -36,11 +36,12 @@ let portal = null
 let box = null
 let envMapTexture = null
 let deltaTime = 0
+let curtainMaterial = null
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
 const boxPosition = store.isMobile ? [0, 0.8, 0] : [0, 0.5, 0]
-const cameraPosition = [0, 0.25, store.isMobile ? 3 : 2.35]
+const cameraPosition =  store.isMobile ? [0, 0.25, 3.15 ] : [0, 0.25, 2.35]
 
 
 
@@ -188,24 +189,123 @@ async function initEnvMapAndMaterials(model){
 
                 } else {
 
+                    console.log("child name : ", child.name)
+
                     if( model.name === "portal" ){
-                        child.material = new THREE.MeshPhysicalMaterial( {
-                            transmission: 1,
-                            roughness: 0.15,
-                            envMap: envMapTexture,
-                            envMapIntensity: 0.55,
-                            metalness: 0.75,
-                            ior: 0.9,
-                            iridescence: 1,
-                            iridescenceIOR: 2,
-                            reflectivity: 0.9,
-                            sheenColor: new THREE.Color(0x780bfe),
-                            clearcoat: 0.8,
-                            clearcoatRoughness: 0,
-                            transparent: 0.5,
-                            opacity: 0.85,
-                            thickness: 0.8
-                        })
+
+                        if( child.name === "gate" ){
+                            child.material = new THREE.MeshPhysicalMaterial( {
+                                transmission: 1,
+                                roughness: 0.15,
+                                envMap: envMapTexture,
+                                envMapIntensity: 0.55,
+                                metalness: 0.75,
+                                ior: 0.9,
+                                iridescence: 1,
+                                iridescenceIOR: 2,
+                                reflectivity: 0.9,
+                                sheenColor: new THREE.Color(0x780bfe),
+                                clearcoat: 0.8,
+                                clearcoatRoughness: 0,
+                                transparent: true,
+                                opacity: 0.95,
+                                thickness: 0.8
+                            })
+                        }
+
+                        if( child.name === "curtain" ){
+                            // child.material = new THREE.MeshPhysicalMaterial({
+                            //     transmission: 1,
+                            //     roughness: 0.15,
+                            //     envMap: envMapTexture,
+                            //     envMapIntensity: 0.55,
+                            //     metalness: 0.75,
+                            //     ior: 0.9,
+                            //     iridescence: 1,
+                            //     iridescenceIOR: 2,
+                            //     reflectivity: 0.9,
+                            //     sheenColor: new THREE.Color(0x780bfe),
+                            //     clearcoat: 0.8,
+                            //     clearcoatRoughness: 0,
+                            //     transparent: 0.5,
+                            //     opacity: 0.25,
+                            //     thickness: 0.8
+                            // })
+                             
+                            
+                            child.material = curtainMaterial = new THREE.ShaderMaterial({
+
+                                uniforms: {
+                                    iTime: { value: 1.0 },
+                                    iResolution: { value: new THREE.Vector2(1) }
+                                },
+
+                                vertexShader: `
+                                    varying vec2 vUv;
+                                    varying vec2 iResolution;
+                                    void main()
+                                    {
+                                        vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                                        vec4 viewPosition = viewMatrix * modelPosition;
+                                        vec4 projectedPosition = projectionMatrix * viewPosition;
+                                        gl_Position = projectedPosition;
+                                        vUv = uv;
+                                    }
+                                `,
+                                fragmentShader: `
+                                    uniform float iTime;
+                                    uniform vec2 iResolution;
+
+                                    varying vec2 vUv;
+
+                                    float PI = 3.14159265359;
+                                    
+                                    vec2 rot(vec2 p,float a)
+                                    {
+                                        float c=cos(a*15.83);
+                                        float s=sin(a*15.83);
+                                        return p*mat2(s,c,c,-s);
+                                    }
+
+                                    void main()
+                                    {
+                                        vec2 uv = vec2(vUv.xy);
+                                        uv/=iResolution.xx;
+                                        uv=vec2(.125,.75)+(uv-vec2(.9125,.175))*.03;
+                                        float T=iTime*.25;
+
+                                        vec3 c = clamp(1.-.4*vec3(
+                                            length(uv-vec2(.1,0)),
+                                            length(uv-vec2(.01,0)),
+                                            length(uv-vec2(.05,1))
+                                            ),0.,1.)*2.-1.;
+
+                                        vec3 c0=vec3(0);
+                                        float w0=0.;
+                                        const float N=30.;
+                                        for(float i=0.;i<N;i++)
+                                        {
+                                            float wt=(i*i/N/N-.2)*.3;
+                                            float wp=0.5+(i+1.)*(i+2.5)*0.0001;
+                                            float wb=.005+i/N*0.1;
+                                            c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*23.*wp);
+                                            c.xy=rot(c.xy,c.z*c.x*wb+1.7+T*wt+(uv.y+1.1)*15.*wp);
+                                            c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/2.)-0.25)*4.)*17.*wp);
+                                            c.zx=rot(c.zx,c.y*c.z*wb+1.6-T*0.65*wt+(uv.x+.17)*23.*wp);
+                                            c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
+                                            float w=(1.5-i/N)*.5;
+                                            c0+=c*w;
+                                            w0+=w;
+                                        }
+                                        c0=c0/w0*1.6+.5;//*(1.-pow(uv.y-.5,2.)*2.)*2.+.5;
+                                        c0*=.5+dot(c0,vec3(1,1,1))/sqrt(3.)*.4;
+                                        c0+=pow(length(sin(c0*PI*10.))/sqrt(3.)*1.0,20.)*(.03+.7*c0);
+
+                                        gl_FragColor=vec4(c0,1.0);
+                                    }
+                                `
+                            })
+                        }
                     }
 
                     if( model.name === "box" ){
@@ -240,7 +340,7 @@ async function initEnvMapAndMaterials(model){
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0.05
-    bloomPass.strength = 0.35
+    bloomPass.strength = 0.25
     bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
@@ -256,6 +356,8 @@ function mainTick(){
 
         box.rotation.y = normalizedPosition.x * 1.4;
         box.rotation.x = normalizedPosition.y * -0.6;
+
+        curtainMaterial.uniforms.iTime.value = clock.elapsedTime;
 
         composer.render();
         // renderer.render(scene, camera);

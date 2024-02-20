@@ -36,7 +36,7 @@
                 position: relative;
                 z-index: 70;
                 @media #{$mobile}{
-                    margin-top: -25rem;
+                    margin-top: -20rem;
                 }
             }
         }

@@ -14,7 +14,7 @@ export function useNormalizePosition( baseX, baseY, element ) {
 
     // DO THE MAGIC
 
-    console.log("compute in winow")
+    // console.log("compute in winow")
 
     if( isWindow ){
 
