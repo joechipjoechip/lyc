@@ -19,10 +19,11 @@
             // border: solid 10px green;
             font-size: var(--font-size-big);
             color: var(--color-main-80);
+            margin-top: calc($layoutNavHeightDesktop * -1);
         }
 
         &-inner {
-            max-width: $layoutMaxWidthDesktop;
+            // max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
             // border: solid 4px orange;
             text-align: center;

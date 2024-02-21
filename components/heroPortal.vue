@@ -18,6 +18,7 @@ const store = useMainStore()
 
 const { $on } = useNuxtApp()
 const loadingManager = new THREE.LoadingManager();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 const glbLoader = new GLTFLoader()
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath("js/draco/");
@@ -31,17 +32,19 @@ let composer = null
 let renderPass = null
 let clock = null
 let camera = null
-let scene = null
+let scene = new THREE.Scene()
 let portal = null
 let box = null
 let envMapTexture = null
 let deltaTime = 0
 let curtainMaterial = null
+let planeTexture = null
+const groundTextures = { color: null, displacement: null, roughness: null }
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
 const boxPosition = store.isMobile ? [0, 0.75, 0] : [0, 0.4, 0]
-const cameraPosition =  store.isMobile ? [0, 0.25, 3.15 ] : [0, 0.25, 2.35]
+const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 
 
@@ -71,16 +74,27 @@ function handleTouchMove(event){
 }
 
 async function initScene(){
+
+    // scene.fog = new THREE.Fog(0xffffff, 5, 8.5);
+
     return new Promise(res => {
 
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightOne = new THREE.AmbientLight( 0xffffff, 0.9)
+        const lightOne = new THREE.AmbientLight( 0xffffff, 4)
+        // const lightOne = new THREE.PointLight( 0xffffff, 0.9, 100)
+        // lightOne.camera.lookAt(0, 0, 0)
     
         // camera
-        camera = new THREE.PerspectiveCamera( 45, width / height, 1, 20 )
+        camera = new THREE.PerspectiveCamera( 25, width / height, 1, 20 )
         camera.position.set(...cameraPosition)
+
+        // textures loads
+        groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff_4k.jpg")
+        groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
+        groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.png")
+        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid.png")
 
         // glb models
         glbLoader.load("3d/models/portal.glb", (glb) => {
@@ -92,7 +106,9 @@ async function initScene(){
 
             initEnvMapAndMaterials(portal).then(() => {
                 // fill scene
-                scene = new THREE.Scene()
+                scene.background = envMapTexture
+				scene.environment = envMapTexture
+
                 scene.add(camera)
                 scene.add(lightOne)
                 scene.add(portal)
@@ -163,12 +179,12 @@ async function initEnvMapAndMaterials(model){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/1/px.png",
-                "3d/envMap/1/nx.png",
-                "3d/envMap/1/py.png",
-                "3d/envMap/1/ny.png",
-                "3d/envMap/1/pz.png",
-                "3d/envMap/1/nz.png",
+                "3d/envMap/2/px.png",
+                "3d/envMap/2/nx.png",
+                "3d/envMap/2/py.png",
+                "3d/envMap/2/ny.png",
+                "3d/envMap/2/pz.png",
+                "3d/envMap/2/nz.png",
             ]
         )
 
@@ -209,7 +225,7 @@ async function initEnvMapAndMaterials(model){
                                 clearcoatRoughness: 0,
                                 transparent: true,
                                 opacity: 0.99,
-                                thickness: 0.8
+                                thickness: 0.1
                             })
                         }
 
@@ -255,7 +271,7 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-0.9125,.75))*.23;
-                                        float T=iTime*0.75;
+                                        float T=iTime*1.15;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.1,0)),
@@ -288,6 +304,38 @@ async function initEnvMapAndMaterials(model){
                                     }
                                 `
                             })
+                        }
+
+                        if( child.name === "ground" ){
+                            child.material = new THREE.MeshStandardMaterial({ 
+                                metalnessMap: groundTextures.displacement,
+                                metalness: 0.2,
+                                map: groundTextures.color,
+                                envMap: envMapTexture,
+
+                                aoMap: groundTextures.displacement,
+                                aoMapIntensity: 0.75,
+                                roughnessMap: groundTextures.roughness,
+                                roughness: 1,
+                            })
+
+                            console.log("ground well triggered : ", child.material)
+                        }
+
+                        if( child.name === "plane" ){
+                            // va pivoter la texture depuis un point d'origine en bas à gauche (?)
+                            
+                            // si on veut que le "tranformOrigin" soit au centre de la texture :
+                            planeTexture.center.x = 0.5;
+                            planeTexture.center.y = 0.5;
+                            planeTexture.rotation = Math.PI * 1;
+
+                            child.material = new THREE.MeshStandardMaterial({ 
+                                map: planeTexture,
+                                envMap: envMapTexture,
+                            })
+
+                            console.log("ground well triggered : ", child.material)
                         }
                     }
 
@@ -322,8 +370,8 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.005
-    bloomPass.strength = 0.27
+    bloomPass.threshold = 0.0005
+    bloomPass.strength = 0.17
     bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
@@ -334,12 +382,20 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
-        portal.rotation.y = normalizedPosition.x * 0.7;
-        portal.rotation.x = normalizedPosition.y * -0.05;
+        portal.rotation.y = normalizedPosition.x * 0.3;
+        // portal.rotation.x = normalizedPosition.y * -0.05;
 
         box.rotation.y = normalizedPosition.x * 1.4;
         box.rotation.x = normalizedPosition.y * -0.6;
 
+        camera.position.set(
+            normalizedPosition.x * 0.3,
+            normalizedPosition.y * 0.05,
+            cameraPosition[2]
+        )
+        camera.lookAt(0, 0.35, 0)
+
+        // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime;
 
         composer.render();
