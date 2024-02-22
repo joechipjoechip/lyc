@@ -46,7 +46,7 @@ const groundTextures = {}
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
-const boxPosition = store.isMobile ? [0, 0.75, 0] : [0, 0.4, 0]
+const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.25]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 
@@ -85,20 +85,23 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        // const lightAmbient = new THREE.AmbientLight( 0xffffff, 0.1)
-        const lightOne = new THREE.PointLight( 0xfdc39b, 9, 50)
-        const lightTwo = new THREE.PointLight( 0xfdc39b, 9, 50)
+        const lightAmbient = new THREE.AmbientLight( 0xffffff, 3.7)
+        const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
+        const lightTwo = new THREE.PointLight( 0xfdc39b, 30, 50)
 
         lightOne.castShadow = true
         lightTwo.castShadow = true
 
-        lightOne.position.set(3, 0.75, -8)
-        lightTwo.position.set(-3, 0.75, -8)
+        lightOne.position.set(3, 5, -10)
+        lightTwo.position.set(-3, 5, -10)
 
-        lightOne.lookAt(0, 0, 0)
+        lightOne.shadow.mapSize.width = 3072
+        lightOne.shadow.mapSize.height = 3072
+        lightTwo.shadow.mapSize.width = 3072
+        lightTwo.shadow.mapSize.height = 3072
 
-        const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
-        const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
+        // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
+        // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
     
         // camera
@@ -109,7 +112,7 @@ async function initScene(){
         groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff_4k.jpg")
         groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
         groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.png")
-        groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha_4k.jpg")
+        groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
         planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-greyed.jpg")
 
         // glb models
@@ -126,12 +129,12 @@ async function initScene(){
 				scene.environment = envMapTexture
 
                 scene.add(camera)
-                // scene.add(lightAmbient)
+                scene.add(lightAmbient)
                 scene.add(lightOne)
                 scene.add(lightTwo)
  
-                scene.add(pointLightHelperOne);
-                scene.add(pointLightHelperTwo);
+                // scene.add(pointLightHelperOne);
+                // scene.add(pointLightHelperTwo);
                 scene.add(portal)
 
                 glbLoader.load("3d/models/box.glb", (glb) => {
@@ -234,9 +237,9 @@ async function initEnvMapAndMaterials(model){
                             child.castShadow = true
                             child.material = new THREE.MeshPhysicalMaterial({
                                 transmission: 1,
-                                roughness: 0.15,
+                                roughness: 0.015,
                                 envMap: envMapTexture,
-                                envMapIntensity: 0.5,
+                                envMapIntensity: 0.95,
                                 metalness: 0.95,
                                 ior: 1.9,
                                 iridescence: 1.9,
@@ -245,8 +248,8 @@ async function initEnvMapAndMaterials(model){
                                 sheenColor: new THREE.Color(0x780bfe),
                                 clearcoat: 1.8,
                                 clearcoatRoughness: 0,
-                                transparent: true,
-                                opacity: 0.99,
+                                // transparent: true,
+                                // opacity: 0.69,
                                 thickness: 0.1
                             })
                         }
@@ -343,7 +346,8 @@ async function initEnvMapAndMaterials(model){
                                 roughnessMap: groundTextures.roughness,
                                 roughness: 1,
 
-                                // bumpMap: groundTextures.alpha,
+                                alphaMap: groundTextures.alpha,
+                                transparent: true
                                 // alphaToCoverage: true
                             })
 
@@ -369,6 +373,7 @@ async function initEnvMapAndMaterials(model){
                     }
 
                     if( model.name === "box" ){
+                        child.castShadow = true
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1.7,
                             roughness: 0.3,
@@ -400,7 +405,7 @@ async function initEnvMapAndMaterials(model){
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0.0005
-    bloomPass.strength = 0.18
+    bloomPass.strength = 0.2
     bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
@@ -421,7 +426,7 @@ function mainTick(){
 
         camera.position.set(
             normalizedPosition.x * 0.3,
-            normalizedPosition.y * 0.05,
+            (normalizedPosition.y * 0.25) + 0.1,
             cameraPosition[2]
         )
         camera.lookAt(0, 0.35, 0)
@@ -475,7 +480,7 @@ function handleGyro(event){
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 6rem;
+                height: 15rem;
                 background: linear-gradient(to top, black 0%, transparent 100%);
             }
         }
