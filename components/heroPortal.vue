@@ -203,12 +203,12 @@ async function initEnvMapAndMaterials(model){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/3/px.png",
-                "3d/envMap/3/nx.png",
-                "3d/envMap/3/py.png",
-                "3d/envMap/3/ny.png",
-                "3d/envMap/3/pz.png",
-                "3d/envMap/3/nz.png",
+                "3d/envMap/4/px.png",
+                "3d/envMap/4/nx.png",
+                "3d/envMap/4/py.png",
+                "3d/envMap/4/ny.png",
+                "3d/envMap/4/pz.png",
+                "3d/envMap/4/nz.png",
             ]
         )
 
@@ -375,7 +375,7 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "box" ){
                         child.castShadow = true
                         child.material = new THREE.MeshPhysicalMaterial( {
-                            transmission: 1.7,
+                            transmission: 1.3,
                             roughness: 0.3,
                             envMap: envMapTexture,
                             envMapIntensity: 1,
