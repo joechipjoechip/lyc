@@ -89,16 +89,8 @@ async function initScene(){
         const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
         const lightTwo = new THREE.PointLight( 0xfdc39b, 30, 50)
 
-        lightOne.castShadow = true
-        lightTwo.castShadow = true
-
         lightOne.position.set(3, 5, -10)
         lightTwo.position.set(-3, 5, -10)
-
-        lightOne.shadow.mapSize.width = 3072
-        lightOne.shadow.mapSize.height = 3072
-        lightTwo.shadow.mapSize.width = 3072
-        lightTwo.shadow.mapSize.height = 3072
 
         // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
@@ -175,8 +167,8 @@ async function initRenderer(){
         // renderer.setClearColor();
         // renderer.outputEncoding = THREE.sRGBEncoding
         renderer.outputColorSpace = THREE.SRGBColorSpace
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFShadowMap;
+        // renderer.shadowMap.enabled = true;
+        // renderer.shadowMap.type = THREE.PCFShadowMap;
     
         
         composer = new EffectComposer(renderer)
@@ -234,7 +226,7 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
 
                         if( child.name === "gate" ){
-                            child.castShadow = true
+                            // child.castShadow = true
                             child.material = new THREE.MeshPhysicalMaterial({
                                 transmission: 1,
                                 roughness: 0.015,
@@ -333,7 +325,7 @@ async function initEnvMapAndMaterials(model){
 
                         if( child.name === "ground" ){
                             ground = child
-                            child.receiveShadow = true
+                            // child.receiveShadow = true
                             child.material = new THREE.MeshStandardMaterial({ 
                                 metalnessMap: groundTextures.displacement,
                                 metalness: 0.92,
@@ -373,7 +365,7 @@ async function initEnvMapAndMaterials(model){
                     }
 
                     if( model.name === "box" ){
-                        child.castShadow = true
+                        // child.castShadow = true
                         child.material = new THREE.MeshPhysicalMaterial( {
                             transmission: 1.3,
                             roughness: 0.3,
