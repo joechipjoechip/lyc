@@ -34,12 +34,15 @@ let clock = null
 let camera = null
 let scene = new THREE.Scene()
 let portal = null
+let plane = null
+let ground = null
+let curtain = null
 let box = null
 let envMapTexture = null
 let deltaTime = 0
 let curtainMaterial = null
 let planeTexture = null
-const groundTextures = { color: null, displacement: null, roughness: null }
+const groundTextures = {}
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
@@ -82,9 +85,21 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightOne = new THREE.AmbientLight( 0xffffff, 4)
-        // const lightOne = new THREE.PointLight( 0xffffff, 0.9, 100)
-        // lightOne.camera.lookAt(0, 0, 0)
+        // const lightAmbient = new THREE.AmbientLight( 0xffffff, 0.1)
+        const lightOne = new THREE.PointLight( 0xfdc39b, 9, 50)
+        const lightTwo = new THREE.PointLight( 0xfdc39b, 9, 50)
+
+        lightOne.castShadow = true
+        lightTwo.castShadow = true
+
+        lightOne.position.set(3, 0.75, -8)
+        lightTwo.position.set(-3, 0.75, -8)
+
+        lightOne.lookAt(0, 0, 0)
+
+        const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
+        const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
+        
     
         // camera
         camera = new THREE.PerspectiveCamera( 25, width / height, 1, 20 )
@@ -94,7 +109,8 @@ async function initScene(){
         groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff_4k.jpg")
         groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
         groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.png")
-        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid.png")
+        groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha_4k.jpg")
+        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-greyed.jpg")
 
         // glb models
         glbLoader.load("3d/models/portal.glb", (glb) => {
@@ -110,7 +126,12 @@ async function initScene(){
 				scene.environment = envMapTexture
 
                 scene.add(camera)
+                // scene.add(lightAmbient)
                 scene.add(lightOne)
+                scene.add(lightTwo)
+ 
+                scene.add(pointLightHelperOne);
+                scene.add(pointLightHelperTwo);
                 scene.add(portal)
 
                 glbLoader.load("3d/models/box.glb", (glb) => {
@@ -151,8 +172,8 @@ async function initRenderer(){
         // renderer.setClearColor();
         // renderer.outputEncoding = THREE.sRGBEncoding
         renderer.outputColorSpace = THREE.SRGBColorSpace
-        // renderer.shadowMap.enabled = true;
-        // renderer.shadowMap.type = THREE.PCFShadowMap;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFShadowMap;
     
         
         composer = new EffectComposer(renderer)
@@ -179,12 +200,12 @@ async function initEnvMapAndMaterials(model){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/2/px.png",
-                "3d/envMap/2/nx.png",
-                "3d/envMap/2/py.png",
-                "3d/envMap/2/ny.png",
-                "3d/envMap/2/pz.png",
-                "3d/envMap/2/nz.png",
+                "3d/envMap/3/px.png",
+                "3d/envMap/3/nx.png",
+                "3d/envMap/3/py.png",
+                "3d/envMap/3/ny.png",
+                "3d/envMap/3/pz.png",
+                "3d/envMap/3/nz.png",
             ]
         )
 
@@ -210,7 +231,8 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
 
                         if( child.name === "gate" ){
-                            child.material = new THREE.MeshPhysicalMaterial( {
+                            child.castShadow = true
+                            child.material = new THREE.MeshPhysicalMaterial({
                                 transmission: 1,
                                 roughness: 0.15,
                                 envMap: envMapTexture,
@@ -230,7 +252,7 @@ async function initEnvMapAndMaterials(model){
                         }
 
                         if( child.name === "curtain" ){
-
+                            curtain = child
                             child.material = curtainMaterial = new THREE.ShaderMaterial({
 
                                 uniforms: {
@@ -307,35 +329,42 @@ async function initEnvMapAndMaterials(model){
                         }
 
                         if( child.name === "ground" ){
+                            ground = child
+                            child.receiveShadow = true
                             child.material = new THREE.MeshStandardMaterial({ 
                                 metalnessMap: groundTextures.displacement,
-                                metalness: 0.2,
+                                metalness: 0.92,
                                 map: groundTextures.color,
                                 envMap: envMapTexture,
+                                envMapIntensity: 0.9,
 
                                 aoMap: groundTextures.displacement,
-                                aoMapIntensity: 0.75,
+                                aoMapIntensity: 0.95,
                                 roughnessMap: groundTextures.roughness,
                                 roughness: 1,
+
+                                // bumpMap: groundTextures.alpha,
+                                // alphaToCoverage: true
                             })
 
                             console.log("ground well triggered : ", child.material)
                         }
 
                         if( child.name === "plane" ){
-                            // va pivoter la texture depuis un point d'origine en bas à gauche (?)
-                            
-                            // si on veut que le "tranformOrigin" soit au centre de la texture :
+                            plane = child
                             planeTexture.center.x = 0.5;
                             planeTexture.center.y = 0.5;
                             planeTexture.rotation = Math.PI * 1;
 
-                            child.material = new THREE.MeshStandardMaterial({ 
+                            child.material = new THREE.MeshBasicMaterial({ 
                                 map: planeTexture,
-                                envMap: envMapTexture,
+                                // envMap: envMapTexture,
+                                // lightMapIntesity: 1,
+                                // emissive: new THREE.Color(0x0000ff),
+                                // emissiveIntentisty: 1
                             })
 
-                            console.log("ground well triggered : ", child.material)
+                            console.log("plane well triggered : ", child.material)
                         }
                     }
 
@@ -371,7 +400,7 @@ async function initEnvMapAndMaterials(model){
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0.0005
-    bloomPass.strength = 0.17
+    bloomPass.strength = 0.18
     bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
@@ -383,6 +412,8 @@ function mainTick(){
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
         portal.rotation.y = normalizedPosition.x * 0.3;
+        plane.rotation.z = normalizedPosition.x * -0.1;
+        plane.position.x = normalizedPosition.x * 20;
         // portal.rotation.x = normalizedPosition.y * -0.05;
 
         box.rotation.y = normalizedPosition.x * 1.4;
@@ -435,6 +466,18 @@ function handleGyro(event){
             // border: solid 10px green;
             font-size: var(--font-size-big);
             color: var(--color-main-80);
+
+            position: relative;
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 6rem;
+                background: linear-gradient(to top, black 0%, transparent 100%);
+            }
         }
     }
 
@@ -446,5 +489,7 @@ function handleGyro(event){
         @media #{$mobile}{
             min-height: 80vh;
         }
+
+        
     }
 </style>
