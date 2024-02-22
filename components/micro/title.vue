@@ -7,13 +7,17 @@ const props = defineProps({
     isGradient: {
         type: Boolean,
         default: false
+    },
+    isBig: {
+        type: Boolean,
+        default: false
     }
 })
 </script>
 
 <template>
     <h2 class="title"
-        :class="{ isGradient }"
+        :class="{ isGradient, isBig }"
     >{{ text }}</h2>
 </template>
 
@@ -27,6 +31,10 @@ const props = defineProps({
         background: var(--gradient-one);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+
+    &.isBig {
+        font-size: var(--font-size-bigest);
     }
 }
 </style>

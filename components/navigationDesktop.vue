@@ -47,7 +47,7 @@ console.log("navData", navData)
             left: 2rem;
 
             img {
-                height: calc($layoutNavHeightDesktop - 2rem);
+                height: calc($layoutNavHeightDesktop - 1rem);
                 margin-right: 1rem;
                 
                 &:last-of-type {

@@ -5,7 +5,7 @@
             <HeroPortal class="heroPortal-wrappper" />
             <div class="text">
                 <MicroTitle text="The first crypto treasure hunt" />
-                <MicroTitle text="Augmented reality play-to-earn" :isGradient="true"/>
+                <MicroTitle text="Augmented reality play-to-earn" :isGradient="true" :isBig="true"/>
             </div>
         </div>
 
@@ -36,6 +36,8 @@
             .text {
                 position: relative;
                 z-index: 70;
+                margin-top: -7rem;
+
                 @media #{$mobile}{
                     margin-top: -20rem;
                 }

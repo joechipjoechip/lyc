@@ -68,7 +68,7 @@ function handleClickWallClick(){
     main {
         z-index: 90;
         // border: solid 1px blue;
-        padding-top: calc($layoutNavHeightDesktop + 3rem);
+        padding-top: calc($layoutNavHeightDesktop + 1rem);
     }
 }
 
