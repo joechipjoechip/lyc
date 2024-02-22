@@ -116,7 +116,7 @@ async function initScene(){
         planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-greyed.jpg")
 
         // glb models
-        glbLoader.load("3d/models/portal.glb", (glb) => {
+        glbLoader.load("3d/models/portal.glb", glb => {
             portal = glb.scene
 
             portal.name = "portal"
