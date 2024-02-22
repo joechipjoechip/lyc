@@ -158,7 +158,7 @@ async function initRenderer(){
     
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
-            antialias: true,
+            // antialias: true,
             // precision: "highp"
         });
     
@@ -172,7 +172,7 @@ async function initRenderer(){
     
         
         composer = new EffectComposer(renderer)
-        composer.setSize(width, height)
+        composer.setSize(width * 2, height * 2)
         composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         renderPass = new RenderPass(scene, camera)
         composer.addPass(renderPass)
