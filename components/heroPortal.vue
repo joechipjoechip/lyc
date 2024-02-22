@@ -111,7 +111,7 @@ async function initScene(){
         // textures loads
         groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff_4k.jpg")
         groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
-        groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.png")
+        groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.jpg")
         groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
         planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-greyed.jpg")
 
