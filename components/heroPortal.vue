@@ -85,12 +85,12 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightAmbient = new THREE.AmbientLight( 0xffffff, 3.7)
+        const lightAmbient = new THREE.AmbientLight( 0xffffff, 4.7)
         const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
-        const lightTwo = new THREE.PointLight( 0xfdc39b, 30, 50)
+        const lightTwo = new THREE.PointLight( 0xffd3a1, 30, 50)
 
-        lightOne.position.set(3, 5, -10)
-        lightTwo.position.set(-3, 5, -10)
+        lightOne.position.set(3, 6, -10)
+        lightTwo.position.set(-3, 7, -10)
 
         // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
