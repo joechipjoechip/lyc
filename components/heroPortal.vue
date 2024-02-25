@@ -27,12 +27,12 @@ glbLoader.setDRACOLoader(dracoLoader);
 const canvas = ref(null)
 const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
+const scene = new THREE.Scene()
 let renderer = null
 let composer = null
 let renderPass = null
 let clock = null
 let camera = null
-let scene = new THREE.Scene()
 let portal = null
 let plane = null
 let ground = null
@@ -195,12 +195,12 @@ async function initEnvMapAndMaterials(model){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/4/px.png",
-                "3d/envMap/4/nx.png",
-                "3d/envMap/4/py.png",
-                "3d/envMap/4/ny.png",
-                "3d/envMap/4/pz.png",
-                "3d/envMap/4/nz.png",
+                "3d/envMap/1/px.png",
+                "3d/envMap/1/nx.png",
+                "3d/envMap/1/py.png",
+                "3d/envMap/1/ny.png",
+                "3d/envMap/1/pz.png",
+                "3d/envMap/1/nz.png",
             ]
         )
 
@@ -229,14 +229,14 @@ async function initEnvMapAndMaterials(model){
                             // child.castShadow = true
                             child.material = new THREE.MeshPhysicalMaterial({
                                 transmission: 1,
-                                roughness: 0.015,
+                                roughness: 0.08,
                                 envMap: envMapTexture,
-                                envMapIntensity: 0.95,
-                                metalness: 0.95,
-                                ior: 1.9,
-                                iridescence: 1.9,
+                                envMapIntensity: 0.55,
+                                metalness: 1,
+                                ior: 2.3,
+                                iridescence: 2.3,
                                 iridescenceIOR: 2,
-                                reflectivity: 0.9,
+                                reflectivity: 0.4,
                                 sheenColor: new THREE.Color(0x780bfe),
                                 clearcoat: 1.8,
                                 clearcoatRoughness: 0,
@@ -277,8 +277,8 @@ async function initEnvMapAndMaterials(model){
                                     
                                     vec2 rot(vec2 p,float a)
                                     {
-                                        float c=cos(a*15.);
-                                        float s=sin(a*15.);
+                                        float c=cos(a*12.);
+                                        float s=sin(a*12.);
                                         return p*mat2(s,c,c,-s);
                                     }
 
@@ -287,26 +287,26 @@ async function initEnvMapAndMaterials(model){
                                         vec2 uv = vec2(vUv.xy);
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
-                                        uv=vec2(.125,.75)+(uv-vec2(-0.9125,.75))*.23;
-                                        float T=iTime*1.15;
+                                        uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
+                                        float T=iTime*0.75;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.1,0)),
                                             length(uv-vec2(.01,0)),
                                             length(uv-vec2(.05,1))
-                                            ),0.,1.)*2.-1.;
+                                        ),0.,1.)*1.7-1.;
 
                                         vec3 c0=vec3(0);
                                         float w0=0.;
-                                        const float N=30.;
+                                        const float N=20.;
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
-                                            float wp=0.5+(i+1.)*(i+2.5)*0.0001;
-                                            float wb=.005+i/N*0.1;
+                                            float wp=0.5+(i+1.)*(i+2.5)*0.001;
+                                            float wb=.8+i/N*0.1;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*23.*wp);
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7+T*wt+(uv.y+1.1)*15.*wp);
-                                            c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/5.)-0.925)*2.)*17.*wp);
+                                            c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/5.)-0.925)*2.)*1.*wp);
                                             c.zx=rot(c.zx,c.y*c.z*wb+1.6-T*0.65*wt+(uv.x+.17)*23.*wp);
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
                                             float w=(1.5-i/N)*.5;
@@ -315,8 +315,8 @@ async function initEnvMapAndMaterials(model){
                                         }
                                         c0=c0/w0*1.9+.5;//*(1.-pow(uv.y-.5,2.)*2.)*10.+.5;
                                         c0*=.5+dot(c0,vec3(1,1,1))/sqrt(3.)*.4;
-                                        c0+=pow(length(sin(c0*PI*10.))/sqrt(3.)*1.0,20.)*(.03+.7*c0);
-                                        c0 = clamp(c0, 0., vUv.x);
+                                        c0+=pow(length(sin(c0*PI*10.))/sqrt(3.)*1.0,20.)*(.3+.7*c0);
+                                        //c0 = clamp(c0, 0., uv.y);
                                         gl_FragColor=vec4(c0,1.0);
                                     }
                                 `
