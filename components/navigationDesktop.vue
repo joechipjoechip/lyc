@@ -59,6 +59,8 @@ console.log("navData", navData)
         &-inner {
             // border: solid 1px red;
             margin-right: 2rem;
+            font-family: "Lexend Zetta";
+            font-weight: 700;
             
             * {
                 font-size: var(--font-size-medium);

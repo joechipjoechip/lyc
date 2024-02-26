@@ -108,7 +108,7 @@ button {
         align-items: center;
         justify-content: center;
 
-        font-size: var(--font-size-bigest);
+        font-size: 3.5rem;
     }
 
     img {

@@ -6,10 +6,13 @@ $desktop: "(min-width: 668px)";
 $desktopLarge: "(min-width: 1200px)";
 $desktopVeryLarge: "(min-width: 1600px)";
 
-$layoutMaxWidthDesktop: 1600px;
+
+$gutter: 2rem;
+$layoutMaxWidthDesktop: 130rem;
 $layoutNavHeightDesktop: 5rem;
 
 $stripHeight: 50rem;
-$hudWidth: 500px;
+$hudWidth: 35rem;
 $hudRatio: 3.75;
 
+$phonesWidth: 42rem;

@@ -1,14 +1,14 @@
 export default [
     {
-        name: "Marketplace",
+        name: "Key NFT",
         route: "/"
     },
     {
-        name: "Whitepaper",
+        name: "Loot",
         route: "/"
     },
     {
-        name: "About Us",
+        name: "Portal",
         route: "/contact"
     },
     {

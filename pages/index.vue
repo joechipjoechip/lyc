@@ -7,7 +7,7 @@ const isVisible = ref(route.fullPath === "/")
 </script>
 
 <template>
-    <div class="page-index">
+    <div class="page-index" v-if="isVisible">
         <Hero :isVisible="isVisible"/>
         
         <div class="punchlines">
@@ -18,6 +18,7 @@ const isVisible = ref(route.fullPath === "/")
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
+            <Phones class="phones"/>
             <Strip name="loot" :wording="wording.loot" direction="left"/>
         </div>
 
@@ -34,7 +35,9 @@ const isVisible = ref(route.fullPath === "/")
 }
 
 .strips {
+    z-index: 60;
     margin-top: 4rem;
+    position: relative;
 }
 
 .punchlines {
@@ -46,5 +49,13 @@ const isVisible = ref(route.fullPath === "/")
     img {
         max-width: 18rem;
     }
+}
+
+.phones {
+    position: absolute;
+    z-index: 50;
+    top: 20rem;
+    left: 0vw;
+    pointer-events: none;
 }
 </style>

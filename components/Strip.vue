@@ -15,6 +15,7 @@ const props = defineProps({
 })
 
 const isHovered = ref(false)
+const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 
 </script>
 <template>
@@ -23,8 +24,8 @@ const isHovered = ref(false)
         :class="[name, direction]"
         @mouseenter="isHovered = true"
         @mouseleave="isHovered = false"
+        :style="`background-image: url(${backgroundImageSrc})`"
     >
-        <img :src="`/images/visuals/strip-${name}.jpg`" :alt="`visual ${name}`">
         <div class="strip-inner">
 
             <MicroHud 
@@ -52,6 +53,9 @@ const isHovered = ref(false)
         position: relative;
         height: $stripHeight;
 
+
+        background-size: cover;
+
         &:after {
             content: "";
             position: absolute;
@@ -59,6 +63,7 @@ const isHovered = ref(false)
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 30;
         }
         
         img {
@@ -70,14 +75,10 @@ const isHovered = ref(false)
         }
 
         &.explore {
-            img {
-                object-position: 50% 71%;
-            }
+            background-position: 50% 71%;
         }
         &.loot {
-            img {
-                object-position: 50% 35%;
-            }
+            background-position: 50% 35%;
         }
 
         &.right {
@@ -101,14 +102,16 @@ const isHovered = ref(false)
     }
 
     &-inner {
+        // for the 3d of huds
         perspective: 1000px;
+        
+        position: relative;
         z-index: 50;
-        position: absolute;
-        top: 0;
-        left: calc((100vw - $layoutMaxWidthDesktop) / 2);
-        // width: 100%;
+        
         height: 100%;
-        width: $layoutMaxWidthDesktop;
+        width: 100%;
+        max-width: $layoutMaxWidthDesktop;
+        padding: 0 $gutter;
         margin: 0 auto;
 
         display: flex;
