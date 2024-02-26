@@ -1,6 +1,5 @@
 <script setup>
 import * as THREE from 'three'
-import { gsap } from 'gsap';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -11,9 +10,9 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { useElementVisibility } from "@vueuse/core" 
 import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
+import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
-
 const store = useMainStore()
 
 const { $on } = useNuxtApp()
@@ -49,6 +48,13 @@ const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
 const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.25]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
+const props = defineProps({
+    isVisible: {
+        type: Boolean,
+        required: true
+    }
+})
+
 
 
 onMounted(() => {
@@ -59,8 +65,11 @@ onMounted(() => {
 watch(() => canvasIsVisible.value, newVal => {
     if( newVal ){
         renderer && mainTick()
+        // initScene().then(() => initRenderer().then(() => mainTick()))
     } else {
-        // dispose ?
+        // dispose
+        console.log("dispose @TODO")
+        // disposeScene(scene)
     }
 })
 
@@ -120,15 +129,6 @@ async function initScene(){
                 scene.background = envMapTexture
 				scene.environment = envMapTexture
 
-                scene.add(camera)
-                scene.add(lightAmbient)
-                scene.add(lightOne)
-                scene.add(lightTwo)
- 
-                // scene.add(pointLightHelperOne);
-                // scene.add(pointLightHelperTwo);
-                scene.add(portal)
-
                 glbLoader.load("3d/models/box.glb", (glb) => {
                     box = glb.scene
 
@@ -138,7 +138,16 @@ async function initScene(){
 
                     initEnvMapAndMaterials(box)
 
-                    scene.add(box)
+                    scene.add(
+                        portal, 
+                        box,
+                        camera,
+                        lightAmbient,
+                        lightOne,
+                        lightTwo,
+                        // pointLightHelperOne,
+                        // pointLightHelperTwo
+                    )
                     
                     res()
                 })
@@ -466,15 +475,15 @@ function handleGyro(event){
 
             position: relative;
 
-            &::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 15rem;
-                background: linear-gradient(to top, black 0%, transparent 100%);
-            }
+            // &::after {
+            //     content: "";
+            //     position: absolute;
+            //     bottom: 0;
+            //     left: 0;
+            //     width: 100%;
+            //     height: 15rem;
+            //     background: linear-gradient(to top, black 0%, transparent 100%);
+            // }
         }
     }
 

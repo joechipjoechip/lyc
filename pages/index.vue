@@ -1,10 +1,11 @@
 <script setup>
-
+const route = useRoute()
+const isVisible = ref(route.fullPath === "/")
 </script>
 
 <template>
     <div class="page-index">
-        <Hero />
+        <Hero :isVisible="isVisible"/>
         <!-- here, other slots/modules -->
     </div>
 </template>

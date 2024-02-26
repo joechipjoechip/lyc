@@ -1,11 +1,19 @@
+<script setup>
+const props = defineProps({
+    isVisible: Boolean,
+    required: true
+})
+</script>
+
 <template>
     <section class="hero-wrapper">
 
         <div class="hero-inner">
-            <HeroPortal class="heroPortal-wrappper" />
+            <HeroPortal class="heroPortal-wrappper" :isVisible="isVisible"/>
             <div class="text">
                 <MicroTitle text="The first crypto treasure hunt" />
                 <MicroTitle text="Augmented reality play-to-earn" :isGradient="true" :isBig="true"/>
+                <img src="/images/logos/logo-solana.png" alt="logo solana" />
             </div>
         </div>
 
@@ -16,16 +24,13 @@
 <style lang="scss" scoped>
     .hero {
         &-wrapper {
-            // border: solid 10px green;
             font-size: var(--font-size-big);
             color: var(--color-main-80);
-            // margin-top: calc($layoutNavHeightDesktop * -1);
         }
 
         &-inner {
             // max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
-            // border: solid 4px orange;
             text-align: center;
 
             .heroPortal-wrapper {
@@ -36,10 +41,14 @@
             .text {
                 position: relative;
                 z-index: 70;
-                margin-top: -7rem;
+                margin-top: 2rem;
 
                 @media #{$mobile}{
                     margin-top: -20rem;
+                }
+
+                img {
+                    max-width: 18rem;
                 }
             }
         }
