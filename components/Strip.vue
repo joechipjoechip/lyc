@@ -20,6 +20,8 @@ const props = defineProps({
         <img :src="`/images/visuals/strip-${name}.jpg`" :alt="`visual ${name}`">
         <div class="strip-inner">
 
+            <MicroHud :text="wording.cta" class="hud" />
+
             <h3 class="title" v-html="wording.title"></h3>
 
             <div v-for="paragraph in wording.paragraphs" 
@@ -37,7 +39,7 @@ const props = defineProps({
 .strip {
     &-wrapper {
         position: relative;
-        height: 50rem;
+        height: $stripHeight;
 
         &:after {
             content: "";
@@ -107,6 +109,12 @@ const props = defineProps({
     }
 }
 
+.hud {
+    position: absolute;
+    top: calc(($stripHeight - ($hudWidth / $hudRatio)) / 2); 
+    left: calc(($layoutMaxWidthDesktop - $hudWidth) / 2);
+}
+
 .title {
     font-size: var(--font-size-bigest);
     font-weight: 800;
@@ -116,8 +124,6 @@ const props = defineProps({
     margin-bottom: var(--font-size-bigest);
     font-size: var(--font-size-medium);
     font-weight: 600;
-    
-    
     
     &:last-of-type {
         margin-bottom: unset;
