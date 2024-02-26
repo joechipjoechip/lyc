@@ -36,7 +36,7 @@ function handleTouchMove(event){
     translateY.value = -normalizedY * 5 + "rem"
 
     rotateX.value = -normalizedY * -0.01
-    rotateY.value = -normalizedX * -0.01
+    rotateY.value = -normalizedX * -0.04
 }
 
 watch(() => props.isHovered, newVal => {
@@ -86,7 +86,7 @@ button {
         v-bind(rotateX),
         v-bind(rotateY),
         0,
-        15deg
+        13deg
     );
 
     

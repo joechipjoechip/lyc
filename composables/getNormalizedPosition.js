@@ -32,7 +32,7 @@ export function useNormalizePosition( baseX, baseY, element ) {
 
         normalizedY = ((((baseY +  height / 2) /  goodHeight) - 1) * -2) * (window.innerHeight / goodHeight)
 
-        console.log("normalizedY", normalizedX)
+        console.log("normalizedY", normalizedY)
 
     }
 
