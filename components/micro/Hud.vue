@@ -35,7 +35,7 @@ function handleTouchMove(event){
     translateX.value = normalizedX * 10 + "rem"
     translateY.value = -normalizedY * 5 + "rem"
 
-    rotateX.value = -normalizedY * -0.01
+    rotateX.value = -normalizedY * -0.02
     rotateY.value = -normalizedX * -0.04
 }
 
@@ -48,10 +48,10 @@ watch(() => props.isHovered, newVal => {
         
         transitionString.value = "transform var(--transitionDurationLong)"
     } else {
-        transitionString.value = "transform var(--transitionDurationShort)"
+        transitionString.value = "transform 0.1s"
         setTimeout(() => {
             transitionString.value = "unset"
-        }, 200)
+        }, 300)
     }
 })
 </script>

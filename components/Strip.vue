@@ -101,7 +101,7 @@ const isHovered = ref(false)
     }
 
     &-inner {
-        perspective: 500px;
+        perspective: 1000px;
         z-index: 50;
         position: absolute;
         top: 0;
