@@ -36,18 +36,19 @@ const isVisible = ref(route.fullPath === "/")
 
 .strips {
     z-index: 60;
-    margin-top: 4rem;
+    margin-top: $dividerVertical;
     position: relative;
 }
 
 .punchlines {
     position: relative;
     z-index: 70;
-    margin-top: 2rem;
+    margin-top: $dividerVertical;
     text-align: center;
 
     img {
         max-width: 18rem;
+        margin-top: 0.5rem;
     }
 }
 

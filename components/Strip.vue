@@ -88,6 +88,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
             .strip-inner {
                 align-items: flex-end;
                 text-align: right;
+                padding-right: $gutter;
             }
         }
         &.left {
@@ -97,6 +98,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
             .strip-inner {
                 align-items: flex-start;
                 text-align: left;
+                padding-left: $gutter;
             }
         }
     }
@@ -109,9 +111,9 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
         z-index: 50;
         
         height: 100%;
-        width: 100%;
+        // width: 100%;
         max-width: $layoutMaxWidthDesktop;
-        padding: 0 $gutter;
+        // padding: 0 $gutter 0 0;
         margin: 0 auto;
 
         display: flex;

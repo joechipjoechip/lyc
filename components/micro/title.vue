@@ -23,7 +23,9 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .title {
-    font-family: "Mada Bold";
+    // font-family: "Mada Bold";
+    font-family: "Lexend Zetta";
+    font-weight: 800;
     font-size: var(--font-size-big-plus);
     text-transform: uppercase;
 

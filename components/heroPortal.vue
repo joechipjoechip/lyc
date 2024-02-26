@@ -14,8 +14,9 @@ import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
 const store = useMainStore()
-
 const { $on } = useNuxtApp()
+const isHovered = ref(false)
+
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const glbLoader = new GLTFLoader()
@@ -44,18 +45,9 @@ let planeTexture = null
 const groundTextures = {}
 
 // positions
-const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0]
-const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.25]
+const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0.5]
+const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.75]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
-
-const props = defineProps({
-    isVisible: {
-        type: Boolean,
-        required: true
-    }
-})
-
-
 
 onMounted(() => {
     console.log("mounted du hero portal")
@@ -65,11 +57,10 @@ onMounted(() => {
 watch(() => canvasIsVisible.value, newVal => {
     if( newVal ){
         renderer && mainTick()
-        // initScene().then(() => initRenderer().then(() => mainTick()))
+        console.log("start tick")
     } else {
         // dispose
-        console.log("dispose @TODO")
-        // disposeScene(scene)
+        console.log("stop tick")
     }
 })
 
@@ -78,9 +69,10 @@ const normalizedPosition = reactive({ x: 0, y: 0 })
 
 function handleTouchMove(event){
     if( store.gyroIsAllowed ){ return }
+    if( !store.gyroIsAllowed && !isHovered.value ){ return }
 
     const { x, y } = useGetEventPosition(event)
-    const { normalizedX, normalizedY } = useNormalizePosition(x, y)
+    const { normalizedX, normalizedY } = useNormalizePosition(x, y, canvas.value)
     normalizedPosition.x = normalizedX
     normalizedPosition.y = normalizedY
 }
@@ -126,14 +118,14 @@ async function initScene(){
 
             initEnvMapAndMaterials(portal).then(() => {
                 // fill scene
-                scene.background = envMapTexture
-				scene.environment = envMapTexture
+                // scene.background = envMapTexture
+				// scene.environment = envMapTexture
 
                 glbLoader.load("3d/models/box.glb", (glb) => {
                     box = glb.scene
 
                     box.name = "box"
-                    box.scale.set(0.5, 0.5, 0.5)
+                    box.scale.set(0.45, 0.45, 0.45)
                     box.position.set(...boxPosition)
 
                     initEnvMapAndMaterials(box)
@@ -422,8 +414,8 @@ function mainTick(){
         plane.position.x = normalizedPosition.x * 20;
         // portal.rotation.x = normalizedPosition.y * -0.05;
 
-        box.rotation.y = normalizedPosition.x * 1.4;
-        box.rotation.x = normalizedPosition.y * -0.6;
+        box.rotation.y = normalizedPosition.x * 0.9;
+        box.rotation.x = normalizedPosition.y * -0.4;
 
         camera.position.set(
             normalizedPosition.x * 0.3,
@@ -460,7 +452,11 @@ function handleGyro(event){
 <template>
     <section class="portal-wrapper">
 
-        <canvas ref="canvas"></canvas>
+        <canvas 
+            ref="canvas"
+            @mouseenter="isHovered = true"
+            @mouseleave="isHovered = false"
+        ></canvas>
 
     </section>
 
@@ -490,6 +486,7 @@ function handleGyro(event){
     canvas {
         // border: solid 1px pink;
         width: 100%;
+        height: calc(100vh - 18rem);
         // min-height: 70vh;
         
         @media #{$mobile}{
