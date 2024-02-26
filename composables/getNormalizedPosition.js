@@ -11,9 +11,9 @@ export function useNormalizePosition( baseX, baseY, element ) {
     let normalizedY = 0
     const isWindow = !element
 
-
     // DO THE MAGIC
 
+    // console.log("element : ", element)
     // console.log("compute in winow")
 
     if( isWindow ){
@@ -25,12 +25,14 @@ export function useNormalizePosition( baseX, baseY, element ) {
     } else {
         const { width, height, left, top } = element.getBoundingClientRect()
         // console.log("element.getBoundingClientRect()", element.getBoundingClientRect())
-        const goodWidth = width + (left * 2)
+        const goodWidth = width + (left * 2)    
         const goodHeight = height + top
 
         normalizedX = (((baseX +  goodWidth / 2) /  goodWidth) - 1) * 2
 
-        normalizedY = (((baseY +  goodHeight / 2) /  goodHeight) - 1) * -2
+        normalizedY = ((((baseY +  height / 2) /  goodHeight) - 1) * -2) * (window.innerHeight / goodHeight)
+
+        console.log("normalizedY", normalizedX)
 
     }
 

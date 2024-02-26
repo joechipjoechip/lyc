@@ -14,13 +14,24 @@ const props = defineProps({
     },
 })
 
+const isHovered = ref(false)
+
 </script>
 <template>
-    <section class="strip-wrapper" :class="[name, direction]">
+    <section 
+        class="strip-wrapper" 
+        :class="[name, direction]"
+        @mouseenter="isHovered = true"
+        @mouseleave="isHovered = false"
+    >
         <img :src="`/images/visuals/strip-${name}.jpg`" :alt="`visual ${name}`">
         <div class="strip-inner">
 
-            <MicroHud :text="wording.cta" class="hud" />
+            <MicroHud 
+                :text="wording.cta" 
+                class="hud" 
+                :isHovered="isHovered"
+            />
 
             <h3 class="title" v-html="wording.title"></h3>
 
@@ -90,6 +101,7 @@ const props = defineProps({
     }
 
     &-inner {
+        perspective: 500px;
         z-index: 50;
         position: absolute;
         top: 0;
