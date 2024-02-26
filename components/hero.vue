@@ -10,11 +10,6 @@ const props = defineProps({
 
         <div class="hero-inner">
             <HeroPortal class="heroPortal-wrappper" :isVisible="isVisible"/>
-            <div class="text">
-                <MicroTitle text="The first crypto treasure hunt" />
-                <MicroTitle text="Augmented reality play-to-earn" :isGradient="true" :isBig="true"/>
-                <img src="/images/logos/logo-solana.png" alt="logo solana" />
-            </div>
         </div>
 
     </section>
@@ -36,20 +31,6 @@ const props = defineProps({
             .heroPortal-wrapper {
                 position: relative;
                 z-index: 50;
-            }
-
-            .text {
-                position: relative;
-                z-index: 70;
-                margin-top: 2rem;
-
-                @media #{$mobile}{
-                    margin-top: -20rem;
-                }
-
-                img {
-                    max-width: 18rem;
-                }
             }
         }
     }

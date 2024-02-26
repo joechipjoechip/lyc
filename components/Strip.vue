@@ -37,7 +37,7 @@ const props = defineProps({
 .strip {
     &-wrapper {
         position: relative;
-        height: 45rem;
+        height: 50rem;
 
         &:after {
             content: "";

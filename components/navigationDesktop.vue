@@ -37,13 +37,13 @@ console.log("navData", navData)
             justify-content: flex-end;
             align-items: center;
             
-            background-color: var(--color-contrast-30);
-            backdrop-filter: blur(8px);
+            background-color: var(--color-contrast-80);
+            backdrop-filter: blur(20px);
         }
 
         &-logo {
             position: absolute;
-            top: 1rem;
+            // top: 1rem;
             left: 2rem;
 
             img {
