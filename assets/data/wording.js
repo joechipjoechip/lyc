@@ -2,9 +2,9 @@ const wording = {
     explore: {
         cta: "Explore city",
         title: "Become legend",
-        paragraph: [
+        paragraphs: [
             [
-                "Beta egend quest",
+                "Beta legend quest",
                 "will start in 25 cities"
             ],
             [
@@ -19,8 +19,8 @@ const wording = {
     },
     loot: {
         cta: "Loot box",
-        title: "More than 100000<br>boxes to loot",
-        paragraph: [
+        title: "More than 100 000<br>boxes to loot",
+        paragraphs: [
             [
                 "Biggest crypto cash prize ever",
                 "in crypto play to earn"
