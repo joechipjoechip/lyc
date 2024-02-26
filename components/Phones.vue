@@ -18,6 +18,8 @@
     &-inner {
         img {
             width: $phonesWidth;
+            position: relative;
+            left: -2.2rem;
         }
     }
 }

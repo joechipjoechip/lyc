@@ -127,7 +127,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 .hud {
     position: absolute;
     top: calc(($stripHeight - ($hudWidth / $hudRatio)) / 2); 
-    left: calc(($layoutMaxWidthDesktop - $hudWidth) / 2);
+    left: calc((min(100vw, $layoutMaxWidthDesktop) - $hudWidth) / 2);
 }
 
 .title {

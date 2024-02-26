@@ -21,6 +21,7 @@ const translateY = ref(0)
 const rotateX = ref(0)
 const rotateY = ref(0)
 const transitionString = ref("transform var(--transitionDurationShort)")
+const timeoutID = ref(null)
 
 const { $on } = useNuxtApp()
 
@@ -49,9 +50,13 @@ watch(() => props.isHovered, newVal => {
         transitionString.value = "transform var(--transitionDurationLong)"
     } else {
         transitionString.value = "transform 0.1s"
-        setTimeout(() => {
+        if( timeoutID.value ){
+            clearTimeout(timeoutID.value)
+        }
+        timeoutID.value = setTimeout(() => {
             transitionString.value = "unset"
-        }, 300)
+            timeoutID.value = null
+        }, 100)
     }
 })
 </script>

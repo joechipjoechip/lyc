@@ -55,7 +55,7 @@ const isVisible = ref(route.fullPath === "/")
     position: absolute;
     z-index: 50;
     top: 20rem;
-    left: 0vw;
+    left: calc((max(100vw, $layoutMaxWidthDesktop) - $layoutMaxWidthDesktop) / 2);
     pointer-events: none;
 }
 </style>

@@ -96,10 +96,10 @@ async function initScene(){
         // lights
         const lightAmbient = new THREE.AmbientLight( 0xffffff, 4.7)
         const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
-        const lightTwo = new THREE.PointLight( 0xffd3a1, 30, 50)
+        const lightTwo = new THREE.PointLight( 0xffa129, 30, 50)
 
         lightOne.position.set(3, 6, -10)
-        lightTwo.position.set(-3, 7, -10)
+        lightTwo.position.set(-5, 6, -10)
 
         // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
@@ -407,7 +407,7 @@ function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
     bloomPass.threshold = 0.0005
     bloomPass.strength = 0.2
-    bloomPass.radius = 0.15
+    bloomPass.radius = 0.35
     composer.addPass(bloomPass)
 }
 
