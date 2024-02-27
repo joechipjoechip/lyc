@@ -425,7 +425,7 @@ function mainTick(){
         camera.lookAt(0, 0.35, 0)
 
         // custom shader update
-        curtainMaterial.uniforms.iTime.value = clock.elapsedTime;
+        curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
         composer.render();
         // renderer.render(scene, camera);
