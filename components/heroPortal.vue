@@ -45,7 +45,7 @@ let planeTexture = null
 const groundTextures = {}
 
 // positions
-const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0.5]
+const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0.35]
 const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.75]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
@@ -98,7 +98,7 @@ async function initScene(){
         
     
         // camera
-        camera = new THREE.PerspectiveCamera( 25, width / height, 1, 20 )
+        camera = new THREE.PerspectiveCamera( 22, width / height, 1, 20 )
         camera.position.set(...cameraPosition)
 
         // textures loads
