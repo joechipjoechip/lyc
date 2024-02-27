@@ -40,7 +40,7 @@ let envMapTexture = null
 let deltaTime = 0
 
 // positions
-const keyPosition = store.isMobile ? [0,0.35,0] : [0,0,0.35]
+const keyPosition = store.isMobile ? [0,0.35,0] : [0,0.2,0.35]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 onMounted(() => {
