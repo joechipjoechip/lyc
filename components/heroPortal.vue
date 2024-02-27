@@ -86,7 +86,7 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightAmbient = new THREE.AmbientLight( 0xffffff, 4.7)
+        const lightAmbient = new THREE.AmbientLight( 0xffffff, 5.7)
         const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
         const lightTwo = new THREE.PointLight( 0xffa129, 30, 50)
 
@@ -196,12 +196,12 @@ async function initEnvMapAndMaterials(model){
         const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager)
         envMapTexture = cubeTextureLoader.load(
             [
-                "3d/envMap/1/px.png",
-                "3d/envMap/1/nx.png",
-                "3d/envMap/1/py.png",
-                "3d/envMap/1/ny.png",
-                "3d/envMap/1/pz.png",
-                "3d/envMap/1/nz.png",
+                "3d/envMap/3/px.png",
+                "3d/envMap/3/nx.png",
+                "3d/envMap/3/py.png",
+                "3d/envMap/3/ny.png",
+                "3d/envMap/3/pz.png",
+                "3d/envMap/3/nz.png",
             ]
         )
 
@@ -230,20 +230,20 @@ async function initEnvMapAndMaterials(model){
                             // child.castShadow = true
                             child.material = new THREE.MeshPhysicalMaterial({
                                 transmission: 1,
-                                roughness: 0.08,
+                                roughness: 0.1,
                                 envMap: envMapTexture,
-                                envMapIntensity: 0.55,
-                                metalness: 1,
+                                envMapIntensity: 0.85,
+                                metalness: 0.9,
                                 ior: 2.3,
                                 iridescence: 2.3,
                                 iridescenceIOR: 2,
-                                reflectivity: 0.4,
+                                reflectivity: 1,
                                 sheenColor: new THREE.Color(0x780bfe),
                                 clearcoat: 1.8,
                                 clearcoatRoughness: 0,
-                                // transparent: true,
-                                // opacity: 0.69,
-                                thickness: 0.1
+                                transparent: true,
+                                opacity: 0.85,
+                                thickness: 0.9
                             })
                         }
 
