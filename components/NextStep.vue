@@ -51,5 +51,10 @@ img {
     font-size: var(--font-size-bigest-plus);
     text-transform: uppercase;
     font-weight: 800;
+    margin-bottom: var(--font-size-bigest);
+    
+    &:last-of-type {
+        margin-bottom: 0;
+    }
 }
 </style>
