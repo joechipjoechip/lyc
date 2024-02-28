@@ -35,7 +35,7 @@ import { footerWording } from '@/assets/data/footer';
 
 .footer {
     &-wrapper {
-        padding-bottom: 8rem;
+        padding-bottom: 3rem;
     }
 }
 
@@ -52,10 +52,10 @@ import { footerWording } from '@/assets/data/footer';
         display: block;
         border-radius: 1rem;
         overflow: hidden;
-        width: 4.5rem;
-        height: 4.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
 
-        margin: 0 2rem;
+        margin: 0 1rem;
 
         &:first-of-type {
             margin-left: 0;
@@ -74,20 +74,20 @@ import { footerWording } from '@/assets/data/footer';
     display: block;
     margin: 0 auto;
     width: 5rem;
-    margin-top: 4rem;
+    margin-top: 2.5rem;
 }
 
 .copyright,
 .legal {
     text-align: center;
     margin-top: 3rem;
-    font-size: var(--font-size-big);
+    font-size: var(--font-size-medium);
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 100;
 }
 
 .legal {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     font-weight: 900;
     font-size: var(--font-size-medium);
     
