@@ -38,7 +38,12 @@ watch(isVisible, (value) => {
         position: relative;
         width: 100%;
         height: 100vh;
-        margin-top: calc($dividerVertical * 2);
+        margin-top: $dividerVertical;
+
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
 
         video {
             display: block;

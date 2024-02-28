@@ -32,6 +32,8 @@ const isVisible = ref(route.fullPath === "/")
         <!-- ici module floating boxes -->
 
         <VideoDisplayer videoUrl="/videos/master-2.mp4"/>
+
+        <img src="/images/core/logo-typo-chrome.png" alt="arrow down" class="logo-lonely" />
     </div>
 </template>
 
@@ -64,5 +66,11 @@ const isVisible = ref(route.fullPath === "/")
     top: 20rem;
     left: calc((max(100vw, $layoutMaxWidthDesktop) - $layoutMaxWidthDesktop) / 2);
     pointer-events: none;
+}
+
+.logo-lonely {
+    display: block;
+    width: 25rem;
+    margin: 0 auto;
 }
 </style>
