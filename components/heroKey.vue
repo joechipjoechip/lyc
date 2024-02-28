@@ -14,6 +14,15 @@ import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
 const store = useMainStore()
+
+const props = defineProps({
+    wording: {
+        type: Object,
+        required: true
+    }
+})
+
+
 const { $on } = useNuxtApp()
 const isHovered = ref(false)
 
@@ -106,11 +115,11 @@ async function initScene(){
             key = glb.scene
 
             key.name = "key"
-            key.scale.set(0.05, 0.05, 0.05)
+            key.scale.set(0.035, 0.035, 0.035)
             key.position.set(...keyPosition)
 
             keyTwo = key.clone()
-            keyTwo.position.set(0.05, 0, 0)
+            keyTwo.position.set(0.45, 0, 0)
 
             initEnvMapAndMaterials(key)
             initEnvMapAndMaterials(keyTwo)
@@ -372,20 +381,22 @@ async function initEnvMapAndMaterials(model){
                         if( child.name === "angle" ){
 
                             child.material = new THREE.MeshPhysicalMaterial({
-                                transmission: 1,
-                                roughness: 0.5,
+                                transmission: 0.95,
+                                roughness: 0,
                                 envMap: envMapTexture,
-                                envMapIntensity: 0.4,
-                                metalness: 0.065,
-                                ior: 2.3,
-                                iridescence: 2.3,
-                                iridescenceIOR: 2.3,
+                                envMapIntensity: 0.9,
+                                metalness: 0.5,
+                                ior: 1.8,
+                                iridescence: 1.8,
+                                iridescenceIOR: 1.8,
                                 reflectivity: 1,
-                                sheenColor: new THREE.Color(0xff0000),
-                                clearcoat: 0.8,
+                                sheen: 1,
+                                sheenRoughness: 0,
+                                sheenColor: new THREE.Color(0x0000ff),
+                                clearcoat: 1,
                                 clearcoatRoughness: 0,
                                 transparent: true,
-                                opacity: 0.2,
+                                opacity: 0.7,
                                 // thickness: 0.8
                             })
                         }
@@ -414,8 +425,8 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.0005
-    bloomPass.strength = 0.05
+    bloomPass.threshold = 0.5
+    bloomPass.strength = 0.25
     bloomPass.radius = 0.45
     composer.addPass(bloomPass)
 }
@@ -432,8 +443,8 @@ function mainTick(){
         keyTwo.rotation.y = normalizedPosition.x * 1.9;
         keyTwo.rotation.x = normalizedPosition.y * 2.8;
 
-        angle.rotation.y = normalizedPosition.x * 0.2;
-        angle.rotation.x = normalizedPosition.y * 0.2;
+        angle.rotation.y = normalizedPosition.x * -0.2;
+        angle.rotation.x = normalizedPosition.y * -0.2;
         
 
         // camera.position.set(
@@ -469,13 +480,29 @@ function handleGyro(event){
 </script>
 
 <template>
-    <section class="portal-wrapper">
+    <section 
+        class="portal-wrapper"
+        @mouseenter="isHovered = true"
+        @mouseleave="isHovered = false"
+    >
 
-        <canvas 
-            ref="canvas"
-            @mouseenter="isHovered = true"
-            @mouseleave="isHovered = false"
-        ></canvas>
+        <canvas ref="canvas"></canvas>
+
+        <MicroHud 
+            :text="wording.cta" 
+            class="hud" 
+            :isHovered="isHovered"
+        />
+
+        <h6 class="title" v-html="wording.title"></h6>
+
+        <div class="paragraph" v-for="paragraph in wording.paragraphs">
+            <p v-for="line in paragraph">
+                {{ line }}
+            </p>
+        </div>
+
+        <img src="/images/core/logo-chrome-typo-and-visu.png" alt="logo lyc">
 
     </section>
 
@@ -485,33 +512,65 @@ function handleGyro(event){
     .portal {
         &-wrapper {
             // border: solid 10px green;
+            position: relative;
+            width: 100%;
+            // max-width: calc($layoutMaxWidthDesktop * 1.15);
+            margin: 0 auto;
+            height: 100vh;
+            
             font-size: var(--font-size-big);
             color: var(--color-main-80);
 
-            position: relative;
-
-            // &::after {
-            //     content: "";
-            //     position: absolute;
-            //     bottom: 0;
-            //     left: 0;
-            //     width: 100%;
-            //     height: 15rem;
-            //     background: linear-gradient(to top, black 0%, transparent 100%);
-            // }
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
         }
     }
 
     canvas {
         // border: solid 1px pink;
+        position: absolute;
         width: 100%;
-        height: 100vh;
-        // min-height: 70vh;
+        height: 100%;
+        top: 0;
+        left: 0;
         
         @media #{$mobile}{
             min-height: 80vh;
         }
-
-        
     }
+
+    .title,
+    .paragraph,
+    img {
+        z-index: 50;
+        text-transform: uppercase;
+        font-family: 'Mada Bold';
+        color: var(--color-main-100);
+    }
+
+    .title {
+        margin-top: 5rem;
+        font-size: var(--font-size-bigest-plus);
+    }
+    
+    .paragraph {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: var(--font-size-big);
+
+        p {
+            line-height: var(--font-size-bigest);
+        }
+    }
+
+    img {
+        // border: solid 1px red;
+        width: 35rem;
+        position: absolute;
+        bottom: 1rem;
+        left: calc((100vw - $layoutMaxWidthDesktop) / 2);
+    }
+
 </style>

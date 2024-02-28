@@ -31,6 +31,16 @@ const wording = {
             ]
         ]
     },
+    premint: {
+        cta: "Pre Mint NFT",    
+        title: "1 000 000 key NFT<br>minted per year",
+        paragraphs: [
+            [
+                "Get your key to loot any box you find",
+                "Subscribe to allow list and get your key at low price"
+            ],
+        ]
+    }
 }
 
 export { wording }

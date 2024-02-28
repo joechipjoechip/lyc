@@ -94,13 +94,8 @@ button {
         13deg
     );
 
-    
-
-
-    // transition: transform var(--transitionDurationShort);
-    
-
     .text {
+        color: var(--color-main-100);
         text-transform: uppercase;
         font-weight: 900;
         position: absolute;

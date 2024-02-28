@@ -27,7 +27,7 @@ const isVisible = ref(route.fullPath === "/")
             <MicroTitle text="... AND MANY MORE!" />
         </div>
 
-        <HeroKey />
+        <HeroKey :wording="wording.premint" />
     </div>
 </template>
 
