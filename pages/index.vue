@@ -40,6 +40,8 @@ const isVisible = ref(route.fullPath === "/")
         <NextStep :wording="wording.nextStep" />
 
         <PreFooter />
+
+        <Footer />
     </div>
 </template>
 

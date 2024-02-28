@@ -6,7 +6,7 @@ import navData from "@/assets/data/navData.js"
     <section class="prefooter-wrapper">
         <nav class="prefooter-inner">
             <p 
-                v-for="navItem in navData.filter(item => item.displayInPreFooter)" :key="navItem"
+                v-for="navItem in navData.filter(item => item.displayInPreFooter)" :key="navItem.name"
                 class="nav-item"
                 :data-anchor="navItem.route"
             >
@@ -32,7 +32,7 @@ import navData from "@/assets/data/navData.js"
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50%;
+            height: 70%;
             background: linear-gradient(to top, var(--color-contrast-100) 0%, transparent 100%);
         }
     }
@@ -48,7 +48,7 @@ import navData from "@/assets/data/navData.js"
 }
 
 nav {
-    padding: 7rem 0 7rem 0;
+    padding: 4rem 0 5.5rem 0;
 }
 
 .nav-item {
