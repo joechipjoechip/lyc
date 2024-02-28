@@ -34,6 +34,10 @@ const isVisible = ref(route.fullPath === "/")
         <VideoDisplayer videoUrl="/videos/master-2.mp4"/>
 
         <img src="/images/core/logo-typo-chrome.png" alt="arrow down" class="logo-lonely" />
+
+        <!-- ici module roadmap -->
+
+        <NextStep :wording="wording.nextStep" />
     </div>
 </template>
 
@@ -73,4 +77,5 @@ const isVisible = ref(route.fullPath === "/")
     width: 25rem;
     margin: 0 auto;
 }
+
 </style>

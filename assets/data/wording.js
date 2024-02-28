@@ -40,6 +40,14 @@ const wording = {
                 "Subscribe to allow list and get your key at low price"
             ],
         ]
+    },
+    nextStep: {
+        paragraphs: [
+            [
+                "Next step 2025",
+                "build with us"
+            ]
+        ]
     }
 }
 

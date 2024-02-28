@@ -22,14 +22,14 @@ watch(isVisible, (value) => {
 </script>
 
 <template>
-    <div class="video-wrapper">
+    <section class="video-wrapper">
         <video 
             ref="player"
             :src="videoUrl"
             playsinline
             controls
         ></video>
-    </div>
+    </section>
 </template>
 
 <style lang="scss" scoped>
