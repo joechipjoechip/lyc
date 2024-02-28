@@ -34,14 +34,18 @@ let renderPass = null
 let clock = null
 let camera = null
 let key = null
+let keyTwo = null
 let keyMaterial = null
+let angle = null
 
 let envMapTexture = null
 let deltaTime = 0
 
 // positions
 const keyPosition = store.isMobile ? [0,0.35,0] : [0,0.2,0.35]
+const anglePosition = store.isMobile ? [-2,0.35,0] : [-0.58,0.37,0]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
+
 
 onMounted(() => {
     console.log("mounted du hero portal")
@@ -80,9 +84,10 @@ async function initScene(){
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
-        const lightAmbient = new THREE.AmbientLight( 0xa24dff, 3, 25)
+        // const lightAmbient = new THREE.AmbientLight( 0xa24dff, 3, 25)
+        const lightAmbient = new THREE.AmbientLight( 0xffffff, 5, 25)
         const lightOne = new THREE.PointLight( 0xa24dff, 1, 50)
-        // const lightTwo = new THREE.PointLight( 0xffa129, 30, 50)
+        // const lightOne = new THREE.PointLight( 0xffffff, 1, 50)
 
         lightOne.position.set(0, 0.7, 3)
         // lightTwo.position.set(-5, 2, 5)
@@ -104,17 +109,35 @@ async function initScene(){
             key.scale.set(0.05, 0.05, 0.05)
             key.position.set(...keyPosition)
 
+            keyTwo = key.clone()
+            keyTwo.position.set(0.05, 0, 0)
+
             initEnvMapAndMaterials(key)
+            initEnvMapAndMaterials(keyTwo)
 
-            scene.add(
-                lightAmbient,
-                lightOne,
-                // lightTwo,
-                camera,
-                key
-            )
+            
 
-            res()
+            glbLoader.load("3d/models/angle.glb", glb => {
+                angle = glb.scene
+                angle.name = "angle"
+                angle.scale.set(0.2, 0.2, 0.2)
+                angle.position.set(...anglePosition)
+
+                initEnvMapAndMaterials(angle)
+
+                scene.add(
+                    lightAmbient,
+                    lightOne,
+                    // lightTwo,
+                    camera,
+                    key,
+                    keyTwo,
+                    angle
+                )
+                
+                res()
+            })
+
             
         })       
     })
@@ -344,6 +367,42 @@ async function initEnvMapAndMaterials(model){
                         }
                     }
 
+                    if( model.name === "angle" ){
+
+                        if( child.name === "angle" ){
+
+                            child.material = new THREE.MeshPhysicalMaterial({
+                                transmission: 1,
+                                roughness: 0.5,
+                                envMap: envMapTexture,
+                                envMapIntensity: 0.4,
+                                metalness: 0.065,
+                                ior: 2.3,
+                                iridescence: 2.3,
+                                iridescenceIOR: 2.3,
+                                reflectivity: 1,
+                                sheenColor: new THREE.Color(0xff0000),
+                                clearcoat: 0.8,
+                                clearcoatRoughness: 0,
+                                transparent: true,
+                                opacity: 0.2,
+                                // thickness: 0.8
+                            })
+                        }
+
+                        if( child.name === "emissive" ){
+                            const colorEmissive = new THREE.Color(0xffffff)
+
+                            const emissiveMaterial = new THREE.MeshStandardMaterial({ 
+                                color: colorEmissive, 
+                                emissive: colorEmissive, 
+                                emissiveIntensity: 1
+                            })
+
+                            child.material = emissiveMaterial
+                        }
+                    }
+
                 }
             }
         })
@@ -369,6 +428,12 @@ function mainTick(){
     if( deltaTime >= frameRate ){
         key.rotation.y = normalizedPosition.x * 2.9;
         key.rotation.x = normalizedPosition.y * 1.8;
+
+        keyTwo.rotation.y = normalizedPosition.x * 1.9;
+        keyTwo.rotation.x = normalizedPosition.y * 2.8;
+
+        angle.rotation.y = normalizedPosition.x * 0.2;
+        angle.rotation.x = normalizedPosition.y * 0.2;
         
 
         // camera.position.set(
