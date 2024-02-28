@@ -25,6 +25,8 @@ import { footerWording } from '@/assets/data/footer';
                 <a href="#">Terms of service</a>
             </section>
 
+            <!-- <MicroTechnoPack class="technospack"/> -->
+
         </div>
     </section>
 </template>
@@ -98,5 +100,13 @@ import { footerWording } from '@/assets/data/footer';
             margin-right: 0;
         }
     }
+}
+
+.technospack {
+    position: absolute;
+    bottom: 5rem;
+    right: 2rem;
+    border: solid 1px green;
+    width: 30rem;
 }
 </style>

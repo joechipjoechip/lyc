@@ -13,7 +13,7 @@ const isVisible = ref(route.fullPath === "/")
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />
             <MicroTitle text="Augmented reality play-to-earn" :isGradient="true" :isBig="true"/>
-            <img src="/images/logos/logo-solana.png" alt="logo solana" />
+            <img src="/images/logos/solana.png" alt="logo solana" />
         </div>
 
         <div class="strips">
