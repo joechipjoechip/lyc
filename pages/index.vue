@@ -28,6 +28,10 @@ const isVisible = ref(route.fullPath === "/")
         </div>
 
         <HeroKey :wording="wording.premint" />
+
+        <!-- ici module floating boxes -->
+
+        <VideoDisplayer videoUrl="/videos/master-2.mp4"/>
     </div>
 </template>
 
