@@ -20,6 +20,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 </script>
 <template>
     <section 
+        :id="name"
         class="strip-wrapper" 
         :class="[name, direction]"
         @mouseenter="isHovered = true"

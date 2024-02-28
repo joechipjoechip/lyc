@@ -21,11 +21,15 @@
     --font-size-bigest: 2.5rem;
     --font-size-bigest-plus: 4.5rem;
 
+    --color-gradient-one: #9945FF;
+    --color-gradient-two: #19FB9B;
+
     --gradient-one: linear-gradient(
         50deg,
-        #5b92ff 0%,
-        #3bfdf0 100%
+        var(--color-gradient-one) 0%,
+        var(--color-gradient-two) 100%
     );
+
 
     &.light {
         color: rgba(0,0,0, 0.8);

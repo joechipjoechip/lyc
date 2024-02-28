@@ -8,14 +8,14 @@ export default [
     },
     {
         name: "Loot",
-        route: "/",
+        route: "#loot",
         displayInPreFooter: true,
         displayInTopNav: true,
         anchorNav: true
     },
     {
         name: "Portal",
-        route: "/contact",
+        route: "#portal",
         displayInPreFooter: true,
         displayInTopNav: true,
         anchorNav: true

@@ -26,11 +26,12 @@ const props = defineProps({
         display: block;
         width: $layoutMaxWidthDesktop;
         margin: 0 auto;
-        margin-top: calc($dividerVertical * 6);
+        // margin-top: calc($dividerVertical);
     }
 
     &-inner {
         width: 100%;
+        height: 80vh;
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
@@ -48,9 +49,9 @@ img {
 
 .line {
     font-family: 'Lexend Zetta';
+    font-weight: 800;
     font-size: var(--font-size-bigest-plus);
     text-transform: uppercase;
-    font-weight: 800;
     margin-bottom: var(--font-size-bigest);
     
     &:last-of-type {

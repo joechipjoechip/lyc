@@ -38,6 +38,8 @@ const isVisible = ref(route.fullPath === "/")
         <!-- ici module roadmap -->
 
         <NextStep :wording="wording.nextStep" />
+
+        <PreFooter />
     </div>
 </template>
 
