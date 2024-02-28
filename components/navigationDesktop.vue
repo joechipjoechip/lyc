@@ -14,7 +14,7 @@ console.log("navData", navData)
 
         <div class="nav-inner">
             <NuxtLink 
-                v-for="navItem in navData" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.displayInTopNav)" :key="navItem.id"
                 :to="navItem.route"
             >
                 {{ navItem.name }}
