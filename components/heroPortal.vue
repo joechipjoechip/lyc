@@ -13,6 +13,7 @@ import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
+import { render } from 'vue';
 const store = useMainStore()
 const { $on } = useNuxtApp()
 const isHovered = ref(false)
@@ -176,6 +177,7 @@ async function initRenderer(){
         renderer.outputColorSpace = THREE.SRGBColorSpace
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFShadowMap;
+        render.toneMapping = THREE.ACESFilmicToneMapping
     
         
         composer = new EffectComposer(renderer)
@@ -315,7 +317,7 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=iTime*0.45;
+                                        float T=iTime*0.25;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.01,0)),
@@ -329,8 +331,9 @@ async function initEnvMapAndMaterials(model){
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
-                                            float wp=0.5+(i+1.)*(i+2.5)*0.001;
-                                            float wb=.8+i/N*0.1;
+                                            float wp=0.5+(i+1.)*(i+22.5)*0.0001;
+                                            // here
+                                            float wb=.48+i/N*0.001;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*3.*wp);
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7+T*wt+(uv.y+1.1)*15.*wp);
                                             c.yz=rot(c.yz,c.x*c.y*wb+2.4-T*0.79*wt+(uv.x+uv.y*(fract(i/5.)-0.925)*2.)*1.*wp);
