@@ -411,10 +411,10 @@ async function initEnvMapAndMaterials(model){
                             envMap: envMapTextureNight,
                             color: new THREE.Color(0x924944),
                             emissive: new THREE.Color(0xd9d9d9),
-                            specular: new THREE.Color(0xff7300),
+                            specular: new THREE.Color(0x76749c),
                             shininess: 80,
                             transparent: true,
-                            opacity: 0.8
+                            opacity: 0.85
                         })
                     }
 
