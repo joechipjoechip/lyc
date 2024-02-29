@@ -50,7 +50,7 @@ const groundTextures = {}
 
 // positions
 const portalPosition = store.isMobile ? [0,0.35,0] : [0,0,0.35]
-const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.475, 0.75]
+const boxPosition = store.isMobile ? [0, 0.75, 0.25] : [0, 0.375, 0.75]
 const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 onMounted(() => {
@@ -194,8 +194,8 @@ async function initRenderer(){
 
 async function initEnvMapAndMaterials(model){
 
-    const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0xffdc5f)
-    const emissiveIntentisty = model.name === "portal" ? 30 : 2
+    const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0x7724cf)
+    const emissiveIntentisty = model.name === "portal" ? 30 : 50
 
     return new Promise(res => {
 
@@ -414,7 +414,7 @@ async function initEnvMapAndMaterials(model){
                             specular: new THREE.Color(0x76749c),
                             shininess: 90,
                             transparent: true,
-                            opacity: 0.85
+                            opacity: 0.6
                         })
                     }
 
