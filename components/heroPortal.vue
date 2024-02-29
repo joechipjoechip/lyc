@@ -38,7 +38,11 @@ let plane = null
 let ground = null
 let curtain = null
 let box = null
+let boxMaterial = null
+let boxMap = null
 let envMapTexture = null
+let envMapTextureNight = null
+let matcapTexture = null
 let deltaTime = 0
 let curtainMaterial = null
 let planeTexture = null
@@ -106,7 +110,9 @@ async function initScene(){
         groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
         groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.jpg")
         groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
-        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-greyed.jpg")
+        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-last.jpg")
+        boxMap = textureLoader.load("3d/textures/box/boxMap.jpg")
+        matcapTexture = textureLoader.load("3d/matcap/01.jpg")
 
         // glb models
         glbLoader.load("3d/models/portal.glb", glb => {
@@ -189,7 +195,7 @@ async function initRenderer(){
 async function initEnvMapAndMaterials(model){
 
     const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0xffdc5f)
-    const emissiveIntentisty = model.name === "portal" ? 30 : 12
+    const emissiveIntentisty = model.name === "portal" ? 30 : 22
 
     return new Promise(res => {
 
@@ -204,6 +210,20 @@ async function initEnvMapAndMaterials(model){
                 "3d/envMap/3/nz.png",
             ]
         )
+
+        envMapTextureNight = cubeTextureLoader.load(
+            [
+                "3d/envMap/1/px.png",
+                "3d/envMap/1/nx.png",
+                "3d/envMap/1/py.png",
+                "3d/envMap/1/ny.png",
+                "3d/envMap/1/pz.png",
+                "3d/envMap/1/nz.png",
+            ]
+        )
+
+		envMapTexture.mapping = THREE.CubeRefractionMapping;
+		envMapTextureNight.mapping = THREE.CubeRefractionMapping;
 
         model.traverse((child) => {
             if(child instanceof THREE.Mesh){
@@ -228,22 +248,28 @@ async function initEnvMapAndMaterials(model){
 
                         if( child.name === "gate" ){
                             // child.castShadow = true
-                            child.material = new THREE.MeshPhysicalMaterial({
-                                transmission: 1,
-                                roughness: 0.1,
-                                envMap: envMapTexture,
-                                envMapIntensity: 0.85,
-                                metalness: 0.9,
-                                ior: 2.3,
-                                iridescence: 2.3,
-                                iridescenceIOR: 2,
-                                reflectivity: 1,
-                                sheenColor: new THREE.Color(0x780bfe),
-                                clearcoat: 1.8,
-                                clearcoatRoughness: 0,
+                            // child.material = new THREE.MeshPhysicalMaterial({
+                            //     transmission: 1,
+                            //     roughness: 0.25,
+                            //     envMap: envMapTextureNight,
+                            //     envMapIntensity: 0.95,
+                            //     metalness: 0.95,
+                            //     ior: 2.3,
+                            //     iridescence: 2.3,
+                            //     iridescenceIOR: 2,
+                            //     reflectivity: 1,
+                            //     sheenColor: new THREE.Color(0x780bfe),
+                            //     clearcoat: 1.8,
+                            //     clearcoatRoughness: 0,
+                            //     transparent: true,
+                            //     opacity: 0.95,
+                            //     thickness: 0.9
+                            // })
+                            child.material = new THREE.MeshMatcapMaterial({
+                                matcap: matcapTexture,
+                                bumpMap: groundTextures.alpha,
                                 transparent: true,
-                                opacity: 0.85,
-                                thickness: 0.9
+                                opacity: 0.95
                             })
                         }
 
@@ -354,11 +380,7 @@ async function initEnvMapAndMaterials(model){
                             planeTexture.rotation = Math.PI * 1;
 
                             child.material = new THREE.MeshBasicMaterial({ 
-                                map: planeTexture,
-                                // envMap: envMapTexture,
-                                // lightMapIntesity: 1,
-                                // emissive: new THREE.Color(0x0000ff),
-                                // emissiveIntentisty: 1
+                                map: planeTexture
                             })
 
                             console.log("plane well triggered : ", child.material)
@@ -366,23 +388,37 @@ async function initEnvMapAndMaterials(model){
                     }
 
                     if( model.name === "box" ){
+                         
                         // child.castShadow = true
-                        child.material = new THREE.MeshPhysicalMaterial( {
-                            transmission: 1.3,
-                            roughness: 0.3,
-                            envMap: envMapTexture,
-                            envMapIntensity: 1,
-                            metalness: 0.85,
-                            ior: 1.9,
-                            iridescence: 2,
-                            iridescenceIOR: 2.3,
-                            reflectivity: 0.95,
-                            sheenColor: new THREE.Color(0xfe34e3),
-                            clearcoat: 0.8,
-                            clearcoatRoughness: 0,
+                        // child.material = new THREE.MeshPhysicalMaterial( {
+                        //     transmission: 1.3,
+                        //     roughness: 0.3,
+                        //     envMap: envMapTexture,
+                        //     envMapIntensity: 1,
+                        //     metalness: 0.85,
+                        //     ior: 1.9,
+                        //     iridescence: 2,
+                        //     iridescenceIOR: 2.3,
+                        //     reflectivity: 0.95,
+                        //     sheenColor: new THREE.Color(0xfe34e3),
+                        //     clearcoat: 0.8,
+                        //     clearcoatRoughness: 0,
+                        //     transparent: true,
+                        //     opacity: 0.75,
+                        //     thickness: 0.8
+                        // })
+
+                        child.material = boxMaterial = new THREE.MeshPhongMaterial( {
+                            reflectivity: 1,
+                            refractionRatio: 0.8,
+                            specularMap: boxMap,
+                            envMap: envMapTextureNight,
+                            color: new THREE.Color(0xbdbdbd),
+                            emissive: new THREE.Color(0x00e1ff),
+                            specular: new THREE.Color(0xff7300),
+                            shininess: 5,
                             transparent: true,
-                            opacity: 0.75,
-                            thickness: 0.8
+                            opacity: 0.7
                         })
                     }
 
@@ -397,9 +433,9 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.0005
-    bloomPass.strength = 0.2
-    bloomPass.radius = 0.35
+    bloomPass.threshold = 0.05
+    bloomPass.strength = 0.15
+    bloomPass.radius = 0.15
     composer.addPass(bloomPass)
 }
 
@@ -426,6 +462,9 @@ function mainTick(){
 
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
+
+        boxMaterial.combine = parseInt( THREE.MultiplyOperation );
+        boxMaterial.needsUpdate = true;
 
         composer.render();
         // renderer.render(scene, camera);
