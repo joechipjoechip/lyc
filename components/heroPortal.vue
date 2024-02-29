@@ -172,10 +172,10 @@ async function initRenderer(){
         renderer.setSize(width, height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         // renderer.setClearColor();
-        // renderer.outputEncoding = THREE.sRGBEncoding
+
         renderer.outputColorSpace = THREE.SRGBColorSpace
-        // renderer.shadowMap.enabled = true;
-        // renderer.shadowMap.type = THREE.PCFShadowMap;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFShadowMap;
     
         
         composer = new EffectComposer(renderer)
@@ -247,30 +247,30 @@ async function initEnvMapAndMaterials(model){
                     if( model.name === "portal" ){
 
                         if( child.name === "gate" ){
-                            // child.castShadow = true
-                            // child.material = new THREE.MeshPhysicalMaterial({
-                            //     transmission: 1,
-                            //     roughness: 0.25,
-                            //     envMap: envMapTextureNight,
-                            //     envMapIntensity: 0.95,
-                            //     metalness: 0.95,
-                            //     ior: 2.3,
-                            //     iridescence: 2.3,
-                            //     iridescenceIOR: 2,
-                            //     reflectivity: 1,
-                            //     sheenColor: new THREE.Color(0x780bfe),
-                            //     clearcoat: 1.8,
-                            //     clearcoatRoughness: 0,
-                            //     transparent: true,
-                            //     opacity: 0.95,
-                            //     thickness: 0.9
-                            // })
-                            child.material = new THREE.MeshMatcapMaterial({
-                                matcap: matcapTexture,
-                                bumpMap: groundTextures.alpha,
+                            child.castShadow = true
+                            child.material = new THREE.MeshPhysicalMaterial({
+                                transmission: 1,
+                                roughness: 0.15,
+                                envMap: envMapTextureNight,
+                                envMapIntensity: 0.95,
+                                metalness: 0.95,
+                                ior: 2.3,
+                                iridescence: 2.3,
+                                iridescenceIOR: 2,
+                                reflectivity: 1,
+                                sheenColor: new THREE.Color(0x780bfe),
+                                clearcoat: 1.8,
+                                clearcoatRoughness: 0,
                                 transparent: true,
-                                opacity: 0.95
+                                opacity: 0.95,
+                                thickness: 1
                             })
+                            // child.material = new THREE.MeshMatcapMaterial({
+                            //     matcap: matcapTexture,
+                            //     bumpMap: groundTextures.alpha,
+                            //     transparent: true,
+                            //     opacity: 0.95
+                            // })
                         }
 
                         if( child.name === "curtain" ){
@@ -352,7 +352,7 @@ async function initEnvMapAndMaterials(model){
 
                         if( child.name === "ground" ){
                             ground = child
-                            // child.receiveShadow = true
+                            child.receiveShadow = true
                             child.material = new THREE.MeshStandardMaterial({ 
                                 metalnessMap: groundTextures.displacement,
                                 metalness: 0.92,
@@ -369,8 +369,6 @@ async function initEnvMapAndMaterials(model){
                                 transparent: true
                                 // alphaToCoverage: true
                             })
-
-                            console.log("ground well triggered : ", child.material)
                         }
 
                         if( child.name === "plane" ){
@@ -382,8 +380,6 @@ async function initEnvMapAndMaterials(model){
                             child.material = new THREE.MeshBasicMaterial({ 
                                 map: planeTexture
                             })
-
-                            console.log("plane well triggered : ", child.material)
                         }
                     }
 
@@ -413,12 +409,12 @@ async function initEnvMapAndMaterials(model){
                             refractionRatio: 0.8,
                             specularMap: boxMap,
                             envMap: envMapTextureNight,
-                            color: new THREE.Color(0xbdbdbd),
-                            emissive: new THREE.Color(0x00e1ff),
+                            color: new THREE.Color(0x924944),
+                            emissive: new THREE.Color(0xd9d9d9),
                             specular: new THREE.Color(0xff7300),
-                            shininess: 5,
+                            shininess: 80,
                             transparent: true,
-                            opacity: 0.7
+                            opacity: 0.8
                         })
                     }
 
@@ -433,9 +429,9 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.05
-    bloomPass.strength = 0.15
-    bloomPass.radius = 0.15
+    bloomPass.threshold = 0.75
+    bloomPass.strength = 0.27
+    bloomPass.radius = 0.8
     composer.addPass(bloomPass)
 }
 
