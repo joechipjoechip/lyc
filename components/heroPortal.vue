@@ -279,7 +279,7 @@ async function initEnvMapAndMaterials(model){
 
                                 uniforms: {
                                     iTime: { value: 1.0 },
-                                    iResolution: { value: new THREE.Vector2(2) }
+                                    iResolution: { value: new THREE.Vector2(4) }
                                 },
 
                                 vertexShader: `
@@ -315,11 +315,11 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=iTime*0.75;
+                                        float T=iTime*0.45;
 
                                         vec3 c = clamp(1.-.4*vec3(
-                                            length(uv-vec2(.1,0)),
                                             length(uv-vec2(.01,0)),
+                                            length(uv-vec2(.01,1.2)),
                                             length(uv-vec2(.05,1))
                                         ),0.,1.)*1.7-1.;
 
@@ -414,7 +414,7 @@ async function initEnvMapAndMaterials(model){
                             specular: new THREE.Color(0x76749c),
                             shininess: 90,
                             transparent: true,
-                            opacity: 0.6
+                            opacity: 0.65
                         })
                     }
 
@@ -429,8 +429,8 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.7
-    bloomPass.strength = 0.22
+    bloomPass.threshold = 0.6
+    bloomPass.strength = 0.15
     bloomPass.radius = 0.5
     composer.addPass(bloomPass)
 }
