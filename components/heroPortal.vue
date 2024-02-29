@@ -195,7 +195,7 @@ async function initRenderer(){
 async function initEnvMapAndMaterials(model){
 
     const colorEmissive = new THREE.Color(model.name === "portal" ? 0x4BBCFF : 0x7724cf)
-    const emissiveIntentisty = model.name === "portal" ? 30 : 50
+    const emissiveIntentisty = model.name === "portal" ? 30 : 35
 
     return new Promise(res => {
 
