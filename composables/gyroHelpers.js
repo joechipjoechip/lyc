@@ -42,6 +42,6 @@ const debouncedHandleDeviceMotion = useDebounceFn((event) => {
 }, 500)
 
 export function addGyroListeners(){
-    useEventListener("deviceorientation", debouncedHandleDeviceMotion)
+    useEventListener("deviceorientation", event => debouncedHandleDeviceMotion(event))
 }
 
