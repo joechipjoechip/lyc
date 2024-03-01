@@ -1,4 +1,5 @@
 <script setup>
+import gsap from "gsap";
 import { getCurrentInstance } from "vue";
 import { useGetEventPosition } from '#imports';
 import { useNormalizePosition } from '#imports';
@@ -47,8 +48,8 @@ function handleGyro(event){
     const animatedObject = { x: translateX.value, y: translateY.value }
 
     gsap.to(animatedObject, {
-        x: x * 10,
-        y: y * -6,
+        x: x / 10,
+        y: y / -6,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {

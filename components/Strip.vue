@@ -68,7 +68,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
         }
 
         @media #{$mobile} {
-            margin-bottom: 23rem;
+            margin-bottom: 26rem;
             // height: 150%;
         }
         
@@ -119,17 +119,16 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
                 @media #{$mobile} {
                     align-items: center !important;
                     justify-content: flex-end;
-                    height: calc($stripHeight + 20rem);
+                    height: calc($stripHeight + 23rem);
                     text-align: center;
                     padding: 0;
 
                     .title {
-                        padding-top: 2rem;
                         font-size: var(--font-size-bigest-plus);
                     }
 
                     .paragraph {
-                        font-size: var(--font-size-big-plus);
+                        font-size: var(--font-size-bigest);
                     }
                 }
             }
