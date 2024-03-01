@@ -1,4 +1,5 @@
 <script setup>
+import gsap from 'gsap';
 import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -474,11 +475,18 @@ function mainTick(){
 $on("main-device-motion", handleGyro)
 
 function handleGyro(event){
-    const { x, y, z } = event.accelerationIncludingGravity
-    normalizedPosition.x = x / 4
-    normalizedPosition.y = z / 6
+    const { x, y, z } = event.acceleration
+    const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
 
-    console.log("x gyro : ", normalizedPosition.z)
+    gsap.to(animatedObject, {
+        x: x/4,
+        y: y/6,
+        duration: 0.5,
+        onUpdate: () => {
+            normalizedPosition.x = animatedObject.x
+            normalizedPosition.y = animatedObject.y
+        }
+    })
 }
 
 </script>
