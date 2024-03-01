@@ -173,7 +173,7 @@ body {
 
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
 
     font-weight: 300;
 
@@ -184,6 +184,11 @@ body {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+
+    &.no-scroll {
+        overflow-y: hidden;
+        height: 100vh;
+    }
 }
 
 img {
@@ -193,3 +198,5 @@ img {
     -o-user-drag: none;
     user-drag: none;
 }
+
+

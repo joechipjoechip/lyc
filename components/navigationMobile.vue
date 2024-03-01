@@ -1,8 +1,23 @@
 <script setup>
 import navData from "@/assets/data/navData.js"
-// console.log("navData", navData)
 
-// @TODO
+const menuIsOpen = ref(false)
+
+// watch(menuIsOpen, newVal => {
+
+//     if( newVal ){
+//         useHead({
+//             bodyAttrs: 
+//                 { class: "no-scroll" }
+            
+//         })
+//     } else {
+//         document.body.classList.contains("no-scroll") && document.body.classList.remove("no-scroll")
+//     }
+
+
+// })
+
 
 </script>
 
@@ -10,71 +25,164 @@ import navData from "@/assets/data/navData.js"
     <nav class="nav-wrapper">
 
         <div class="nav-inner">
-            <NuxtLink 
-                v-for="navItem in navData" :key="navItem.id"
-                :to="navItem.route"
+
+            <div class="level-1">
+                <div class="logos">
+                    <img class="logo-single" src="/images/core/logo-chrome.png" alt="logo lyc">
+                    <img class="logo-typo" src="/images/core/logo-typo-chrome-big.png" alt="logo typo lyc">
+                </div>
+                <img src="/images/core/burger.png" alt="" @click="menuIsOpen = !menuIsOpen">
+            </div>
+
+        </div>
+
+        <div class="level-2" :class="{ menuIsOpen }">
+            <TransitionGroup 
+                tag="ul" 
+                name="navItemsAnims" 
+                :style="{ '--total': navData.length }"
             >
-                {{ navItem.name }}
-            </NuxtLink>
+                <p  v-if="menuIsOpen"
+                    v-for="(navItem, index) in navData" :key="navItem.id"
+                    class="nav-item"
+                    :style="{'--i': index +1}"
+                >
+                    {{ navItem.name }}
+                </p>
+            </TransitionGroup>
         </div>
         
     </nav>
 </template>
 
 <style lang="scss" scoped>
-    // .nav {
+.nav {
 
-    //     &-wrapper {
-    //         position: fixed;
-    //         top: 0;
-    //         width: 100%;
-    //         height: $layoutNavHeightDesktop;
-    //         display: flex;
-    //         flex-flow: row nowrap;
-    //         justify-content: flex-end;
-    //         align-items: center;
+    &-wrapper {
+        //
+    }
+
+    &-inner {
+        z-index: 100;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: $layoutNavHeightMobile;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        
+        background-color: var(--color-contrast-80);
+        backdrop-filter: blur(8px);
+        
+        
+        .level-1 {
+            z-index: 110;
+            height: 60%;
             
-    //         background-color: var(--color-contrast-30);
-    //         backdrop-filter: blur(8px);
-    //     }
+            width: calc(100% - 2rem);
+            margin: 0 auto;
+            // height: inherit;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
 
-    //     &-logo {
-    //         position: absolute;
-    //         top: 1rem;
-    //         left: 2rem;
+            .logos {
+                height: 100%;
+            }
 
-    //         img {
-    //             height: calc($layoutNavHeightDesktop - 2rem);
-    //             margin-right: 1rem;
-                
-    //             &:last-of-type {
-    //                 margin-right: 0;
-    //             }
-    //         }
-    //     }
+            img {
+                // height: 70%;
+                // height: inherit;
+                height: 100%;
+            }
 
-    //     &-inner {
-    //         // border: solid 1px red;
-    //         margin-right: 2rem;
+            .logo-single {
+                margin-right: 1rem;
+            }
+        }
 
-    //         * {
-    //             font-size: var(--font-size-big-plus);
-    //             text-transform: uppercase;
-    //             color: var(--color-main-100);
+        
 
-    //             text-decoration: none;
-    //             margin: 0 3rem;
+    }
+
+}
+
+.level-2 {
+    z-index: 90;
+    position: fixed;
+    top: $layoutNavHeightMobile;
+    right: 0;
+    width: 45%;
+    height: 0vh;
     
-    //             &:first-of-type {
-    //                 margin-left: 0;
-    //             }
+    background: linear-gradient(to bottom, var(--color-contrast-80) 25%, var(--color-contrast-30) 100%);
+    backdrop-filter: blur(8px);
+    border-radius: 0 0 0 3rem;
+    overflow: hidden;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    transition: height var(--transitionDurationMedium);
+
+    &.menuIsOpen {
+        height: 30vh;
+    }
+
+    .nav-item {
+        font-size: var(--font-size-bigest);
+        text-transform: uppercase;
+        position: relative;
+        color: white;
+        z-index: 130;
+        display: block;
+        margin-bottom: 1rem;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+
+.navItemsAnims {
+
     
-    //             &:last-of-type {
-    //                 margin-right: 0;
-    //             }
-    //         }
+    
+    &-enter-active,
+    &-leave-active {
+        position: relative;
+        opacity: 1;
+        transform: translate3d(0,0,0);
+        
+        transition: 
+            transform var(--transitionDurationMedium) ease-in-out,
+            opacity var(--transitionDurationMedium) linear;
+        
+    }
+        
+    &-enter-active {
+        transition-delay: calc( 0.04s * var(--i));
+    }
+    
+    &-leave-active {
+        transition-delay: 0;
+    }
+    
+    &-enter-from,
+    &-leave-to {
+        position: relative;
+        transform: translate3d(0,-10rem,0);
+        opacity: 0;
+    }
+	
 
-    //     }
-
-    // }
+}
 </style>
