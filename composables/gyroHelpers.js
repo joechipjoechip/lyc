@@ -6,7 +6,6 @@ export function gyroDetection(){
     if ( typeof( DeviceMotionEvent ) !== "undefined" && typeof( DeviceMotionEvent.requestPermission ) === "function" ) {
         // (optional) Do something before API request prompt.
         return true
-        
     } else {
         console.log( "DeviceMotionEvent is not defined" );
         return false
@@ -34,6 +33,7 @@ export async function gyroPermission(){
 
 const handleDeviceMotion = (event) => {
     $emit("main-device-motion", event)
+    console.log("au gyroHelper : event : ", event)
 }
 
 export function addGyroListeners(){

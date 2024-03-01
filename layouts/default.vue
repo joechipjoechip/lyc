@@ -41,7 +41,7 @@ function handleClickWallClick(){
         <div 
             v-if="clickWallIsDisplayed && store.isMobile"
             @click="handleClickWallClick"
-            class="clickWall" 
+            class="clickWall"
         >
             welcome, click here to activate your device motions
         </div>

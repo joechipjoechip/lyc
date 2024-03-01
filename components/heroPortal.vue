@@ -43,7 +43,6 @@ let boxMaterial = null
 let boxMap = null
 let envMapTexture = null
 let envMapTextureNight = null
-let matcapTexture = null
 let deltaTime = 0
 let curtainMaterial = null
 let planeTexture = null
@@ -113,7 +112,6 @@ async function initScene(){
         groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
         planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-last.jpg")
         boxMap = textureLoader.load("3d/textures/box/boxMap.jpg")
-        matcapTexture = textureLoader.load("3d/matcap/01.jpg")
 
         // glb models
         glbLoader.load("3d/models/portal.glb", glb => {
@@ -163,6 +161,8 @@ async function initRenderer(){
     return new Promise(res => {
 
         const { width, height } = canvas.value.getBoundingClientRect()
+        const multiplicator = store.isMobile ? 1 : 2
+        console.log("store.isMobile : ", store.isMobile)
     
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
@@ -175,13 +175,13 @@ async function initRenderer(){
         // renderer.setClearColor();
 
         renderer.outputColorSpace = THREE.SRGBColorSpace
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFShadowMap;
-        render.toneMapping = THREE.ACESFilmicToneMapping
+        // renderer.shadowMap.enabled = true;
+        // renderer.shadowMap.type = THREE.PCFShadowMap;
+        // render.toneMapping = THREE.ACESFilmicToneMapping
     
         
         composer = new EffectComposer(renderer)
-        composer.setSize(width * 2, height * 2)
+        composer.setSize(width * multiplicator, height * multiplicator)
         composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         renderPass = new RenderPass(scene, camera)
         composer.addPass(renderPass)
@@ -267,12 +267,6 @@ async function initEnvMapAndMaterials(model){
                                 opacity: 0.95,
                                 thickness: 1
                             })
-                            // child.material = new THREE.MeshMatcapMaterial({
-                            //     matcap: matcapTexture,
-                            //     bumpMap: groundTextures.alpha,
-                            //     transparent: true,
-                            //     opacity: 0.95
-                            // })
                         }
 
                         if( child.name === "curtain" ){
@@ -419,6 +413,9 @@ async function initEnvMapAndMaterials(model){
                             transparent: true,
                             opacity: 0.65
                         })
+
+                        boxMaterial.combine = parseInt( THREE.MultiplyOperation );
+                        boxMaterial.needsUpdate = true;
                     }
 
                 }
@@ -462,8 +459,7 @@ function mainTick(){
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
-        boxMaterial.combine = parseInt( THREE.MultiplyOperation );
-        boxMaterial.needsUpdate = true;
+        
 
         composer.render();
         // renderer.render(scene, camera);
