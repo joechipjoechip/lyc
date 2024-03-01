@@ -44,6 +44,7 @@ function handleTouchMove(event){
 $on("main-device-motion", handleGyro)
 
 function handleGyro(event){
+    if( !props.isHovered ){ return }
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
         translateX: translateX.value, 
