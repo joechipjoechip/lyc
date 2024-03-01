@@ -474,7 +474,7 @@ function mainTick(){
 $on("main-device-motion", handleGyro)
 
 function handleGyro(event){
-    const { beta, gamma } = event.accelerationIncludingGravity
+    const { beta, gamma } = event
     normalizedPosition.x = gamma / 4
     normalizedPosition.y = beta / 6
 
