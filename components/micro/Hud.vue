@@ -44,17 +44,26 @@ function handleTouchMove(event){
 $on("main-device-motion", handleGyro)
 
 function handleGyro(event){
-    const { x, y, z } = event.accelerationIncludingGravity
-    const animatedObject = { x: translateX.value, y: translateY.value }
+    const { x, y } = event.accelerationIncludingGravity
+    const animatedObject = { 
+        translateX: translateX.value, 
+        translateY: translateY.value ,
+        rotateX: rotateX.value,
+        rotateY: rotateY.value
+    }
 
     gsap.to(animatedObject, {
-        x: x / 10,
-        y: y / -6,
+        translateX: x,
+        translateY: y,
+        rotateX: y,
+        rotateY: x,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
-            translateX.value = animatedObject.x
-            translateY.value = animatedObject.y
+            translateX.value = animatedObject.translateX
+            translateY.value = animatedObject.translateY
+            rotateX.value = animatedObject.rotateX
+            rotateY.value = animatedObject.rotateY
         }
     })
 }
