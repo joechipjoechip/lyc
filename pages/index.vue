@@ -28,7 +28,7 @@ const isVisible = ref(route.fullPath === "/")
             <MicroTitle text="... AND MANY MORE!" />
         </div>
 
-        <!-- <HeroKey :wording="wording.premint" /> -->
+        <HeroKey :wording="wording.premint" v-show="!store.isMobile" />
 
         <!-- ici module floating boxes -->
 
