@@ -1,23 +1,14 @@
 <script setup>
 import navData from "@/assets/data/navData.js"
+import { onClickOutside } from "@vueuse/core";
 
 const menuIsOpen = ref(false)
 
-// watch(menuIsOpen, newVal => {
+const menu = ref(null)
 
-//     if( newVal ){
-//         useHead({
-//             bodyAttrs: 
-//                 { class: "no-scroll" }
-            
-//         })
-//     } else {
-//         document.body.classList.contains("no-scroll") && document.body.classList.remove("no-scroll")
-//     }
-
-
-// })
-
+onClickOutside(menu, () => {
+    menuIsOpen.value = false
+})
 
 </script>
 
@@ -36,7 +27,7 @@ const menuIsOpen = ref(false)
 
         </div>
 
-        <div class="level-2" :class="{ menuIsOpen }">
+        <div ref="menu" class="level-2" :class="{ menuIsOpen }">
             <TransitionGroup 
                 tag="ul" 
                 name="navItemsAnims" 
@@ -136,13 +127,13 @@ const menuIsOpen = ref(false)
     }
 
     .nav-item {
-        font-size: var(--font-size-bigest);
+        font-size: var(--font-size-bigest-plus);
         text-transform: uppercase;
         position: relative;
         color: white;
         z-index: 130;
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
 
         &:last-of-type {
             margin-bottom: 0;
@@ -153,8 +144,6 @@ const menuIsOpen = ref(false)
 
 
 .navItemsAnims {
-
-    
     
     &-enter-active,
     &-leave-active {
