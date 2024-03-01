@@ -36,6 +36,11 @@ import { footerWording } from '@/assets/data/footer';
 .footer {
     &-wrapper {
         padding-bottom: 3rem;
+        margin-top: $dividerVertical * 3;
+        
+        @media #{$mobile} {
+            margin-top: $dividerVertical * 1.5;
+        }
     }
 }
 
@@ -45,7 +50,7 @@ import { footerWording } from '@/assets/data/footer';
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin-top: $dividerVertical * 3;
+        
     }
 
     &-item {
@@ -54,8 +59,14 @@ import { footerWording } from '@/assets/data/footer';
         overflow: hidden;
         width: 3.5rem;
         height: 3.5rem;
-
+        
         margin: 0 1rem;
+        
+        @media #{$mobile} {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 1.5rem;
+        }
 
         &:first-of-type {
             margin-left: 0;
@@ -79,11 +90,19 @@ import { footerWording } from '@/assets/data/footer';
 
 .copyright,
 .legal {
+    
     text-align: center;
     margin-top: 3rem;
     font-size: var(--font-size-medium);
     text-transform: uppercase;
-    font-weight: 100;
+
+    @media #{$mobile} {
+        font-size: var(--font-size-bigest) !important;
+    }
+}
+
+.copyright {
+    font-family: 'Mada Light';
 }
 
 .legal {

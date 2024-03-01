@@ -42,7 +42,11 @@ const props = defineProps({
     }
 
     &.isBig {
-        font-size: var(--font-size-bigest-plus);
+        font-size: var(--font-size-bigest);
+        
+        @media #{$mobile} {
+            font-size: var(--font-size-bigest-plus);
+        }
     }
 }
 </style>

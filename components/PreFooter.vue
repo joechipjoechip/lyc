@@ -69,5 +69,10 @@ nav {
         margin-right: 0;
     }
 
+    @media #{$mobile} {
+        font-size: var(--font-size-bigest);
+        margin: 0 0.75rem;
+    }
+
 }
 </style>

@@ -25,7 +25,7 @@ onClickOutside(menu, (el) => {
                     <img class="logo-single" src="/images/core/logo-chrome.png" alt="logo lyc">
                     <img class="logo-typo" src="/images/core/logo-typo-chrome-big.png" alt="logo typo lyc">
                 </div>
-                <img data-opener src="/images/core/burger.png" alt="burger menu">
+                <img class="burger" data-opener src="/images/core/burger.png" alt="burger menu">
             </div>
 
         </div>
@@ -68,7 +68,7 @@ onClickOutside(menu, (el) => {
         justify-content: flex-end;
         align-items: center;
         
-        background-color: var(--color-contrast-80);
+        background-color: var(--color-contrast-90);
         backdrop-filter: blur(8px);
         
         
@@ -86,12 +86,15 @@ onClickOutside(menu, (el) => {
 
             .logos {
                 height: 100%;
+                img {
+                    height: 100%;
+                }
             }
 
-            img {
+            .burger {
                 // height: 70%;
                 // height: inherit;
-                height: 100%;
+                height: 80%;
             }
 
             .logo-single {
@@ -113,7 +116,7 @@ onClickOutside(menu, (el) => {
     width: 45%;
     height: 0vh;
     
-    background: linear-gradient(to bottom, var(--color-contrast-80) 25%, var(--color-contrast-30) 100%);
+    background: linear-gradient(to bottom, var(--color-contrast-90) 25%, var(--color-contrast-40) 100%);
     backdrop-filter: blur(8px);
     border-radius: 0 0 0 3rem;
     overflow: hidden;

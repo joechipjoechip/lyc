@@ -111,7 +111,9 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
         &.right,
         &.left {
             &:after {
-                background: unset;
+                @media #{$mobile} {
+                    background: unset;
+                }
             }
             .strip-inner {
                 @media #{$mobile} {

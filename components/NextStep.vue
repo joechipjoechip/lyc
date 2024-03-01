@@ -12,7 +12,7 @@ const props = defineProps({
         <div class="nextstep-inner">
             <img src="/images/visuals/applevision.jpg" alt="">
             <div class="paragraph">
-                <p v-for="line in wording.paragraphs[0]" class="line">
+                <p v-for="line in wording.paragraphs[0]" class="line" :key="line.id">
                     {{ line }}
                 </p>
             </div>
@@ -24,7 +24,8 @@ const props = defineProps({
 .nextstep {
     &-wrapper {
         display: block;
-        width: $layoutMaxWidthDesktop;
+        width: 100%;
+        max-width: $layoutMaxWidthDesktop;
         margin: 0 auto;
         // margin-top: calc($dividerVertical);
     }
@@ -36,15 +37,28 @@ const props = defineProps({
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
+
+        @media #{$mobile} {
+            flex-flow: column nowrap;
+            height: unset;
+            margin-top: $dividerVertical;
+        }
     }
 }
 
 img {
     width: 50rem;
+    @media #{$mobile} {
+        width: 100%;
+    }
 }
 
 .paragraph {
     margin-left: 2rem;
+    @media #{$mobile} {
+        margin-left: 0;
+        margin-top: 2rem;
+    }
 }
 
 .line {
