@@ -40,6 +40,24 @@ function handleTouchMove(event){
     rotateY.value = -normalizedX * -0.04
 }
 
+$on("main-device-motion", handleGyro)
+
+function handleGyro(event){
+    const { x, y, z } = event.accelerationIncludingGravity
+    const animatedObject = { x: translateX.value, y: translateY.value }
+
+    gsap.to(animatedObject, {
+        x: x * 10,
+        y: y * -6,
+        duration: 0.2,
+        ease: "linear",
+        onUpdate: () => {
+            translateX.value = animatedObject.x
+            translateY.value = animatedObject.y
+        }
+    })
+}
+
 watch(() => props.isHovered, newVal => {
     if( !newVal ){
         translateX.value = 0
