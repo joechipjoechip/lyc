@@ -1,5 +1,6 @@
 <script setup>
 import { wording } from '@/assets/data/wording';
+const store = useMainStore()
 
 const route = useRoute()
 const isVisible = ref(route.fullPath === "/")
@@ -18,7 +19,7 @@ const isVisible = ref(route.fullPath === "/")
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
-            <Phones class="phones"/>
+            <Phones class="phones" v-show="!store.isMobile"/>
             <Strip name="loot" :wording="wording.loot" direction="left"/>
         </div>
 

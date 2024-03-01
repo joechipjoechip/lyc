@@ -37,10 +37,10 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 
             <h3 class="title" v-html="wording.title"></h3>
 
-            <div v-for="paragraph in wording.paragraphs" 
+            <div v-for="paragraph in wording.paragraphs" :key="paragraph"
                 class="paragraph"
             >
-                <p v-for="line in paragraph" class="line">
+                <p v-for="line in paragraph" class="line" :key="line">
                     {{ line }}
                 </p>
             </div>
@@ -65,6 +65,11 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
             width: 100%;
             height: 100%;
             z-index: 30;
+        }
+
+        @media #{$mobile} {
+            margin-bottom: 23rem;
+            // height: 150%;
         }
         
         img {
@@ -100,6 +105,31 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
                 align-items: flex-start;
                 text-align: left;
                 padding-left: $gutter;
+            }
+        }
+
+        &.right,
+        &.left {
+            &:after {
+                background: unset;
+            }
+            .strip-inner {
+                @media #{$mobile} {
+                    align-items: center !important;
+                    justify-content: flex-end;
+                    height: calc($stripHeight + 20rem);
+                    text-align: center;
+                    padding: 0;
+
+                    .title {
+                        padding-top: 2rem;
+                        font-size: var(--font-size-bigest-plus);
+                    }
+
+                    .paragraph {
+                        font-size: var(--font-size-big-plus);
+                    }
+                }
             }
         }
     }
@@ -145,9 +175,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
     
     &:last-of-type {
         margin-bottom: unset;
-    }
-
-    
+    }    
 }
 
 .line {

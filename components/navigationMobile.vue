@@ -3,11 +3,14 @@ import navData from "@/assets/data/navData.js"
 import { onClickOutside } from "@vueuse/core";
 
 const menuIsOpen = ref(false)
-
 const menu = ref(null)
 
-onClickOutside(menu, () => {
-    menuIsOpen.value = false
+onClickOutside(menu, (el) => {
+    if( el.target.dataset.hasOwnProperty("opener") ){
+        menuIsOpen.value = !menuIsOpen.value
+    } else {
+        menuIsOpen.value = false
+    }
 })
 
 </script>
@@ -22,7 +25,7 @@ onClickOutside(menu, () => {
                     <img class="logo-single" src="/images/core/logo-chrome.png" alt="logo lyc">
                     <img class="logo-typo" src="/images/core/logo-typo-chrome-big.png" alt="logo typo lyc">
                 </div>
-                <img src="/images/core/burger.png" alt="" @click="menuIsOpen = !menuIsOpen">
+                <img data-opener src="/images/core/burger.png" alt="burger menu">
             </div>
 
         </div>

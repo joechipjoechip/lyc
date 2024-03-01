@@ -30,6 +30,28 @@
         var(--color-gradient-two) 100%
     );
 
+    @media #{$mobile} {
+        font-size: 8px;
+        --font-size-medium-minus: 0.25rem;
+        --font-size-medium: 0.45rem;
+        --font-size-big: 0.75rem;
+        --font-size-big-plus: 1rem;
+        --font-size-bigest: 1.5rem;
+        --font-size-bigest-plus: 2.5rem;
+    }
+
+    // @media #{$desktop} {
+    //     font-size: 12px;
+    // }
+
+    // @media #{$desktopLarge} {
+    //     font-size: 12px;
+    // }
+
+    // @media #{$desktopVeryLarge} {
+    //     font-size: 12px;
+    // }
+
 
     &.light {
         color: rgba(0,0,0, 0.8);
@@ -144,7 +166,7 @@ html {
     // -moz-osx-font-smoothing: grayscale;
     
     @media #{$mobile} {
-        font-size: 9px;
+        font-size: 12px;
     }
 
     @media #{$desktop} {

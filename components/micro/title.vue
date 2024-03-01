@@ -29,6 +29,12 @@ const props = defineProps({
     font-size: var(--font-size-big-plus);
     text-transform: uppercase;
 
+    @media #{$mobile} {
+        // margin-bottom: 1rem;
+        font-size: var(--font-size-bigest);
+        line-height: var(--font-size-bigest-plus);
+    }
+
     &.isGradient {
         background: var(--gradient-one);
         -webkit-background-clip: text;
@@ -36,7 +42,7 @@ const props = defineProps({
     }
 
     &.isBig {
-        font-size: var(--font-size-bigest);
+        font-size: var(--font-size-bigest-plus);
     }
 }
 </style>

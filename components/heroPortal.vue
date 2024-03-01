@@ -14,7 +14,6 @@ import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
-import { render } from 'vue';
 const store = useMainStore()
 const { $on } = useNuxtApp()
 const isHovered = ref(false)
