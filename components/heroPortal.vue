@@ -475,7 +475,7 @@ function mainTick(){
 $on("main-device-motion", handleGyro)
 
 function handleGyro(event){
-    const { x, y, z } = event.acceleration
+    const { x, y, z } = event.accelerationIncludingGravity
     const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
 
     gsap.to(animatedObject, {

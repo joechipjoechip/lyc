@@ -32,12 +32,12 @@ export async function gyroPermission(){
 }
 
 const handleDeviceMotion = (event) => {
-    console.log("au gyroHelper : event : ", event)
+    // console.log("au gyroHelper : event : ", event)
     $emit("main-device-motion", event)
 }
 
 const throttledHandleDeviceMotion = useThrottleFn((event) => {
-    console.log("au throttle : event : ", event)
+    // console.log("au throttle : event : ", event)
     handleDeviceMotion(event)
 }, 500)
 
