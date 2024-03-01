@@ -481,7 +481,8 @@ function handleGyro(event){
     gsap.to(animatedObject, {
         x: x/4,
         y: y/6,
-        duration: 0.5,
+        duration: 0.2,
+        ease: "linear",
         onUpdate: () => {
             normalizedPosition.x = animatedObject.x
             normalizedPosition.y = animatedObject.y

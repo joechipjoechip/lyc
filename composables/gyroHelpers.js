@@ -39,7 +39,7 @@ const handleDeviceMotion = (event) => {
 const throttledHandleDeviceMotion = useThrottleFn((event) => {
     // console.log("au throttle : event : ", event)
     handleDeviceMotion(event)
-}, 500)
+}, 200)
 
 export function addGyroListeners(){
     useEventListener("devicemotion", throttledHandleDeviceMotion)
