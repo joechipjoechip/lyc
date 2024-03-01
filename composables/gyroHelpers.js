@@ -37,6 +37,6 @@ const handleDeviceMotion = (event) => {
 }
 
 export function addGyroListeners(){
-    useEventListener("devicemotion", handleDeviceMotion)
+    useEventListener("deviceorientation", handleDeviceMotion)
 }
 
