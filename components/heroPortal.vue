@@ -2,6 +2,7 @@
 import gsap from 'gsap';
 import * as THREE from 'three'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
+import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -443,6 +444,25 @@ function initPostProcs(width, height){
     bloomPass.threshold = 0.9999
     bloomPass.strength = 0.2
     bloomPass.radius = 0.4
+    
+
+    const blurConfig = {
+        focus: 3.6,
+        aperture: 0.0035,
+        maxblur: 0.01
+    }
+
+    const blurPass = new BokehPass( 
+        scene, 
+        camera, 
+        {
+            ...blurConfig,
+            width: width,
+            height: height
+        }
+    );
+
+    // composer.addPass(blurPass)
     composer.addPass(bloomPass)
 }
 
