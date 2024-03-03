@@ -17,6 +17,7 @@
     "nuxt": "^3.10.1",
     "pinia": "^2.1.7",
     "three": "^0.161.0",
+    "three-custom-shader-material": "^5.4.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },

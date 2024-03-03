@@ -1,6 +1,7 @@
 <script setup>
 import gsap from 'gsap';
 import * as THREE from 'three'
+import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -271,11 +272,13 @@ async function initEnvMapAndMaterials(model){
 
                         if( child.name === "curtain" ){
                             curtain = child
-                            child.material = curtainMaterial = new THREE.ShaderMaterial({
+                            child.material = curtainMaterial = new CustomShaderMaterial({
+
+                                baseMaterial: THREE.MeshPhysicalMaterial,
 
                                 uniforms: {
                                     iTime: { value: 1.0 },
-                                    iResolution: { value: new THREE.Vector2(4) }
+                                    iResolution: { value: new THREE.Vector2(0.75) }
                                 },
 
                                 vertexShader: `
@@ -286,7 +289,8 @@ async function initEnvMapAndMaterials(model){
                                         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
                                         vec4 viewPosition = viewMatrix * modelPosition;
                                         vec4 projectedPosition = projectionMatrix * viewPosition;
-                                        gl_Position = projectedPosition;
+                                        csm_PositionRaw = projectedPosition;
+                                        //csm_Position = position * vec3(1.0);
                                         vUv = uv;
                                     }
                                 `,
@@ -296,12 +300,12 @@ async function initEnvMapAndMaterials(model){
 
                                     varying vec2 vUv;
 
-                                    float PI = 3.14159265359;
+                                    // float PI = 3.14159265359;
                                     
                                     vec2 rot(vec2 p,float a)
                                     {
-                                        float c=cos(a*12.);
-                                        float s=sin(a*12.);
+                                        float c=cos(a*10.);
+                                        float s=sin(a*10.);
                                         return p*mat2(s,c,c,-s);
                                     }
 
@@ -311,21 +315,21 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=iTime*0.25;
+                                        float T=iTime*1.65;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.01,0)),
-                                            length(uv-vec2(.01,1.2)),
+                                            length(uv-vec2(.1,1.2)),
                                             length(uv-vec2(.05,1))
                                         ),0.,1.)*1.7-1.;
 
-                                        vec3 c0=vec3(0);
+                                        vec3 c0=vec3(csm_Emissive);
                                         float w0=0.;
-                                        const float N=20.;
+                                        const float N=9.;
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
-                                            float wp=0.5+(i+1.)*(i+22.5)*0.0001;
+                                            float wp=.5+(i+1.)*(i+22.5)*0.0001;
                                             // here
                                             float wb=.48+i/N*0.001;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*3.*wp);
@@ -335,15 +339,20 @@ async function initEnvMapAndMaterials(model){
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
                                             float w=(1.5-i/N)*.5;
                                             c0+=c*w;
+                                            //c0/=csm_Metalness;
                                             w0+=w;
                                         }
                                         c0=c0/w0*1.9+.5;//*(1.-pow(uv.y-.5,2.)*2.)*10.+.5;
                                         c0*=.5+dot(c0,vec3(1,1,1))/sqrt(2.)*.6;
-                                        c0+=pow(length(sin(c0*PI*10.))/sqrt(3.)*1.0,20.)*(.3+.7*c0);
+                                        c0+=pow(length(sin(c0*.5))/sqrt(3.)*1.0,20.)*(.3+.7*c0);
                                         //c0 = clamp(c0, 0., uv.y);
-                                        gl_FragColor=vec4(c0,1.0);
+                                        
+                                        csm_FragColor=vec4(c0,1.);
                                     }
-                                `
+                                `,
+
+                                emissive: new THREE.Color(0x0000FF),
+                                
                             })
                         }
 
@@ -403,15 +412,17 @@ async function initEnvMapAndMaterials(model){
 
                         child.material = boxMaterial = new THREE.MeshPhongMaterial( {
                             reflectivity: 1,
-                            refractionRatio: 0.8,
+                            refractionRatio: 0.75,
                             specularMap: boxMap,
                             envMap: envMapTextureNight,
+                            envMapIntensity: 0.55,
                             color: new THREE.Color(0x924944),
                             emissive: new THREE.Color(0xd9d9d9),
+                            // emissiveIntentisty: 10,
                             specular: new THREE.Color(0x76749c),
                             shininess: 90,
                             transparent: true,
-                            opacity: 0.65
+                            opacity: 0.75
                         })
 
                         boxMaterial.combine = parseInt( THREE.MultiplyOperation );
@@ -429,9 +440,9 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.6
-    bloomPass.strength = 0.15
-    bloomPass.radius = 0.5
+    bloomPass.threshold = 0.9999
+    bloomPass.strength = 0.2
+    bloomPass.radius = 0.4
     composer.addPass(bloomPass)
 }
 
@@ -448,6 +459,7 @@ function mainTick(){
 
         box.rotation.y = normalizedPosition.x * 0.9;
         box.rotation.x = normalizedPosition.y * -0.4;
+        // box.position.z = boxPosition[2] + normalizedPosition.y * -0.4;
 
         camera.position.set(
             normalizedPosition.x * 0.3,
