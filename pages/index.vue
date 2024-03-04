@@ -66,14 +66,13 @@ onMounted(() => {
 
 .strips {
     z-index: 60;
-    margin-top: $dividerVertical;
     position: relative;
 }
 
 .punchlines {
     position: relative;
     z-index: 70;
-    margin-top: $dividerVertical;
+    margin: $dividerVertical 0;
     text-align: center;
 
     img {
