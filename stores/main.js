@@ -18,7 +18,9 @@ export const useMainStore = defineStore('storedMain', {
 		},
 
 		// @TODO : restablish at true later
-		// persist: false
+		persist: {
+			storage: persistedState.localStorage,
+		},
 
 	}
 

@@ -8,7 +8,7 @@ const store = useMainStore()
 useGlobalEvents()
 
 const gyroDetected = ref(gyroDetection())
-const clickWallIsDisplayed = ref(gyroDetected.value)
+const clickWallIsDisplayed = ref(gyroDetected.value && !store.gyroIsAllowed)
 
 function handleClickWallClick(){
 
