@@ -1,37 +1,32 @@
 export default [
     {
         name: "Key NFT",
-        route: "/",
+        anchor: "#key",
         displayInPreFooter: true,
         displayInTopNav: true,
-        anchorNav: true
     },
     {
         name: "Loot",
-        route: "#loot",
+        anchor: "#loot",
         displayInPreFooter: true,
         displayInTopNav: true,
-        anchorNav: true
     },
     {
         name: "Portal",
-        route: "#portal",
+        anchor: "#portal",
         displayInPreFooter: true,
         displayInTopNav: true,
-        anchorNav: true
     },
     {
         name: "Contact",
         route: "/contact",
         displayInPreFooter: true,
         displayInTopNav: false,
-        anchorNav: true
     },
     {
         name: "Sign In",
         route: "/",
         displayInPreFooter: false,
         displayInTopNav: true,
-        anchorNav: false
     },
 ]

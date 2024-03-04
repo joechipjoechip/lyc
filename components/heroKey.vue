@@ -481,6 +481,7 @@ function handleGyro(event){
 
 <template>
     <section 
+        id="key"
         class="portal-wrapper"
         @mouseenter="isHovered = true"
         @mouseleave="isHovered = false"
@@ -496,8 +497,8 @@ function handleGyro(event){
 
         <h6 class="title" v-html="wording.title"></h6>
 
-        <div class="paragraph" v-for="paragraph in wording.paragraphs">
-            <p v-for="line in paragraph">
+        <div class="paragraph" v-for="paragraph in wording.paragraphs" :key="paragraph.id">
+            <p v-for="line in paragraph" :key="line.id">
                 {{ line }}
             </p>
         </div>

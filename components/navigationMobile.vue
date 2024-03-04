@@ -1,11 +1,16 @@
 <script setup>
 import navData from "@/assets/data/navData.js"
 import { onClickOutside } from "@vueuse/core";
+import { handleAnchorNav } from "@/composables/anchorNav"
 
 const { $on } = useNuxtApp()
 
 const menuIsOpen = ref(false)
 const menu = ref(null)
+
+function handleAnchorNavClick(e){
+    handleAnchorNav(e)
+}
 
 onClickOutside(menu, (el) => {
     if( el.target.dataset.hasOwnProperty("opener") ){
@@ -35,19 +40,21 @@ $on("main-scroll", () => menuIsOpen.value = false)
         </div>
 
         <div ref="menu" class="level-2" :class="{ menuIsOpen }">
-            <TransitionGroup 
-                tag="ul" 
-                name="navItemsAnims" 
-                :style="{ '--total': navData.length }"
+            <p 
+                v-for="navItem in navData.filter(item => item.anchor)" :key="navItem.id"
+                :data-anchor="navItem.anchor"
+                class="nav-item"
+                @click="handleAnchorNavClick"
             >
-                <p  v-if="menuIsOpen"
-                    v-for="(navItem, index) in navData" :key="navItem.id"
-                    class="nav-item"
-                    :style="{'--i': index +1}"
-                >
-                    {{ navItem.name }}
-                </p>
-            </TransitionGroup>
+                {{ navItem.name }}
+            </p>
+            <NuxtLink 
+                v-for="navItem in navData.filter(item => item.route)" :key="navItem.id"
+                :to="navItem.route"
+                class="nav-item"
+            >
+                {{ navItem.name }}
+            </NuxtLink>
         </div>
         
     </nav>
@@ -145,43 +152,9 @@ $on("main-scroll", () => menuIsOpen.value = false)
         display: block;
         margin-bottom: 1.25rem;
 
-        &:last-of-type {
+        &:last-child {
             margin-bottom: 0;
         }
     }
-}
-
-
-
-.navItemsAnims {
-    
-    &-enter-active,
-    &-leave-active {
-        position: relative;
-        opacity: 1;
-        transform: translate3d(0,0,0);
-        
-        transition: 
-            transform var(--transitionDurationMedium) ease-in-out,
-            opacity var(--transitionDurationMedium) linear;
-        
-    }
-        
-    &-enter-active {
-        transition-delay: calc( 0.04s * var(--i));
-    }
-    
-    &-leave-active {
-        transition-delay: 0;
-    }
-    
-    &-enter-from,
-    &-leave-to {
-        position: relative;
-        transform: translate3d(0,-10rem,0);
-        opacity: 0;
-    }
-	
-
 }
 </style>

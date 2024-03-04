@@ -1,7 +1,11 @@
 <script setup>
 import navData from "@/assets/data/navData.js"
+import { handleAnchorNav } from "@/composables/anchorNav"
 
-console.log("navData", navData)
+function handleAnchorNavClick(e){
+    handleAnchorNav(e)
+}
+
 </script>
 
 <template>
@@ -13,9 +17,18 @@ console.log("navData", navData)
         </div>
 
         <div class="nav-inner">
+            <p 
+                v-for="navItem in navData.filter(item => item.anchor)" :key="navItem.id"
+                :data-anchor="navItem.anchor"
+                class="nav-item"
+                @click="handleAnchorNavClick"
+            >
+                {{ navItem.name }}
+            </p>
             <NuxtLink 
-                v-for="navItem in navData.filter(item => item.displayInTopNav)" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.route)" :key="navItem.id"
                 :to="navItem.route"
+                class="nav-item"
             >
                 {{ navItem.name }}
             </NuxtLink>
@@ -61,24 +74,28 @@ console.log("navData", navData)
             margin-right: 2rem;
             font-family: "Lexend Zetta";
             font-weight: 700;
-            
-            * {
-                font-size: var(--font-size-medium);
-                text-transform: uppercase;
-                color: var(--color-main-100);
 
-                text-decoration: none;
-                margin: 0 3rem;
-    
-                &:first-of-type {
-                    margin-left: 0;
-                }
-    
-                &:last-of-type {
-                    margin-right: 0;
-                }
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-end;
+            align-items: center
+        }
+
+        &-item {
+            font-size: var(--font-size-medium);
+            text-transform: uppercase;
+            color: var(--color-main-100);
+
+            text-decoration: none;
+            margin: 0 1.75rem;
+
+            &:first-child {
+                margin-left: 0;
             }
 
+            &:last-child {
+                margin-right: 0;
+            }
         }
 
     }

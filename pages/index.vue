@@ -5,10 +5,25 @@ const store = useMainStore()
 const route = useRoute()
 const isVisible = ref(route.fullPath === "/")
 
+console.log("- - - - ROUTE", route)
+
+onMounted(() => {
+    if( route.query.anchor ){
+        const anchor = route.query.anchor
+        const target = document.querySelector(anchor)
+
+        console.log("target", target)
+        
+        setTimeout(() => {
+            target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+        }, 800)
+    }
+})
+
 </script>
 
 <template>
-    <div class="page-index" v-if="isVisible">
+    <div class="page-index">
         <Hero :isVisible="isVisible"/>
         
         <div class="punchlines">
@@ -28,7 +43,7 @@ const isVisible = ref(route.fullPath === "/")
             <MicroTitle text="... AND MANY MORE!" />
         </div>
 
-        <HeroKey :wording="wording.premint" v-show="!store.isMobile" />
+        <HeroKey :wording="wording.premint" />
 
         <!-- ici module floating boxes -->
 

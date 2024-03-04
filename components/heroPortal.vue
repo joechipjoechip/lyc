@@ -487,7 +487,6 @@ function mainTick(){
             cameraPosition[2]
         )
         camera.lookAt(0, 0.35, 0)
-
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
@@ -524,7 +523,7 @@ function handleGyro(event){
 </script>
 
 <template>
-    <section class="portal-wrapper">
+    <section class="portal-wrapper" id="portal">
 
         <canvas 
             ref="canvas"

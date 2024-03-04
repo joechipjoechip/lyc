@@ -17,9 +17,7 @@ export const useMainStore = defineStore('storedMain', {
 			
 		},
 
-		// @TODO : restablish at true later
 		persist: true
-
 	}
 
 )
