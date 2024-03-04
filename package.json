@@ -15,6 +15,7 @@
     "gsap": "^3.12.5",
     "mitt": "^3.0.1",
     "nuxt": "^3.10.1",
+    "nuxt3-lenis": "^1.5.9",
     "pinia": "^2.1.7",
     "three": "^0.161.0",
     "three-custom-shader-material": "^5.4.0",

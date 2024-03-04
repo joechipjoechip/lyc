@@ -2,10 +2,13 @@
 import { gyroDetection, gyroPermission, addGyroListeners } from "@/composables/gyroHelpers";
 import { useMainStore } from "@/stores/main"
 import { useGlobalEvents } from "@/composables/globalEvents"
+import { useLenis } from "#imports";
 
 const store = useMainStore()
 
 useGlobalEvents()
+// useLenis(({scroll, velocity, progress, direction}) => {})
+useLenis()
 
 const gyroDetected = ref(gyroDetection())
 const clickWallIsDisplayed = ref(gyroDetected.value && !store.gyroIsAllowed)
@@ -37,7 +40,7 @@ function handleClickWallClick(){
 </script>
 
 <template>
-    <div class="layout-default">
+    <Lenis root class="layout-default">
         <div 
             v-if="clickWallIsDisplayed"
             @click="handleClickWallClick"
@@ -51,7 +54,7 @@ function handleClickWallClick(){
         <main>
             <NuxtPage />
         </main>
-    </div>
+    </Lenis>
 </template>
 
 <style lang="scss" scoped>
