@@ -21,6 +21,10 @@ export default defineNuxtConfig({
 		'@pinia-plugin-persistedstate/nuxt'
 	],
 
+	piniaPersistedstate: {
+		storage: 'localStorage'
+	},
+
 	app: {
 		pageTransition: { 
 			name: 'page', 
