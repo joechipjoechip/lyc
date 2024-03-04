@@ -2,6 +2,8 @@
 import navData from "@/assets/data/navData.js"
 import { onClickOutside } from "@vueuse/core";
 
+const { $on } = useNuxtApp()
+
 const menuIsOpen = ref(false)
 const menu = ref(null)
 
@@ -12,6 +14,8 @@ onClickOutside(menu, (el) => {
         menuIsOpen.value = false
     }
 })
+
+$on("main-scroll", () => menuIsOpen.value = false)
 
 </script>
 
