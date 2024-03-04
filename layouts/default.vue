@@ -10,6 +10,12 @@ useGlobalEvents()
 const gyroDetected = ref(gyroDetection())
 const clickWallIsDisplayed = ref(gyroDetected.value && !store.gyroIsAllowed)
 
+onMounted(() => {
+    if(store.gyroIsAllowed){
+        addGyroListeners()
+    }
+})
+
 function handleClickWallClick(){
 
     if( store.isIOS ){
