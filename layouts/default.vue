@@ -4,31 +4,22 @@ import { useMainStore } from "@/stores/main"
 
 const store = useMainStore()
 
-const clickWallIsDisplayed = ref(false)
-const gyroDetected = ref(false)
-
-onMounted(() => {
-    gyroDetected.value = gyroDetection()
-
-    if( gyroDetected.value ){
-        clickWallIsDisplayed.value = true
-    }
-})
-
+const gyroDetected = ref(gyroDetection())
+const clickWallIsDisplayed = ref(gyroDetected.value)
 
 function handleClickWallClick(){
 
-    if( store.isIOS ){
-        gyroPermission().then(response => {
-            if( response ){
-                addGyroListeners()
-                store.setGyroIsAllowed(true)
-            }
-        })
-    } else {
-        addGyroListeners()
-        store.setGyroIsAllowed(true)
-    }
+    // if( store.isIOS ){
+    //     gyroPermission().then(response => {
+    //         if( response ){
+    //             addGyroListeners()
+    //             store.setGyroIsAllowed(true)
+    //         }
+    //     })
+    // } else {
+    //     addGyroListeners()
+    //     store.setGyroIsAllowed(true)
+    // }
 
     clickWallIsDisplayed.value = false
     
@@ -39,7 +30,7 @@ function handleClickWallClick(){
 <template>
     <div class="layout-default">
         <div 
-            v-if="clickWallIsDisplayed && store.isMobile"
+            v-if="clickWallIsDisplayed"
             @click="handleClickWallClick"
             class="clickWall"
         >
