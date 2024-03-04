@@ -39,7 +39,7 @@ $on("main-scroll", () => menuIsOpen.value = false)
 
         </div>
 
-        <div ref="menu" class="level-2" :class="{ menuIsOpen }">
+        <div ref="menu" class="level-2" :class="{ menuIsOpen }" @click="menuIsOpen = false">
             <p 
                 v-for="navItem in navData.filter(item => item.anchor)" :key="navItem.id"
                 :data-anchor="navItem.anchor"

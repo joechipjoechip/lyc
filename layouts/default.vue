@@ -78,7 +78,7 @@ function handleClickWallClick(){
 .clickWall {
     z-index: 150;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -88,6 +88,8 @@ function handleClickWallClick(){
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+
+    font-size: var(--font-size-bigest);
 }
 
 </style>

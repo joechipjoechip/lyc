@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { getCurrentInstance } from "vue";
 import { useGetEventPosition } from '#imports';
 import { useNormalizePosition } from '#imports';
+import { useMainStore } from "#imports";
+const store = useMainStore()
 
 const props = defineProps({
     text: {
@@ -28,6 +30,12 @@ const { $on } = useNuxtApp()
 
 const parent = getCurrentInstance().parent.vnode
 
+onMounted(() => {
+    if( store.gyroIsAllowed ){
+        $on("main-device-motion", handleGyro)
+    }
+})
+
 $on("main-touch-move", handleTouchMove)
 
 function handleTouchMove(event){
@@ -41,10 +49,8 @@ function handleTouchMove(event){
     rotateY.value = -normalizedX * -0.04
 }
 
-$on("main-device-motion", handleGyro)
-
 function handleGyro(event){
-    if( !props.isHovered ){ return }
+    
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
         translateX: translateX.value, 
