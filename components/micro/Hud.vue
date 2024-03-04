@@ -39,6 +39,7 @@ onMounted(() => {
 $on("main-touch-move", handleTouchMove)
 
 function handleTouchMove(event){
+    if( store.gyroIsAllowed ){ return }
     if( !props.isHovered ){ return }
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y, parent.el)
@@ -53,24 +54,25 @@ function handleGyro(event){
     
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
-        translateX: translateX.value, 
-        translateY: translateY.value,
-        rotateX: rotateX.value,
-        rotateY: rotateY.value
+        tx: translateX.value, 
+        ty: translateY.value,
+        rx: rotateX.value,
+        ry: rotateY.value,
     }
 
     gsap.to(animatedObject, {
-        translateX: x * 10,
-        translateY: y * 10,
-        rotateX: y * 10,
-        rotateY: x * 10,
+        tx: x * 10,
+        ty: y * 10,
+        rx: x * 10,
+        ry: y * 10,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
-            translateX.value = animatedObject.translateX
-            translateY.value = animatedObject.translateY
-            rotateX.value = animatedObject.rotateX
-            rotateY.value = animatedObject.rotateY
+            translateX.value = animatedObject.tx
+            translateY.value = animatedObject.ty
+            rotateX.value = animatedObject.rx
+            rotateY.value = animatedObject.ry
+            
         }
     })
 }
