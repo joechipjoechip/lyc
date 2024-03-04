@@ -1,25 +1,28 @@
 <script setup>
 import { gyroDetection, gyroPermission, addGyroListeners } from "@/composables/gyroHelpers";
 import { useMainStore } from "@/stores/main"
+import { useGlobalEvents } from "@/composables/globalEvents"
 
 const store = useMainStore()
+
+useGlobalEvents()
 
 const gyroDetected = ref(gyroDetection())
 const clickWallIsDisplayed = ref(gyroDetected.value)
 
 function handleClickWallClick(){
 
-    // if( store.isIOS ){
-    //     gyroPermission().then(response => {
-    //         if( response ){
-    //             addGyroListeners()
-    //             store.setGyroIsAllowed(true)
-    //         }
-    //     })
-    // } else {
-    //     addGyroListeners()
-    //     store.setGyroIsAllowed(true)
-    // }
+    if( store.isIOS ){
+        gyroPermission().then(response => {
+            if( response ){
+                addGyroListeners()
+                store.setGyroIsAllowed(true)
+            }
+        })
+    } else {
+        addGyroListeners()
+        store.setGyroIsAllowed(true)
+    }
 
     clickWallIsDisplayed.value = false
     

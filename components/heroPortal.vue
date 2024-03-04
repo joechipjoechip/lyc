@@ -108,9 +108,9 @@ async function initScene(){
         camera.position.set(...cameraPosition)
 
         // textures loads
-        groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff_4k.jpg")
-        groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough_4k.jpg")
-        groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp_4k.jpg")
+        groundTextures.color = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_diff.jpg")
+        groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough.jpg")
+        groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp.jpg")
         groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
         planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-last.jpg")
         boxMap = textureLoader.load("3d/textures/box/boxMap.jpg")
