@@ -425,7 +425,6 @@ async function initEnvMapAndMaterials(model){
                             refractionRatio: 0.75,
                             specularMap: boxMap,
                             envMap: envMapTextureNight,
-                            envMapIntensity: 0.55,
                             color: new THREE.Color(0x924944),
                             emissive: new THREE.Color(0xd9d9d9),
                             // emissiveIntentisty: 10,

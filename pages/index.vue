@@ -86,7 +86,6 @@ onMounted(() => {
     z-index: 50;
     top: 20rem;
     left: calc((max(100vw, $layoutMaxWidthDesktop) - $layoutMaxWidthDesktop) / 2);
-    pointer-events: none;
 }
 
 .logo-lonely {

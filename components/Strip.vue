@@ -51,6 +51,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 <style lang="scss" scoped>
 .strip {
     &-wrapper {
+        z-index: 40;
         position: relative;
         height: $stripHeight;
 
