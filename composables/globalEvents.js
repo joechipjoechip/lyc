@@ -1,4 +1,4 @@
-import { useEventListener } from '@vueuse/core'
+import { useEventListener, useThrottleFn } from '@vueuse/core'
 
 export function useGlobalEvents() {
     const { $emit } = useNuxtApp()
@@ -11,6 +11,7 @@ export function useGlobalEvents() {
 
     useEventListener(window, "touchcancel", handleTouchEnd)
     useEventListener(window, "scrollend", handleTouchEnd)
+    useEventListener(window, "scroll", throttledHandleScroll)
 
     useEventListener(window, "mousedown", handleTouchStart)
     useEventListener(window, "mouseup", handleTouchEnd)
@@ -18,7 +19,7 @@ export function useGlobalEvents() {
 
 
     useEventListener(window, "keydown", handleKeyDown)
-    useEventListener(window, "resize", handleResize)
+    useEventListener(window, "resize", throttledHandleResize)
 
 
 	function handleTouchStart( event ){
@@ -41,8 +42,12 @@ export function useGlobalEvents() {
         $emit("main-keydown", event)
     }
 
-    function handleResize( event ){
+    const throttledHandleScroll = useThrottleFn((event) => {
+        $emit("main-scroll", event)
+    }, 200)
+
+    const throttledHandleResize = useThrottleFn((event) => {
         $emit("main-resize", event)
-    }
+    }, 200)
 
 }
