@@ -1,7 +1,7 @@
 <script setup>
-import { useGlobalEvents } from "@/composables/globalEvents"
+// import { useGlobalEvents } from "@/composables/globalEvents"
 
-useGlobalEvents()
+// useGlobalEvents()
 
 </script>
 
