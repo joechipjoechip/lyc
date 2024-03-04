@@ -53,7 +53,7 @@ const groundTextures = {}
 // positions
 const portalPosition = store.isMobile ? [0,-0.05,0] : [0,0,0.35]
 const boxPosition = store.isMobile ? [0, 0.35, 0.25] : [0, 0.375, 0.75]
-const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
+const cameraPosition =  store.isMobile ? [0, 0.25, 4.25 ] : [0, 0.25, 4.35]
 
 onMounted(() => {
     console.log("mounted du hero portal")
@@ -564,7 +564,7 @@ function handleGyro(event){
         // min-height: 70vh;
         
         @media #{$mobile}{
-            min-height: 80vh;
+            height: calc(100vh - 30rem);
         }
 
         
