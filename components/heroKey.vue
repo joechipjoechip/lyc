@@ -58,7 +58,7 @@ const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 
 onMounted(() => {
-    console.log("mounted du hero portal")
+    console.log("mounted du hero key")
     initScene().then(() => initRenderer().then(() => {
         animate.value = true
         mainTick()
@@ -217,7 +217,7 @@ async function initEnvMapAndMaterials(model){
         model.traverse((child) => {
             if(child instanceof THREE.Mesh){
 
-                console.log(child.name)
+                // console.log(child.name)
 
                 if( child.name.includes("emissive") ) {
 
@@ -231,7 +231,7 @@ async function initEnvMapAndMaterials(model){
 
                 } else {
 
-                    console.log("child name : ", child.name)
+                    // console.log("child name : ", child.name)
 
                     if( model.name === "key" ){
                         // child.material.envMap = envMapTexture
@@ -483,8 +483,6 @@ function handleGyro(event){
     const { x, y, z } = event.accelerationIncludingGravity
     normalizedPosition.x = x / 4
     normalizedPosition.y = z / 6
-
-    console.log("x gyro : ", normalizedPosition.z)
 }
 
 </script>

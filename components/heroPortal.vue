@@ -241,7 +241,7 @@ async function initEnvMapAndMaterials(model){
         model.traverse((child) => {
             if(child instanceof THREE.Mesh){
 
-                console.log(child.name)
+                // console.log(child.name)
 
                 if( child.name.includes("emissive") ) {
 
@@ -255,7 +255,7 @@ async function initEnvMapAndMaterials(model){
 
                 } else {
 
-                    console.log("child name : ", child.name)
+                    // console.log("child name : ", child.name)
 
                     if( model.name === "portal" ){
 
