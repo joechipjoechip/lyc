@@ -3,9 +3,7 @@ import { wording } from '@/assets/data/wording';
 const store = useMainStore()
 
 const route = useRoute()
-const isVisible = ref(route.fullPath === "/")
-
-console.log("- - - - ROUTE", route)
+const isVisible = ref(route.fullPath.split("?")[0] === "/")
 
 onMounted(() => {
     if( route.query.anchor ){
@@ -24,7 +22,7 @@ onMounted(() => {
 
 <template>
     <div class="page-index">
-        <Hero :isVisible="isVisible"/>
+        <HeroPortal v-if="isVisible"/>
         
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />
@@ -43,7 +41,7 @@ onMounted(() => {
             <MicroTitle text="... AND MANY MORE!" />
         </div>
 
-        <HeroKey :wording="wording.premint" />
+        <HeroKey v-if="isVisible" :wording="wording.premint" />
 
         <!-- ici module floating boxes -->
 

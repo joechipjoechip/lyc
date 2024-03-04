@@ -37,6 +37,7 @@ const canvas = ref(null)
 const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
 const scene = new THREE.Scene()
+const animate = ref(false)
 let renderer = null
 let composer = null
 let renderPass = null
@@ -58,7 +59,15 @@ const cameraPosition =  store.isMobile ? [0, 0.25, 5.15 ] : [0, 0.25, 4.35]
 
 onMounted(() => {
     console.log("mounted du hero portal")
-    initScene().then(() => initRenderer().then(() => mainTick()))
+    initScene().then(() => initRenderer().then(() => {
+        animate.value = true
+        mainTick()
+    }))
+})
+
+onBeforeUnmount(() => {
+    animate.value = false
+    disposeScene(scene, renderer)
 })
 
 watch(() => canvasIsVisible.value, newVal => {
@@ -432,6 +441,7 @@ function initPostProcs(width, height){
 }
 
 function mainTick(){
+    if( !animate.value ){ return }
 
     deltaTime += clock.getDelta();
     

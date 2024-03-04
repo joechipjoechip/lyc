@@ -85,6 +85,7 @@ function handleAnchorNavClick(e){
             font-size: var(--font-size-medium);
             text-transform: uppercase;
             color: var(--color-main-100);
+            cursor: pointer;
 
             text-decoration: none;
             margin: 0 1.75rem;
