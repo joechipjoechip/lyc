@@ -2,6 +2,7 @@
 import { handleAnchorNav } from "@/composables/anchorNav"
 
 function handleCLickLogo( event ){
+    console.log("logo click, event", event)
     handleAnchorNav(event)
 }
 
@@ -30,7 +31,7 @@ function handleCLickLogo( event ){
             height: $layoutNavHeightDesktop;
             display: flex;
             flex-flow: row nowrap;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             
             background-color: var(--color-contrast-80);
@@ -39,12 +40,15 @@ function handleCLickLogo( event ){
 
         &-logo {
             cursor: pointer;
-            position: absolute;
-            // top: 1rem;
+            position: relative;
             left: 2rem;
+            height: 100%;
 
             img {
-                height: calc($layoutNavHeightDesktop - 1rem);
+                pointer-events: none;
+                position: relative;
+                top: 15%;
+                height: 70%;
                 margin-right: 1rem;
                 
                 &:last-of-type {
