@@ -20,11 +20,7 @@ const isVisible = useElementVisibility(player)
 watch(isVisible, (value) => {
     if (value) {
 
-        if( props.videoName === "master" ){
-            if( !store.videoMasterHaveBeenPaused ){
-                player.value.play()
-            }
-        } else {
+        if( props.videoName === "master" && !store.videoMasterHaveBeenPaused ){
             player.value.play()
         }
 
@@ -34,13 +30,14 @@ watch(isVisible, (value) => {
 })
 
 function handlePlay(){
+    console.log("play triggered")
     if( props.videoName === "master" ){
         store.setVideoMasterHaveBeenPaused(false)
     }
 }
 
-function handePause(){
-    console.log("-- - - -  paused")
+function handePause( event ){
+    console.log("-- - - -  paused", event)
     if( props.videoName === "master" ){
         store.setVideoMasterHaveBeenPaused(true)
     }
@@ -55,6 +52,7 @@ function handePause(){
             :src="videoUrl"
             playsinline
             controls
+            @play="handlePlay"
             @pause="handePause"
         ></video>
     </section>
