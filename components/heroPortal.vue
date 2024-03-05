@@ -16,7 +16,10 @@ import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 import { disposeScene } from '@/composables/sceneDisposer'
 
 import { useMainStore } from '@/stores/main';
+import { useLocalStorageStore } from '@/stores/localStorageStore';
+
 const store = useMainStore()
+const localStore = useLocalStorageStore()
 const { $on } = useNuxtApp()
 const isHovered = ref(false)
 
@@ -83,8 +86,8 @@ $on("main-touch-move", handleTouchMove)
 const normalizedPosition = reactive({ x: 0, y: 0 })
 
 function handleTouchMove(event){
-    if( store.gyroIsAllowed ){ return }
-    if( !store.gyroIsAllowed && !isHovered.value ){ return }
+    if( localStore.gyroIsAllowed ){ return }
+    if( !localStore.gyroIsAllowed && !isHovered.value ){ return }
 
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y, canvas.value)

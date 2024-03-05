@@ -3,8 +3,8 @@ import { gsap } from 'gsap';
 import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 
-import { useMainStore } from '@/stores/main';
-const store = useMainStore()
+import { useLocalStorageStore } from '@/stores/localStorageStore';
+const store = useLocalStorageStore()
 
 const props = defineProps({
     wording: {

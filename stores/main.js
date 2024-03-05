@@ -3,21 +3,25 @@ import { defineStore } from 'pinia'
 export const useMainStore = defineStore('storedMain', {
 
 		state: () => ({
-			gyroIsAllowed: false,
             isMobile: window.matchMedia("(max-width: 667px), (pointer: coarse)").matches,
             isIOS: navigator.userAgent.includes("iPhone") || navigator.userAgent.includes("iPad"),
-			menuIsOpen: false
+			menuIsOpen: false,
+			videoMasterHaveBeenPaused: false
 		}),
 
 		actions: {
-			setGyroIsAllowed( bool ){
-				this.gyroIsAllowed = bool
-			},
+
+			setVideoMasterHaveBeenPaused( bool ){
+				this.videoMasterHaveBeenPaused = bool
+			}
 
 			
 		},
 
-		persist: true
+		// persist: true
+		persist: {
+			storage: persistedState.sessionStorage,
+		},
 	}
 
 )

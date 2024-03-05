@@ -1,20 +1,23 @@
 <script setup>
 import { gyroDetection, gyroPermission, addGyroListeners } from "@/composables/gyroHelpers";
 import { useMainStore } from "@/stores/main"
+import { useLocalStorageStore } from "@/stores/localStorageStore"
+
 import { useGlobalEvents } from "@/composables/globalEvents"
 import { useLenis } from "#imports";
 
 const store = useMainStore()
+const localStore = useLocalStorageStore()
 
 useGlobalEvents()
 // useLenis(({scroll, velocity, progress, direction}) => {})
 useLenis()
 
 const gyroDetected = ref(gyroDetection())
-const clickWallIsDisplayed = ref(gyroDetected.value && !store.gyroIsAllowed)
+const clickWallIsDisplayed = ref(gyroDetected.value && !localStore.gyroIsAllowed)
 
 onMounted(() => {
-    if(store.gyroIsAllowed){
+    if(localStore.gyroIsAllowed){
         addGyroListeners()
     }
 })
@@ -25,12 +28,12 @@ function handleClickWallClick(){
         gyroPermission().then(response => {
             if( response ){
                 addGyroListeners()
-                store.setGyroIsAllowed(true)
+                localStore.setGyroIsAllowed(true)
             }
         })
     } else {
         addGyroListeners()
-        store.setGyroIsAllowed(true)
+        localStore.setGyroIsAllowed(true)
     }
 
     clickWallIsDisplayed.value = false

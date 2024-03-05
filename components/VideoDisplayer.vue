@@ -1,8 +1,14 @@
 <script setup>
 import { useElementVisibility } from '@vueuse/core';
+import { useMainStore } from '#imports';
+const store = useMainStore()
 
 const props = defineProps({
     videoUrl: {
+        type: String,
+        required: true
+    },
+    videoName: {
         type: String,
         required: true
     }
@@ -13,11 +19,32 @@ const isVisible = useElementVisibility(player)
 
 watch(isVisible, (value) => {
     if (value) {
-        player.value.play()
+
+        if( props.videoName === "master" ){
+            if( !store.videoMasterHaveBeenPaused ){
+                player.value.play()
+            }
+        } else {
+            player.value.play()
+        }
+
     } else {
         player.value.pause()
     }
 })
+
+function handlePlay(){
+    if( props.videoName === "master" ){
+        store.setVideoMasterHaveBeenPaused(false)
+    }
+}
+
+function handePause(){
+    console.log("-- - - -  paused")
+    if( props.videoName === "master" ){
+        store.setVideoMasterHaveBeenPaused(true)
+    }
+}
 
 </script>
 
@@ -28,6 +55,7 @@ watch(isVisible, (value) => {
             :src="videoUrl"
             playsinline
             controls
+            @pause="handePause"
         ></video>
     </section>
 </template>

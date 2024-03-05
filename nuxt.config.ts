@@ -22,9 +22,9 @@ export default defineNuxtConfig({
 		"nuxt3-lenis"
 	],
 
-	piniaPersistedstate: {
-		storage: 'localStorage'
-	},
+	// piniaPersistedstate: {
+	// 	storage: 'localStorage'
+	// },
 
 	app: {
 		pageTransition: { 

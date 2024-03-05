@@ -3,8 +3,9 @@ import gsap from "gsap";
 import { getCurrentInstance } from "vue";
 import { useGetEventPosition } from '#imports';
 import { useNormalizePosition } from '#imports';
-import { useMainStore } from "#imports";
-const store = useMainStore()
+
+import { useLocalStorageStore } from '@/stores/localStorageStore';
+const localStore = useLocalStorageStore()
 
 const props = defineProps({
     text: {
@@ -31,7 +32,7 @@ const { $on } = useNuxtApp()
 const parent = getCurrentInstance().parent.vnode
 
 onMounted(() => {
-    if( store.gyroIsAllowed ){
+    if( localStore.gyroIsAllowed ){
         $on("main-device-motion", handleGyro)
     }
 })
@@ -39,7 +40,7 @@ onMounted(() => {
 $on("main-touch-move", handleTouchMove)
 
 function handleTouchMove(event){
-    if( store.gyroIsAllowed ){ return }
+    if( localStore.gyroIsAllowed ){ return }
     if( !props.isHovered ){ return }
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y, parent.el)
