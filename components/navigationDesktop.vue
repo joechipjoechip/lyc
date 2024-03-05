@@ -1,15 +1,16 @@
 <script setup>
 import { handleAnchorNav } from "@/composables/anchorNav"
 
-function handleAnchorNavClick(e){
-    handleAnchorNav(e)
+function handleCLickLogo( event ){
+    handleAnchorNav(event)
 }
+
 </script>
 
 <template>
     <nav class="nav-wrapper">
 
-        <div class="nav-logo">
+        <div class="nav-logo" @click="handleCLickLogo" data-anchor="#portal">
             <img src="/images/core/logo-chrome.png" alt="">
             <img src="/images/core/logo-typo-chrome.png" alt="">
         </div>
@@ -37,6 +38,7 @@ function handleAnchorNavClick(e){
         }
 
         &-logo {
+            cursor: pointer;
             position: absolute;
             // top: 1rem;
             left: 2rem;

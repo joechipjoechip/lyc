@@ -99,20 +99,20 @@ watch(() => props.isHovered, newVal => {
 </script>
 
 <template>
-    <button 
-        ref="buttonRef"
+    <div class="hud-wrapper"
+        ref="divRef"
         :style="{ transition: transitionString }"
     >
         <h4 class="text">
             {{ text }}
         </h4>
         <img src="/images/core/hud.png" alt="hud picture">
-    </button>
+    </div>
 </template>
 
 <style lang="scss" scoped>
-button {
-    cursor: pointer;
+.hud-wrapper {
+    // cursor: pointer;
     position: relative;
 
     width: $hudWidth;
@@ -145,15 +145,13 @@ button {
         align-items: center;
         justify-content: center;
 
-        font-size: 3.5rem;
+        font-size: var(--font-size-bigest);
     }
 
     img {
         width: 100%;
         object-fit: contain;
-        // width: $hudWidth;
-        // // height: 0;
-        // padding-bottom: 3.75%;
     }
 }
+
 </style>

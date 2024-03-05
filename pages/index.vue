@@ -10,7 +10,7 @@ onMounted(() => {
         const anchor = route.query.anchor
         const target = document.querySelector(anchor)
 
-        console.log("target", target)
+        // console.log("target", target)
         
         setTimeout(() => {
             target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
