@@ -49,7 +49,7 @@ onMounted(() => {
 
         <img src="/images/core/logo-typo-chrome.png" alt="arrow down" class="logo-lonely" />
 
-        <!-- ici module roadmap -->
+        <Roadmap />
 
         <NextStep :wording="wording.nextStep" />
 
@@ -91,7 +91,7 @@ onMounted(() => {
 .logo-lonely {
     display: block;
     width: 25rem;
-    margin: 0 auto;
+    margin: calc($dividerVertical *10) auto;
 }
 
 </style>

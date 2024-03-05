@@ -11,6 +11,10 @@ const props = defineProps({
     videoName: {
         type: String,
         required: true
+    },
+    controls: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -20,7 +24,11 @@ const isVisible = useElementVisibility(player)
 watch(isVisible, (value) => {
     if (value) {
 
-        if( props.videoName === "master" && !store.videoMasterHaveBeenPaused ){
+        if( props.videoName === "master" ){
+            if( !store.videoMasterHaveBeenPaused ){
+                player.value.play()
+            }
+        } else {
             player.value.play()
         }
 
@@ -46,14 +54,20 @@ function handePause( event ){
 </script>
 
 <template>
-    <section class="video-wrapper">
+    <section
+        :class="`video-wrapper ${props.videoName}`"
+
+    >
         <video 
             ref="player"
             :src="videoUrl"
             playsinline
-            controls
             @play="handlePlay"
             @pause="handePause"
+            :autoplay="!controls"
+            :controls="controls"
+            :muted="!controls"
+            :loop="!controls"
         ></video>
     </section>
 </template>
@@ -63,7 +77,7 @@ function handePause( event ){
     &-wrapper {
         position: relative;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         margin-top: $dividerVertical;
 
         display: flex;
@@ -74,8 +88,13 @@ function handePause( event ){
         video {
             display: block;
             width: 100%;
-            max-width: calc($layoutMaxWidthDesktop * 0.75);
             margin: 0 auto;
+        }
+
+        &.master {
+            video {
+                max-width: calc($layoutMaxWidthDesktop * 0.75);
+            }
         }
     }
 }
