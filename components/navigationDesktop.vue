@@ -18,7 +18,7 @@ function handleAnchorNavClick(e){
 
         <div class="nav-inner">
             <p 
-                v-for="navItem in navData.filter(item => item.anchor)" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.anchor && item.displayInTopNav)" :key="navItem.id"
                 :data-anchor="navItem.anchor"
                 class="nav-item"
                 @click="handleAnchorNavClick"
@@ -26,7 +26,7 @@ function handleAnchorNavClick(e){
                 {{ navItem.name }}
             </p>
             <NuxtLink 
-                v-for="navItem in navData.filter(item => item.route)" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.route && item.displayInTopNav)" :key="navItem.id"
                 :to="navItem.route"
                 class="nav-item"
             >

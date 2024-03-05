@@ -41,7 +41,7 @@ $on("main-scroll", () => menuIsOpen.value = false)
 
         <div ref="menu" class="level-2" :class="{ menuIsOpen }" @click="menuIsOpen = false">
             <p 
-                v-for="navItem in navData.filter(item => item.anchor)" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.anchor && item.displayInTopNav)" :key="navItem.id"
                 :data-anchor="navItem.anchor"
                 class="nav-item"
                 @click="handleAnchorNavClick"
@@ -49,7 +49,7 @@ $on("main-scroll", () => menuIsOpen.value = false)
                 {{ navItem.name }}
             </p>
             <NuxtLink 
-                v-for="navItem in navData.filter(item => item.route)" :key="navItem.id"
+                v-for="navItem in navData.filter(item => item.route && item.displayInTopNav)" :key="navItem.id"
                 :to="navItem.route"
                 class="nav-item"
             >
