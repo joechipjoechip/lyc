@@ -1,16 +1,11 @@
 <script setup>
-import navData from "@/assets/data/navData.js"
 import { onClickOutside } from "@vueuse/core";
-import { handleAnchorNav } from "@/composables/anchorNav"
 
 const { $on } = useNuxtApp()
-
 const menuIsOpen = ref(false)
 const menu = ref(null)
 
-function handleAnchorNavClick(e){
-    handleAnchorNav(e)
-}
+$on("main-scroll", () => menuIsOpen.value = false)
 
 onClickOutside(menu, (el) => {
     if( el.target.dataset.hasOwnProperty("opener") ){
@@ -20,8 +15,6 @@ onClickOutside(menu, (el) => {
     }
 })
 
-$on("main-scroll", () => menuIsOpen.value = false)
-
 </script>
 
 <template>
@@ -30,31 +23,22 @@ $on("main-scroll", () => menuIsOpen.value = false)
         <div class="nav-inner">
 
             <div class="level-1">
+                
                 <div class="logos">
                     <img class="logo-single" src="/images/core/logo-chrome.png" alt="logo lyc">
                     <img class="logo-typo" src="/images/core/logo-typo-chrome-big.png" alt="logo typo lyc">
                 </div>
+
                 <img class="burger" data-opener src="/images/core/burger.png" alt="burger menu">
+
             </div>
 
         </div>
 
         <div ref="menu" class="level-2" :class="{ menuIsOpen }" @click="menuIsOpen = false">
-            <p 
-                v-for="navItem in navData.filter(item => item.anchor && item.displayInTopNav)" :key="navItem.id"
-                :data-anchor="navItem.anchor"
-                class="nav-item"
-                @click="handleAnchorNavClick"
-            >
-                {{ navItem.name }}
-            </p>
-            <NuxtLink 
-                v-for="navItem in navData.filter(item => item.route && item.displayInTopNav)" :key="navItem.id"
-                :to="navItem.route"
-                class="nav-item"
-            >
-                {{ navItem.name }}
-            </NuxtLink>
+
+            <MicroNavCore type="mobile" />
+            
         </div>
         
     </nav>
@@ -86,7 +70,6 @@ $on("main-scroll", () => menuIsOpen.value = false)
         .level-1 {
             z-index: 110;
             height: 60%;
-            
             width: calc(100% - 2rem);
             margin: 0 auto;
             // height: inherit;
@@ -112,8 +95,6 @@ $on("main-scroll", () => menuIsOpen.value = false)
                 margin-right: 1rem;
             }
         }
-
-        
 
     }
 
@@ -142,19 +123,6 @@ $on("main-scroll", () => menuIsOpen.value = false)
     &.menuIsOpen {
         height: 30vh;
     }
-
-    .nav-item {
-        font-size: var(--font-size-bigest-plus);
-        text-transform: uppercase;
-        position: relative;
-        color: white;
-        z-index: 130;
-        display: block;
-        margin-bottom: 1.25rem;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
 }
+
 </style>

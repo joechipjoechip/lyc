@@ -1,11 +1,9 @@
 <script setup>
-import navData from "@/assets/data/navData.js"
 import { handleAnchorNav } from "@/composables/anchorNav"
 
 function handleAnchorNavClick(e){
     handleAnchorNav(e)
 }
-
 </script>
 
 <template>
@@ -16,23 +14,7 @@ function handleAnchorNavClick(e){
             <img src="/images/core/logo-typo-chrome.png" alt="">
         </div>
 
-        <div class="nav-inner">
-            <p 
-                v-for="navItem in navData.filter(item => item.anchor && item.displayInTopNav)" :key="navItem.id"
-                :data-anchor="navItem.anchor"
-                class="nav-item"
-                @click="handleAnchorNavClick"
-            >
-                {{ navItem.name }}
-            </p>
-            <NuxtLink 
-                v-for="navItem in navData.filter(item => item.route && item.displayInTopNav)" :key="navItem.id"
-                :to="navItem.route"
-                class="nav-item"
-            >
-                {{ navItem.name }}
-            </NuxtLink>
-        </div>
+        <MicroNavCore type="top" />
         
     </nav>
 </template>
@@ -68,36 +50,6 @@ function handleAnchorNavClick(e){
                 }
             }
         }
-
-        &-inner {
-            // border: solid 1px red;
-            margin-right: 2rem;
-            font-family: "Lexend Zetta";
-            font-weight: 700;
-
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: flex-end;
-            align-items: center
-        }
-
-        &-item {
-            font-size: var(--font-size-medium);
-            text-transform: uppercase;
-            color: var(--color-main-100);
-            cursor: pointer;
-
-            text-decoration: none;
-            margin: 0 1.75rem;
-
-            &:first-child {
-                margin-left: 0;
-            }
-
-            &:last-child {
-                margin-right: 0;
-            }
-        }
-
     }
+    
 </style>

@@ -1,18 +1,8 @@
-<script setup>
-import navData from "@/assets/data/navData.js"
-</script>
-
 <template>
     <section class="prefooter-wrapper">
-        <nav class="prefooter-inner">
-            <p 
-                v-for="navItem in navData.filter(item => item.displayInPreFooter)" :key="navItem.name"
-                class="nav-item"
-                :data-anchor="navItem.route"
-            >
-                {{ navItem.name }}
-            </p>
-        </nav>
+        <div class="prefooter-inner">
+            <MicroNavCore type="prefooter" />
+        </div>
     </section>
 </template>
 
@@ -38,41 +28,16 @@ import navData from "@/assets/data/navData.js"
     }
 
     &-inner {
+        z-index: 30;
+        position: relative;
         max-width: $layoutMaxWidthDesktop;
         margin: 0 auto;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: baseline;
+        padding: 5rem 0;
     }
 }
 
-nav {
-    padding: 4rem 0 4rem 0;
-}
-
-.nav-item {
-    position: relative;
-    z-index: 30;
-    margin: 0 3.5rem;
-    font-size: var(--font-size-big);
-    text-transform: uppercase;
-    font-family: 'Lexend Zetta';
-    font-weight: 800;
-    cursor: pointer;
-    
-    &:first-of-type {
-        margin-left: 0;
-    }
-
-    &:last-of-type {
-        margin-right: 0;
-    }
-
-    @media #{$mobile} {
-        font-size: var(--font-size-bigest);
-        margin: 0 0.75rem;
-    }
-
-}
 </style>
