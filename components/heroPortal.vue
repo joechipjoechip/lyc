@@ -35,6 +35,9 @@ const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
 const animate = ref(false)
 const scene = new THREE.Scene()
+const multiplicatorRatio = store.isMobile ? 1 : 2
+let canvasBaseRatio = null
+
 let renderer = null
 let composer = null
 let renderPass = null
@@ -82,9 +85,17 @@ watch(() => canvasIsVisible.value, newVal => {
     }
 })
 
+$on("main-resize", handleResize)
+function handleResize(){
+    const { width } = canvas.value.parentNode.getBoundingClientRect()
+    const computedHeight = width / canvasBaseRatio
+    renderer.setSize(width, computedHeight)
+    composer.setSize(width * multiplicatorRatio, computedHeight * multiplicatorRatio)
+}
+
+
 $on("main-touch-move", handleTouchMove)
 const normalizedPosition = reactive({ x: 0, y: 0 })
-
 function handleTouchMove(event){
     if( localStore.gyroIsAllowed ){ return }
     if( !localStore.gyroIsAllowed && !isHovered.value ){ return }
@@ -96,11 +107,7 @@ function handleTouchMove(event){
 }
 
 async function initScene(){
-
-    // scene.fog = new THREE.Fog(0xffffff, 5, 8.5);
-
     return new Promise(res => {
-
         const { width, height } = canvas.value.getBoundingClientRect()
     
         // lights
@@ -110,11 +117,9 @@ async function initScene(){
 
         lightOne.position.set(3, 6, -10)
         lightTwo.position.set(-5, 6, -10)
-
         // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
-    
         // camera
         camera = new THREE.PerspectiveCamera( 22, width / height, 1, 20 )
         camera.position.set(...cameraPosition)
@@ -173,10 +178,8 @@ async function initScene(){
 
 async function initRenderer(){
     return new Promise(res => {
-
         const { width, height } = canvas.value.getBoundingClientRect()
-        const multiplicator = store.isMobile ? 1 : 2
-        console.log("store.isMobile : ", store.isMobile)
+        canvasBaseRatio = width / height
     
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
@@ -195,7 +198,7 @@ async function initRenderer(){
     
         
         composer = new EffectComposer(renderer)
-        composer.setSize(width * multiplicator, height * multiplicator)
+        composer.setSize(width * multiplicatorRatio, height * multiplicatorRatio)
         composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         renderPass = new RenderPass(scene, camera)
         composer.addPass(renderPass)

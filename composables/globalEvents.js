@@ -23,12 +23,12 @@ export function useGlobalEvents() {
         $emit("main-keydown", event)
     }
 
+    function handleResize( event ){
+        $emit("main-resize", event)
+    }
+
     const throttledHandleScroll = useThrottleFn((event) => {
         $emit("main-scroll", event)
-    }, 200)
-
-    const throttledHandleResize = useThrottleFn((event) => {
-        $emit("main-resize", event)
     }, 200)
 
     useEventListener(window, "click", handleTouchAndClick)
@@ -47,6 +47,6 @@ export function useGlobalEvents() {
 
 
     useEventListener(window, "keydown", handleKeyDown)
-    useEventListener(window, "resize", throttledHandleResize)
+    useEventListener(window, "resize", handleResize)
 
 }
