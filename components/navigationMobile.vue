@@ -49,6 +49,7 @@ onClickOutside(menu, (el) => {
 
     &-wrapper {
         //
+        width: 100%;
     }
 
     &-inner {

@@ -71,8 +71,9 @@ function handleMove(event){
     
     @media #{$mobile} {
         position: relative;
-        font-size: calc(var(--font-size-bigest-plus) * 3);
+        font-size: calc(var(--font-size-bigest-plus) * 2);
         text-align: center;
+        left: unset;
     }
 }
 .videoPlayer {
@@ -140,39 +141,43 @@ function handleMove(event){
             width: 70%;
         }
 
-        &.q1,
-        &.q3 {
-            transition: all calc( 0.07s * var(--i));
-            transform: 
-                translate3d(
-                    v-bind(translateX), 
-                    v-bind(translateY), 
-                    0
-                )
-                rotate3d(
-                    v-bind(rotateX), 
-                    v-bind(rotateY), 
-                    0,
-                    3deg
-                );
+        @media #{$desktop} {
+            &.q1,
+            &.q3 {
+                transition: all calc( 0.07s * var(--i));
+                transform: 
+                    translate3d(
+                        v-bind(translateX), 
+                        v-bind(translateY), 
+                        0
+                    )
+                    rotate3d(
+                        v-bind(rotateX), 
+                        v-bind(rotateY), 
+                        0,
+                        3deg
+                    );
+            }
+            
+            &.q2,
+            &.q4 {
+                transition: all calc( 0.15s * var(--i));
+                transform: 
+                    translate3d(
+                        v-bind(translateXalter), 
+                        v-bind(translateYalter), 
+                        0
+                    )
+                    rotate3d(
+                        v-bind(rotateXalter), 
+                        v-bind(rotateYalter), 
+                        0,
+                        3deg
+                    );
+            }
         }
+
         
-        &.q2,
-        &.q4 {
-            transition: all calc( 0.15s * var(--i));
-            transform: 
-                translate3d(
-                    v-bind(translateXalter), 
-                    v-bind(translateYalter), 
-                    0
-                )
-                rotate3d(
-                    v-bind(rotateXalter), 
-                    v-bind(rotateYalter), 
-                    0,
-                    3deg
-                );
-        }
 
         &.q2,
         &.q3 {
@@ -184,19 +189,5 @@ function handleMove(event){
     }
 }
 
-@keyframes animQ {
-    0%, 100% {
-        top: 0;
-        left: 0;
-    }
-    30% {
-        top: 50px;
-        left: 10px;
-    }
-    70% {
-        top: 20px;
-        left: -10px;
-    }
-}
 
 </style>

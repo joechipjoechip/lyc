@@ -24,14 +24,7 @@ function handleAnchorNavClick(e){
 </script>
 
 <template>
-    <div 
-        class="nav-inner" 
-        :class="{ 
-            isMobile: type === 'mobile',
-            isTop: type === 'top',
-            isPrefooter: type === 'prefooter',
-        }"
-    >
+    <div :class="`nav-inner ${type}`">
         <p 
             v-for="navItem in goodNavData.filter(item => item.anchor)" :key="navItem.id"
             :data-anchor="navItem.anchor"
@@ -62,11 +55,11 @@ function handleAnchorNavClick(e){
         justify-content: flex-end;
         align-items: center;
 
-        &.isTop {
+        &.top {
             margin-right: 2rem;
         }
 
-        &.isMobile {
+        &.mobile {
             position: relative;
             // border: solid 2px red;
             flex-flow: column nowrap;
@@ -88,7 +81,7 @@ function handleAnchorNavClick(e){
            }
         }
 
-        &.isPrefooter {
+        &.prefooter {
             .nav-item {
                 font-size: var(--font-size-big-plus);
             }
