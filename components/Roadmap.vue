@@ -1,12 +1,10 @@
-<script setup>
-import { useElementVisibility } from "@vueuse/core" 
+<script setup> 
 import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 
 const { $on } = useNuxtApp()
 
 const wrapper = ref(null)
-const wrapperIsVisible = useElementVisibility(wrapper)
 const translateX = ref(0)
 const translateY = ref(0)
 const rotateX = ref(0)
@@ -66,7 +64,7 @@ function handleMove(event){
     font-weight: 900;
     position: absolute;
     top: 0;
-    left: 2rem;
+    left: 2rem; 
     text-transform: uppercase;
     
     @media #{$mobile} {
