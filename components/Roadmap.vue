@@ -21,17 +21,17 @@ $on("main-touch-move", handleMove)
 function handleMove(event){
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
-    translateX.value = normalizedX * 2 + "rem"
-    translateY.value = -normalizedY * 3 + "rem"
+    translateX.value = normalizedX * 1.2 + "rem"
+    translateY.value = -normalizedY * 1.3 + "rem"
 
-    rotateX.value = -normalizedY * -0.02
-    rotateY.value = -normalizedX * 0.04
+    rotateX.value = -normalizedY * 1.2
+    rotateY.value = -normalizedX * -0.2
 
-    translateXalter.value = normalizedX * 1 + "rem"
+    translateXalter.value = normalizedX * 1.7 + "rem"
     translateYalter.value = -normalizedY * 1.5 + "rem"
 
-    rotateXalter.value = -normalizedY * -0.04
-    rotateYalter.value = -normalizedX * 0.08
+    rotateXalter.value = -normalizedY * 2.4
+    rotateYalter.value = -normalizedX * 9.8
 }
 
 </script>
@@ -62,6 +62,8 @@ function handleMove(event){
 .title {
     z-index: 50;
     font-size: var(--font-size-bigest-plus);
+    font-family: 'Lexend Zetta';
+    font-weight: 900;
     position: absolute;
     top: 0;
     left: 2rem;
@@ -127,9 +129,12 @@ function handleMove(event){
     }
 
     &-item {
-        width: 20%;
+        width: 23%;
         position: relative;
         // border: solid 1px green;
+        will-change: top, left, transform;
+
+        // animation: animQ calc(8s * var(--i)) infinite;
 
         @media #{$mobile} {
             width: 70%;
@@ -137,7 +142,7 @@ function handleMove(event){
 
         &.q1,
         &.q3 {
-            transition: transform calc( 0.25s * var(--i));
+            transition: all calc( 0.07s * var(--i));
             transform: 
                 translate3d(
                     v-bind(translateX), 
@@ -154,7 +159,7 @@ function handleMove(event){
         
         &.q2,
         &.q4 {
-            transition: transform calc( 0.45s * var(--i));
+            transition: all calc( 0.15s * var(--i));
             transform: 
                 translate3d(
                     v-bind(translateXalter), 
@@ -176,6 +181,21 @@ function handleMove(event){
                 top: unset;
             }
         }
+    }
+}
+
+@keyframes animQ {
+    0%, 100% {
+        top: 0;
+        left: 0;
+    }
+    30% {
+        top: 50px;
+        left: 10px;
+    }
+    70% {
+        top: 20px;
+        left: -10px;
     }
 }
 
