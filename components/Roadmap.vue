@@ -140,9 +140,14 @@ function handleMove(event){
         }
 
         @media #{$desktop} {
+
+            &.q1 {
+                transition: all 0.9s !important;
+            }
+
             &.q1,
             &.q3 {
-                transition: all calc( 0.07s * var(--i));
+                transition: all calc( 0.7s * var(--i));
                 transform: 
                     translate3d(
                         v-bind(translateX), 
@@ -159,7 +164,7 @@ function handleMove(event){
             
             &.q2,
             &.q4 {
-                transition: all calc( 0.15s * var(--i));
+                transition: all calc( 0.9s * var(--i));
                 transform: 
                     translate3d(
                         v-bind(translateXalter), 
