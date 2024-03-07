@@ -19,14 +19,14 @@ $on("main-touch-move", handleMove)
 function handleMove(event){
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
-    translateX.value = normalizedX * 1.2 + "rem"
-    translateY.value = -normalizedY * 1.3 + "rem"
+    translateX.value = normalizedX * 3.2 + "rem"
+    translateY.value = -normalizedY * 3.3 + "rem"
 
-    rotateX.value = -normalizedY * 1.2
-    rotateY.value = -normalizedX * -0.2
+    rotateX.value = -normalizedY * 3.2
+    rotateY.value = -normalizedX * -2.2
 
-    translateXalter.value = normalizedX * 1.7 + "rem"
-    translateYalter.value = -normalizedY * 1.5 + "rem"
+    translateXalter.value = normalizedX * 3.7 + "rem"
+    translateYalter.value = -normalizedY * 3.5 + "rem"
 
     rotateXalter.value = -normalizedY * 2.4
     rotateYalter.value = -normalizedX * 9.8
@@ -142,12 +142,12 @@ function handleMove(event){
         @media #{$desktop} {
 
             &.q1 {
-                transition: all 0.9s !important;
+                transition: all 4.9s ease-out !important;
             }
 
             &.q1,
             &.q3 {
-                transition: all calc( 0.7s * var(--i));
+                transition: all calc( 1.7s * var(--i)) ease-out;
                 transform: 
                     translate3d(
                         v-bind(translateX), 
@@ -164,7 +164,7 @@ function handleMove(event){
             
             &.q2,
             &.q4 {
-                transition: all calc( 0.9s * var(--i));
+                transition: all calc( 1.9s * var(--i)) ease-out;
                 transform: 
                     translate3d(
                         v-bind(translateXalter), 
