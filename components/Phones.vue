@@ -1,11 +1,22 @@
 <script setup>
+import { useElementVisibility } from '@vueuse/core';
 
 const maxIndex = 4
+const wrapper = ref(null)
+const wrapperIsVisible = useElementVisibility(wrapper)
 const imgLeft = ref(null)
 const imgRight = ref(null)
 const leftIndex = ref("1")
 const rightIndex = ref("2")
 const isShowed = ref(true)
+
+watch(wrapperIsVisible, (newVal) => {
+    if(newVal){
+        setTimeout(() => {
+            handleClick()
+        }, 1000)
+    }
+})
 
 function handleClick(){
     console.log("clicked")
@@ -40,7 +51,7 @@ function changeImages(){
 </script>
 
 <template>
-    <section class="phones-wrapper" @click="handleClick" >
+    <section ref="wrapper" class="phones-wrapper" @click="handleClick" >
         <div class="phones-inner">
             <img class="frame" src="/images/visuals/phones.png" alt="">
             <div class="left">
