@@ -53,7 +53,7 @@ function handleGyro(event){
 <template>
     <section 
         id="key"
-        class="portal-wrapper"
+        class="key-wrapper"
         @mouseenter="isHovered = true"
         @mouseleave="isHovered = false"
     >
@@ -79,12 +79,12 @@ function handleGyro(event){
 </template>
 
 <style lang="scss" scoped>
-    .portal {
+    .key {
         &-wrapper {
-            // border: solid 10px green;
+            border: solid 1px green;
             position: relative;
             width: 100%;
-            // max-width: calc($layoutMaxWidthDesktop * 1.15);
+            max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
             height: 100vh;
             

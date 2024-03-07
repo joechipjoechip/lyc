@@ -41,6 +41,16 @@ const wording = {
             ],
         ]
     },
+    boxes: {
+        // cta: "Pre Mint NFT",    
+        title: "10$ to 1 000 000$<br>per box",
+        paragraphs: [
+            [
+                "One key for many boxes",
+                "More details soon"
+            ],
+        ]
+    },
     nextStep: {
         paragraphs: [
             [

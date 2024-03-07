@@ -43,7 +43,7 @@ onMounted(() => {
 
         <HeroKey v-if="isVisible" :wording="wording.premint" />
 
-        <!-- ici module floating boxes -->
+        <Boxes :wording="wording.boxes" />
 
         <VideoDisplayer videoName="master" videoUrl="/videos/master-2.mp4" />
 

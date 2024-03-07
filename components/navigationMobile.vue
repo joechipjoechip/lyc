@@ -67,7 +67,6 @@ onClickOutside(menu, (el) => {
         background-color: var(--color-contrast-90);
         backdrop-filter: blur(8px);
         
-        
         .level-1 {
             z-index: 110;
             height: 60%;
