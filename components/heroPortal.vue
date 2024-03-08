@@ -62,7 +62,7 @@ const groundTextures = {}
 // positions
 const portalPosition = store.isMobile ? [0,-0.05,0] : [0,0,0.35]
 const boxPosition = store.isMobile ? [0, 0.35, 0.25] : [0, 0.375, 0.75]
-const cameraPosition =  store.isMobile ? [0, 0.1, 3.5] : [0, 0.25, 4.35]
+const cameraPosition =  store.isMobile ? [0, 0.1, 3] : [0, 0.25, 4.35]
 const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.43, 0]
 const cameraFov = store.isMobile ? 40 : 22
 
