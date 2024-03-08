@@ -339,7 +339,7 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=(iTime*0.75) + 10.;
+                                        float T=(iTime*1.275) + 10.;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.01,0)),
