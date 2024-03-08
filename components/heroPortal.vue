@@ -15,6 +15,7 @@ import { useElementVisibility } from "@vueuse/core"
 import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 import { disposeScene } from '@/composables/sceneDisposer'
+import { clamp } from '@/composables/computes'
 
 import { useMainStore } from '@/stores/main';
 import { useLocalStorageStore } from '@/stores/localStorageStore';
@@ -120,8 +121,8 @@ function handleGyro(event){
     const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
 
     gsap.to(animatedObject, {
-        x: clamp(x, -1, 1),
-        y: clamp(y, -1, 1),
+        x: clamp(x / 4, -0.85, 0.85),
+        y: clamp(y / 4, -1, 1),
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
@@ -131,10 +132,6 @@ function handleGyro(event){
     })
 }
 
-function clamp(val, min, max) {
-    return val > max ? max : val < min ? min : val;
-}
-
 async function initScene(){
     return new Promise(res => {
         const { width, height } = canvas.value.getBoundingClientRect()
@@ -142,10 +139,10 @@ async function initScene(){
         // lights
         const lightAmbient = new THREE.AmbientLight( 0xffffff, 5.7)
         const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
-        const lightTwo = new THREE.PointLight( 0xffa129, 30, 50)
+        const lightTwo = new THREE.PointLight( 0x631fff, 30, 50)
 
         lightOne.position.set(3, 6, -10)
-        lightTwo.position.set(-5, 6, -10)
+        lightTwo.position.set(0, 3, -10)
         // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
