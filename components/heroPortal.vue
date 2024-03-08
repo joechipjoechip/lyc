@@ -67,7 +67,7 @@ const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.43, 0]
 const cameraFov = store.isMobile ? 40 : 22
 
 // effetcs
-const vignetteOffset = store.isMobile ? 0.5 : 1
+const vignetteOffset = store.isMobile ? 0.5 : 0.5
 const vignetteDarkness = store.isMobile ? 1.75 : 1.75
 
 onMounted(() => {
@@ -476,8 +476,8 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.09
-    bloomPass.strength = 0.25
+    bloomPass.threshold = 0.212
+    bloomPass.strength = 0.2
     bloomPass.radius = 0.92
 
     const effectVignette = new ShaderPass( VignetteShader );
