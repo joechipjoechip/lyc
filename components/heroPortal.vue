@@ -349,7 +349,7 @@ async function initEnvMapAndMaterials(model){
 
                                         vec3 c0=vec3(csm_Emissive);
                                         float w0=0.;
-                                        const float N=8.;
+                                        const float N=18.;
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
@@ -372,23 +372,23 @@ async function initEnvMapAndMaterials(model){
                                         //c0 = clamp(c0, 0., uv.y);
 
                                         // Limitation du blanc
-                                        float threshold = 2.7; // Seuil de seuillage
-                                        float att = 1.0 / (1.0 + exp(-1.0 * (c0.r - threshold)));
-                                        c0.r = c0.r * att;
+                                        // float threshold = 2.7; // Seuil de seuillage
+                                        // float att = 1.0 / (1.0 + exp(-1.0 * (c0.r - threshold)));
+                                        // c0.r = c0.r * att;
 
                                         // Gestion constrast/light
-                                        float contrast = 0.75; // Contraste
-                                        float brightness = 0.1; // Luminosité
-                                        c0 = (c0 - 0.5) * contrast + 0.5 + brightness;
-                                        c0.r = clamp(c0.r, 0., 0.9);
-                                        c0.g = clamp(c0.g, 0.2, 0.8);
-                                        c0.b = clamp(c0.b, 0., 0.9);
+                                        float contrast = 0.35; // Contraste
+                                        float brightness = 0.4; // Luminosité
+                                        c0 = (c0 - 0.5) * contrast + brightness;
+                                        // c0.r = clamp(c0.r, 0., 0.9);
+                                        // c0.g = clamp(c0.g, 0.2, 0.8);
+                                        // c0.b = clamp(c0.b, 0., 0.9);
                                         
                                         csm_FragColor=vec4(c0,1.);
                                     }
                                 `,
 
-                                emissive: new THREE.Color(0xFF0000),
+                                emissive: new THREE.Color(0xFFFFFF),
         
                                 
                             })
