@@ -37,7 +37,7 @@ const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
 const animate = ref(false)
 const scene = new THREE.Scene()
-const multiplicatorRatio = store.isMobile ? 1 : 2
+const multiplicatorRatio = store.isMobile ? 1 : 3
 let canvasBaseRatio = null
 
 let renderer = null
@@ -100,10 +100,10 @@ $on("main-touch-move", handleTouchMove)
 const normalizedPosition = reactive({ x: 0, y: 0 })
 function handleTouchMove(event){
     if( localStore.gyroIsAllowed ){ return }
-    if( !localStore.gyroIsAllowed && !isHovered.value ){ return }
+    // if( !localStore.gyroIsAllowed && !isHovered.value ){ return }
 
     const { x, y } = useGetEventPosition(event)
-    const { normalizedX, normalizedY } = useNormalizePosition(x, y, canvas.value)
+    const { normalizedX, normalizedY } = useNormalizePosition(x, y)
     normalizedPosition.x = normalizedX
     normalizedPosition.y = normalizedY
 }
@@ -185,7 +185,7 @@ async function initRenderer(){
     
         renderer = new THREE.WebGLRenderer({
             canvas: canvas.value,
-            // antialias: true,
+            antialias: true,
             // precision: "highp"
         });
     
@@ -296,7 +296,7 @@ async function initEnvMapAndMaterials(model){
 
                                 uniforms: {
                                     iTime: { value: 1.0 },
-                                    iResolution: { value: new THREE.Vector2(0.75) }
+                                    iResolution: { value: new THREE.Vector2(1.25) }
                                 },
 
                                 vertexShader: `
@@ -333,7 +333,7 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=iTime*1.65;
+                                        float T=(iTime*0.75) + 10.;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.01,0)),
@@ -357,7 +357,7 @@ async function initEnvMapAndMaterials(model){
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
                                             float w=(1.5-i/N)*.5;
                                             c0+=c*w;
-                                            //c0/=csm_Metalness;
+                                            //c0*=csm_Metalness;
                                             w0+=w;
                                         }
                                         c0=c0/w0*1.9+.5;//*(1.-pow(uv.y-.5,2.)*2.)*10.+.5;
@@ -371,18 +371,19 @@ async function initEnvMapAndMaterials(model){
                                         c0.r = c0.r * att;
 
                                         // Gestion constrast/light
-                                        float contrast = 0.6; // Contraste
+                                        float contrast = 0.75; // Contraste
                                         float brightness = 0.1; // Luminosité
                                         c0 = (c0 - 0.5) * contrast + 0.5 + brightness;
-                                        // c0.r = clamp(c0.r, 0., 0.8);
-                                        // c0.g = clamp(c0.g, 0., 0.4);
-                                        // c0.b = clamp(c0.b, 0., 0.8);
+                                        c0.r = clamp(c0.r, 0., 0.9);
+                                        c0.g = clamp(c0.g, 0.2, 0.8);
+                                        c0.b = clamp(c0.b, 0., 0.9);
                                         
                                         csm_FragColor=vec4(c0,1.);
                                     }
                                 `,
 
                                 emissive: new THREE.Color(0xFF0000),
+        
                                 
                             })
                         }
@@ -521,10 +522,10 @@ function mainTick(){
 
         camera.position.set(
             normalizedPosition.x * 0.3,
-            (normalizedPosition.y * 0.25) + 0.1,
+            (normalizedPosition.y * 0.05) - 0.2,
             cameraPosition[2]
         )
-        camera.lookAt(0, 0.35, 0)
+        camera.lookAt(0, 0.43, 0)
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
