@@ -18,8 +18,6 @@ const props = defineProps({
     }
 })
 
-const buttonRef = ref(null)
-
 const translateX = ref(0)
 const translateY = ref(0)
 const rotateX = ref(0)
