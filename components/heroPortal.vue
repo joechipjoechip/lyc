@@ -67,8 +67,8 @@ const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.43, 0]
 const cameraFov = store.isMobile ? 40 : 22
 
 // effetcs
-const vignetteOffset = store.isMobile ? 0.5 : 0.5
-const vignetteDarkness = store.isMobile ? 1.75 : 1.75
+const vignetteOffset = store.isMobile ? 0.05 : 0.5
+const vignetteDarkness = store.isMobile ? 1.05 : 1.75
 
 onMounted(() => {
     console.log("mounted du hero portal")
