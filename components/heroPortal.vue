@@ -2,6 +2,8 @@
 import gsap from 'gsap';
 import * as THREE from 'three'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
+import { VignetteShader } from 'three/examples/jsm/shaders/VignetteShader.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -341,11 +343,11 @@ async function initEnvMapAndMaterials(model){
 
                                         vec3 c0=vec3(csm_Emissive);
                                         float w0=0.;
-                                        const float N=9.;
+                                        const float N=8.;
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
-                                            float wp=.5+(i+1.)*(i+22.5)*0.0001;
+                                            float wp=.5+(i+1.)*(i+2.5)*0.0001;
                                             // here
                                             float wb=.48+i/N*0.001;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*3.*wp);
@@ -362,12 +364,25 @@ async function initEnvMapAndMaterials(model){
                                         c0*=.5+dot(c0,vec3(1,1,1))/sqrt(2.)*.6;
                                         c0+=pow(length(sin(c0*.5))/sqrt(3.)*1.0,20.)*(.3+.7*c0);
                                         //c0 = clamp(c0, 0., uv.y);
+
+                                        // Limitation du blanc
+                                        float threshold = 2.7; // Seuil de seuillage
+                                        float att = 1.0 / (1.0 + exp(-1.0 * (c0.r - threshold)));
+                                        c0.r = c0.r * att;
+
+                                        // Gestion constrast/light
+                                        float contrast = 0.6; // Contraste
+                                        float brightness = 0.1; // Luminosité
+                                        c0 = (c0 - 0.5) * contrast + 0.5 + brightness;
+                                        // c0.r = clamp(c0.r, 0., 0.8);
+                                        // c0.g = clamp(c0.g, 0., 0.4);
+                                        // c0.b = clamp(c0.b, 0., 0.8);
                                         
                                         csm_FragColor=vec4(c0,1.);
                                     }
                                 `,
 
-                                emissive: new THREE.Color(0x0000FF),
+                                emissive: new THREE.Color(0xFF0000),
                                 
                             })
                         }
@@ -455,15 +470,20 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.9999
+    bloomPass.threshold = 0.19
     bloomPass.strength = 0.2
-    bloomPass.radius = 0.4
+    bloomPass.radius = 0.5
+
+    const effectVignette = new ShaderPass( VignetteShader );
+
+    effectVignette.uniforms["offset"].value = 1
+    effectVignette.uniforms["darkness"].value = 1.75
     
 
     const blurConfig = {
         focus: 3.6,
-        aperture: 0.0035,
-        maxblur: 0.01
+        aperture: 0.0025,
+        maxblur: 0.005
     }
 
     const blurPass = new BokehPass( 
@@ -476,8 +496,11 @@ function initPostProcs(width, height){
         }
     );
 
-    // composer.addPass(blurPass)
     composer.addPass(bloomPass)
+    composer.addPass(effectVignette)
+    composer.addPass(blurPass)
+
+    
 }
 
 function mainTick(){
