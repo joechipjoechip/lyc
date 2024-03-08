@@ -147,6 +147,10 @@ watch(() => props.isHovered, newVal => {
         justify-content: center;
 
         font-size: var(--font-size-bigest);
+
+        @media #{$mobile} {
+            font-size: var(--font-size-bigest-plus);
+        }
     }
 
     img {
