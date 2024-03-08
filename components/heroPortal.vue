@@ -302,7 +302,7 @@ async function initEnvMapAndMaterials(model){
 
                                 uniforms: {
                                     iTime: { value: 1.0 },
-                                    iResolution: { value: new THREE.Vector2(1.25) }
+                                    iResolution: { value: new THREE.Vector2(1) }
                                 },
 
                                 vertexShader: `
@@ -339,7 +339,7 @@ async function initEnvMapAndMaterials(model){
                                         // vec2 uv = clamp(vUv.xy,0.,0.8);
                                         uv/=iResolution.xx;
                                         uv=vec2(.125,.75)+(uv-vec2(-.9125,.75))*.23;
-                                        float T=(iTime*1.275) + 10.;
+                                        float T=iTime*1.65;
 
                                         vec3 c = clamp(1.-.4*vec3(
                                             length(uv-vec2(.01,0)),
@@ -349,11 +349,11 @@ async function initEnvMapAndMaterials(model){
 
                                         vec3 c0=vec3(csm_Emissive);
                                         float w0=0.;
-                                        const float N=18.;
+                                        const float N=9.;
                                         for(float i=0.;i<N;i++)
                                         {
                                             float wt=(i*i/N/N-.2)*.3;
-                                            float wp=.5+(i+1.)*(i+2.5)*0.0001;
+                                            float wp=.5+(i+1.)*(i+22.5)*0.0001;
                                             // here
                                             float wb=.48+i/N*0.001;
                                             c.zx=rot(c.zx,1.6+T*0.65*wt+(uv.x+.7)*3.*wp);
@@ -363,7 +363,7 @@ async function initEnvMapAndMaterials(model){
                                             c.xy=rot(c.xy,c.z*c.x*wb+1.7-T*wt+(uv.y+1.1)*15.*wp);
                                             float w=(1.5-i/N)*.5;
                                             c0+=c*w;
-                                            //c0*=csm_Metalness;
+                                            //c0/=csm_Metalness;
                                             w0+=w;
                                         }
                                         c0=c0/w0*1.9+.5;//*(1.-pow(uv.y-.5,2.)*2.)*10.+.5;
@@ -372,13 +372,13 @@ async function initEnvMapAndMaterials(model){
                                         //c0 = clamp(c0, 0., uv.y);
 
                                         // Limitation du blanc
-                                        // float threshold = 2.7; // Seuil de seuillage
-                                        // float att = 1.0 / (1.0 + exp(-1.0 * (c0.r - threshold)));
-                                        // c0.r = c0.r * att;
+                                        float threshold = 0.9; // Seuil de seuillage
+                                        vec3 att = vec3(1.0 / (1.0 + exp(-0.5 * (c0.r - threshold))));
+                                        c0 = c0 * att;
 
                                         // Gestion constrast/light
-                                        float contrast = 0.35; // Contraste
-                                        float brightness = 0.4; // Luminosité
+                                        float contrast = 0.99; // Contraste
+                                        float brightness = 0.7; // Luminosité
                                         c0 = (c0 - 0.5) * contrast + brightness;
                                         // c0.r = clamp(c0.r, 0., 0.9);
                                         // c0.g = clamp(c0.g, 0.2, 0.8);
@@ -388,9 +388,8 @@ async function initEnvMapAndMaterials(model){
                                     }
                                 `,
 
-                                emissive: new THREE.Color(0xFFFFFF),
-        
-                                
+                                emissive: new THREE.Color(0x0000FF),
+
                             })
                         }
 
