@@ -62,7 +62,13 @@ const groundTextures = {}
 // positions
 const portalPosition = store.isMobile ? [0,-0.05,0] : [0,0,0.35]
 const boxPosition = store.isMobile ? [0, 0.35, 0.25] : [0, 0.375, 0.75]
-const cameraPosition =  store.isMobile ? [0, 0.25, 4.25 ] : [0, 0.25, 4.35]
+const cameraPosition =  store.isMobile ? [0, 0.1, 3.5] : [0, 0.25, 4.35]
+const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.43, 0]
+const cameraFov = store.isMobile ? 40 : 22
+
+// effetcs
+const vignetteOffset = store.isMobile ? 0.5 : 1
+const vignetteDarkness = store.isMobile ? 1.75 : 1.75
 
 onMounted(() => {
     console.log("mounted du hero portal")
@@ -123,7 +129,7 @@ async function initScene(){
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
         // camera
-        camera = new THREE.PerspectiveCamera( 22, width / height, 1, 20 )
+        camera = new THREE.PerspectiveCamera( cameraFov, width / height, 0.001, 20 )
         camera.position.set(...cameraPosition)
 
         // textures loads
@@ -390,7 +396,7 @@ async function initEnvMapAndMaterials(model){
 
                         if( child.name === "ground" ){
                             ground = child
-                            child.receiveShadow = true
+                            // child.receiveShadow = true
                             child.material = new THREE.MeshStandardMaterial({ 
                                 metalnessMap: groundTextures.displacement,
                                 metalness: 0.92,
@@ -405,8 +411,8 @@ async function initEnvMapAndMaterials(model){
 
                                 alphaMap: groundTextures.alpha,
                                 transparent: true
-                                // alphaToCoverage: true
                             })
+
                         }
 
                         if( child.name === "plane" ){
@@ -477,8 +483,8 @@ function initPostProcs(width, height){
 
     const effectVignette = new ShaderPass( VignetteShader );
 
-    effectVignette.uniforms["offset"].value = 1
-    effectVignette.uniforms["darkness"].value = 1.75
+    effectVignette.uniforms["offset"].value = vignetteOffset
+    effectVignette.uniforms["darkness"].value = vignetteDarkness
     
 
     const blurConfig = {
@@ -522,10 +528,10 @@ function mainTick(){
 
         camera.position.set(
             normalizedPosition.x * 0.3,
-            (normalizedPosition.y * 0.05) - 0.2,
+            (normalizedPosition.y * 0.05) - cameraPosition[1],
             cameraPosition[2]
         )
-        camera.lookAt(0, 0.43, 0)
+        camera.lookAt(...lookAtPosition)
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
