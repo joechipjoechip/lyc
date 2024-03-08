@@ -58,6 +58,7 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
 
         background-size: cover;
 
+        &:before,
         &:after {
             content: "";
             position: absolute;
@@ -71,6 +72,11 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
         @media #{$mobile} {
             margin-bottom: 26rem;
             // height: 150%;
+        }
+
+        @media #{$desktopVeryLarge} {
+            max-width: $layoutMaxWidthDesktop;
+            margin: 0 auto;
         }
         
         img {
@@ -97,6 +103,12 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
                 text-align: right;
                 padding-right: $gutter;
             }
+
+            @media #{$desktopVeryLarge} {
+                &:before {
+                    background: linear-gradient(to right, var(--color-contrast-100) 0%, transparent 30%);
+                }
+            }
         }
         &.left {
             &:after {
@@ -106,6 +118,12 @@ const backgroundImageSrc = ref(`/images/visuals/strip-${props.name}.jpg`)
                 align-items: flex-start;
                 text-align: left;
                 padding-left: $gutter;
+            }
+
+            @media #{$desktopVeryLarge} {
+                &:before {
+                    background: linear-gradient(to left, var(--color-contrast-100) 0%, transparent 30%);
+                }
             }
         }
 
