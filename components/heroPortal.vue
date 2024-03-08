@@ -47,8 +47,6 @@ let clock = null
 let camera = null
 let portal = null
 let plane = null
-let ground = null
-let curtain = null
 let box = null
 let boxMaterial = null
 let boxMap = null
@@ -112,6 +110,24 @@ function handleTouchMove(event){
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
     normalizedPosition.x = normalizedX
     normalizedPosition.y = normalizedY
+}
+
+$on("main-device-motion", handleGyro)
+
+function handleGyro(event){
+    const { x, y, z } = event.accelerationIncludingGravity
+    const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
+
+    gsap.to(animatedObject, {
+        x: x/4,
+        y: y/6,
+        duration: 0.2,
+        ease: "linear",
+        onUpdate: () => {
+            normalizedPosition.x = animatedObject.x
+            normalizedPosition.y = animatedObject.y
+        }
+    })
 }
 
 async function initScene(){
@@ -295,7 +311,7 @@ async function initEnvMapAndMaterials(model){
                         }
 
                         if( child.name === "curtain" ){
-                            curtain = child
+                            
                             child.material = curtainMaterial = new CustomShaderMaterial({
 
                                 baseMaterial: THREE.MeshPhysicalMaterial,
@@ -394,7 +410,6 @@ async function initEnvMapAndMaterials(model){
                         }
 
                         if( child.name === "ground" ){
-                            ground = child
                             // child.receiveShadow = true
                             child.material = new THREE.MeshStandardMaterial({ 
                                 metalnessMap: groundTextures.displacement,
@@ -531,10 +546,9 @@ function mainTick(){
             cameraPosition[2]
         )
         camera.lookAt(...lookAtPosition)
+
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
-
-        
 
         composer.render();
         // renderer.render(scene, camera);
@@ -545,24 +559,7 @@ function mainTick(){
     canvasIsVisible.value && window.requestAnimationFrame(mainTick);
 }
 
-// - - - - 
-$on("main-device-motion", handleGyro)
 
-function handleGyro(event){
-    const { x, y, z } = event.accelerationIncludingGravity
-    const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
-
-    gsap.to(animatedObject, {
-        x: x/4,
-        y: y/6,
-        duration: 0.2,
-        ease: "linear",
-        onUpdate: () => {
-            normalizedPosition.x = animatedObject.x
-            normalizedPosition.y = animatedObject.y
-        }
-    })
-}
 
 </script>
 
