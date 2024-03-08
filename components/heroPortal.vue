@@ -471,9 +471,9 @@ async function initEnvMapAndMaterials(model){
 
 function initPostProcs(width, height){
     const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.19
-    bloomPass.strength = 0.2
-    bloomPass.radius = 0.5
+    bloomPass.threshold = 0.09
+    bloomPass.strength = 0.25
+    bloomPass.radius = 0.92
 
     const effectVignette = new ShaderPass( VignetteShader );
 
