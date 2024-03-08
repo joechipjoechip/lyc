@@ -114,7 +114,7 @@ onMounted(() => {
 .logo-lonely {
     display: block;
     width: 25rem;
-    margin: calc($dividerVertical *10) auto;
+    margin: calc($dividerVertical *5) auto;
 }
 
 </style>

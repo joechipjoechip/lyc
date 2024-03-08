@@ -66,6 +66,10 @@ onClickOutside(menu, (el) => {
         
         background-color: var(--color-contrast-90);
         backdrop-filter: blur(8px);
+
+        @media #{ $landscape }{
+            height: $layoutNavHeightMobileLandscape;
+        }
         
         .level-1 {
             z-index: 110;

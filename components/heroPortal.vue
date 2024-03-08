@@ -609,6 +609,9 @@ function mainTick(){
             height: calc(100vh - 30rem);
         }
 
+        @media #{ $landscape }{
+            height: calc(100vh);
+        }
         
     }
 </style>

@@ -79,6 +79,9 @@ function handleClickWallClick(){
         @media #{$mobile} {
             padding-top: calc($layoutNavHeightMobile);
         }
+        @media #{$landscape} {
+            padding-top: calc($layoutNavHeightMobileLandscape);
+        }
     }
 }
 
