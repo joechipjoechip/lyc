@@ -58,21 +58,30 @@ function handleGyro(event){
         @mouseleave="isHovered = false"
     >
 
-        <MicroHud 
-            :text="wording.cta" 
-            class="hud" 
-            :isHovered="isHovered"
-        />
-
-        <h6 class="title" v-html="wording.title"></h6>
-
-        <div class="paragraph" v-for="paragraph in wording.paragraphs" :key="paragraph.id">
-            <p v-for="line in paragraph" :key="line.id">
-                {{ line }}
-            </p>
+        <div class="key-inner">
+            <MicroHud 
+                :text="wording.cta" 
+                class="hud" 
+                :isHovered="isHovered"
+            />
+    
+            <h6 class="title" v-html="wording.title"></h6>
+    
+            <div class="paragraph" v-for="paragraph in wording.paragraphs" :key="paragraph.id">
+                <p v-for="line in paragraph" :key="line.id">
+                    {{ line }}
+                </p>
+            </div>
+    
+            <img src="/images/core/logo-chrome-typo-and-visu.png" alt="logo lyc">
         </div>
 
-        <img src="/images/core/logo-chrome-typo-and-visu.png" alt="logo lyc">
+        <VideoDisplayer 
+            videoUrl="/videos/key.mp4" 
+            videoName="key"
+            :controls="false"
+            class="video"
+        />
 
     </section>
 
@@ -81,13 +90,24 @@ function handleGyro(event){
 <style lang="scss" scoped>
     .key {
         &-wrapper {
-            border: solid 1px green;
             position: relative;
             width: 100%;
             max-width: $layoutMaxWidthDesktop;
             margin: 0 auto;
-            height: 100vh;
-            
+
+            @media #{ $mobile } {
+                min-height: 50vh;
+            }
+        }
+
+        &-inner {
+            z-index: 50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
             font-size: var(--font-size-big);
             color: var(--color-main-80);
 
@@ -126,8 +146,12 @@ function handleGyro(event){
         // border: solid 1px red;
         width: 35rem;
         position: absolute;
-        bottom: 1rem;
-        left: calc((100vw - $layoutMaxWidthDesktop) / 2);
+        bottom: $gutter;
+        left: $gutter;
+
+        @media #{ $mobile } {
+            width: 15rem;
+        }
     }
 
 </style>

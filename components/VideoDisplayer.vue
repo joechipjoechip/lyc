@@ -18,18 +18,20 @@ const props = defineProps({
     }
 })
 
+const playerHaveBeenPaused = ref(false)
 const player = ref(null)
 const isVisible = useElementVisibility(player)
+const curtainIsActive = ref(false)
 
 watch(isVisible, (value) => {
     if (value) {
 
         if( props.videoName === "master" ){
-            if( !store.videoMasterHaveBeenPaused ){
-                player.value.play()
+            if( !playerHaveBeenPaused.value ){
+                actPlay()
             }
         } else {
-            player.value.play()
+            actPlay()
         }
 
     } else {
@@ -39,27 +41,43 @@ watch(isVisible, (value) => {
 
 function handlePlay(){
     console.log("play triggered")
-    if( props.videoName === "master" ){
-        store.setVideoMasterHaveBeenPaused(false)
-    }
+    curtainIsActive.value = false
 }
 
-function handePause( event ){
-    console.log("-- - - -  paused", event)
-    if( props.videoName === "master" ){
-        store.setVideoMasterHaveBeenPaused(true)
-    }
+function actPlay(){
+    player.value.play()
+    .then(() => {
+        // curtainIsActive.value = false
+    })
+    .catch(() => {
+        console.log("display curtain video")
+        curtainIsActive.value = true
+    })
+}
+
+function handleCurtainClick(){
+    curtainIsActive.value = false
+    actPlay()
+
 }
 
 </script>
 
 <template>
-    <section
-        :class="`video-wrapper ${props.videoName}`"
-
+    <section 
+        class="video-wrapper"
+        :class="`${props.videoName}`"
     >
+        <div 
+            class="curtain"
+            :class="{ 'curtain-active': curtainIsActive }"
+            @click="handleCurtainClick"
+        >
+            <IconsPlay class="icon" />
+        </div>
         <video 
             ref="player"
+            class="player"
             :src="videoUrl"
             playsinline
             @play="handlePlay"
@@ -68,7 +86,7 @@ function handePause( event ){
             :controls="controls"
             :muted="!controls"
             :loop="!controls"
-        ></video>
+        />
     </section>
 </template>
 
@@ -85,17 +103,45 @@ function handePause( event ){
         justify-content: center;
         align-items: center;
 
-        video {
-            display: block;
-            width: 100%;
-            margin: 0 auto;
-        }
-
         &.master {
-            video {
+            .player {
                 max-width: calc($layoutMaxWidthDesktop * 0.75);
             }
         }
     }
 }
+
+.player {
+    z-index: 40;
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.curtain {
+    z-index: 50;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-contrast-75);
+    pointer-events: none;
+    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 0;
+
+    transition: opacity var(--transitionDurationMediumPlus);
+    &.curtain-active {
+        pointer-events: all;
+        opacity: 1;
+    }
+
+}
+
 </style>
