@@ -82,14 +82,12 @@ function changeImages(){
 .phones {
     &-wrapper {
         position: relative;
-        margin-left: -2.2rem;
     }
 
     &-inner {
         position: relative;
         perspective: 500px;
         .frame {
-            width: $phonesWidth;
             position: relative;
             z-index: 50;
         }

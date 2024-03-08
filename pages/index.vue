@@ -32,7 +32,7 @@ onMounted(() => {
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
-            <Phones class="phones" v-show="!store.isMobile"/>
+            <Phones class="phones" />
             <Strip name="loot" :wording="wording.loot" direction="left"/>
         </div>
 
@@ -86,6 +86,29 @@ onMounted(() => {
     z-index: 50;
     top: 20rem;
     left: calc((max(100vw, $layoutMaxWidthDesktop) - $layoutMaxWidthDesktop) / 2);
+
+    :deep(.phones-wrapper) {
+        margin-left: -2.2rem;
+    }
+
+    :deep(.frame){
+        width: $phonesWidth;
+    }
+
+    @media #{$mobile} {
+        position: relative;
+        top: unset;
+        left: unset;
+        padding: 6rem 0;
+
+        :deep(.phones-wrapper) {
+            margin-left: unset;
+        }
+        
+        :deep(.frame){
+            width: 100vw;
+        }
+    }
 }
 
 .logo-lonely {
