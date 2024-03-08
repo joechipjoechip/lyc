@@ -9,7 +9,6 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-// import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 import { useElementVisibility } from "@vueuse/core" 
@@ -110,6 +109,8 @@ function handleTouchMove(event){
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
     normalizedPosition.x = normalizedX
     normalizedPosition.y = normalizedY
+
+    console.log("normalizedPosition.x", normalizedPosition.x)
 }
 
 $on("main-device-motion", handleGyro)
@@ -119,8 +120,8 @@ function handleGyro(event){
     const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
 
     gsap.to(animatedObject, {
-        x: x/4,
-        y: y/6,
+        x: clamp(x, -1, 1),
+        y: clamp(y, -1, 1),
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
@@ -128,6 +129,10 @@ function handleGyro(event){
             normalizedPosition.y = animatedObject.y
         }
     })
+}
+
+function clamp(val, min, max) {
+    return val > max ? max : val < min ? min : val;
 }
 
 async function initScene(){
