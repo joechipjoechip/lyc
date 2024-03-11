@@ -34,7 +34,7 @@ function handleCLickLogo( event ){
             justify-content: space-between;
             align-items: center;
             
-            background-color: var(--color-contrast-80);
+            background: linear-gradient(to bottom, var(--color-contrast-80) 0%, var(--color-contrast-40) 100%);
             backdrop-filter: blur(20px);
         }
 
