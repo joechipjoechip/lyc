@@ -60,8 +60,8 @@ const groundTextures = {}
 // positions
 const portalPosition = store.isMobile ? [0,-0.05,0] : [0,0,0.35]
 const boxPosition = store.isMobile ? [0, 0.35, 0.25] : [0, 0.375, 0.75]
-const cameraPosition =  store.isMobile ? [0, 0.1, 3] : [0, 0.25, 4.35]
-const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.43, 0]
+const cameraPosition =  store.isMobile ? [0, 0.1, 3] : [0, 0.25, 4.8]
+const lookAtPosition =  store.isMobile ? [0, 0.28, 0] : [0, 0.32, 0]
 const cameraFov = store.isMobile ? 40 : 22
 
 // effetcs
@@ -147,7 +147,7 @@ async function initScene(){
         // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
         // camera
-        camera = new THREE.PerspectiveCamera( cameraFov, width / height, 0.001, 20 )
+        camera = new THREE.PerspectiveCamera( cameraFov, width / height, 0.001, 25 )
         camera.position.set(...cameraPosition)
 
         // textures loads
@@ -155,7 +155,7 @@ async function initScene(){
         groundTextures.roughness = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_rough.jpg")
         groundTextures.displacement = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_disp.jpg")
         groundTextures.alpha = textureLoader.load("3d/textures/heroPortal/ground/aerial_beach_01_alpha.jpg")
-        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-last.jpg")
+        planeTexture = textureLoader.load("3d/textures/heroPortal/background-pyramid-last-large1.jpg")
         boxMap = textureLoader.load("3d/textures/box/boxMap.jpg")
 
         // glb models
@@ -544,7 +544,7 @@ function mainTick(){
 
         camera.position.set(
             normalizedPosition.x * 0.3,
-            (normalizedPosition.y * 0.05) - cameraPosition[1],
+            ((normalizedPosition.y + 1) * 0.1) - cameraPosition[1],
             cameraPosition[2]
         )
         camera.lookAt(...lookAtPosition)
@@ -587,15 +587,15 @@ function mainTick(){
 
             position: relative;
 
-            // &::after {
-            //     content: "";
-            //     position: absolute;
-            //     bottom: 0;
-            //     left: 0;
-            //     width: 100%;
-            //     height: 15rem;
-            //     background: linear-gradient(to top, black 0%, transparent 100%);
-            // }
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 7%;
+                background: linear-gradient(to top, black 0%, transparent 100%);
+            }
         }
     }
 
