@@ -97,13 +97,16 @@ function handleAnchorNavClick(e){
         text-decoration: none;
         margin: 0 1.75rem;
 
-        &:first-child {
-            margin-left: 0;
+        @media #{$desktop} {
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
 
-        &:last-child {
-            margin-right: 0;
-        }
     }
 }
 </style>
