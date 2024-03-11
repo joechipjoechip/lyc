@@ -506,7 +506,7 @@ function initPostProcs(width, height){
     const blurConfig = {
         focus: 3.6,
         aperture: 0.0025,
-        maxblur: 0.005
+        maxblur: 0.002
     }
 
     const blurPass = new BokehPass( 
