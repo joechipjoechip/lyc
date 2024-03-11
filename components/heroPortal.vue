@@ -561,8 +561,6 @@ function mainTick(){
     canvasIsVisible.value && window.requestAnimationFrame(mainTick);
 }
 
-
-
 </script>
 
 <template>
@@ -593,7 +591,7 @@ function mainTick(){
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 7%;
+                height: 10%;
                 background: linear-gradient(to top, black 0%, transparent 100%);
             }
         }

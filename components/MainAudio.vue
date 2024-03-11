@@ -8,18 +8,17 @@ const isMuted = ref(false)
 
 $on("main-touch-and-click", handleGlobalClick)
 
+
 function handleGlobalClick(){
-    console.log("global click")
+    // console.log("global click")
     audioPlayer.value.play()
     $off("main-touch-and-click", handleGlobalClick)
 }
 
 function handleAudioClick(){
-    if( !isMuted.value ){
-        store.setUserWantAudio(true)
-    } else {
-        store.setUserWantAudio(false)
-    }
+    isMuted.value = !isMuted.value
+    store.setUserWantsAudio(!isMuted.value)
+    console.log("audio clicked, isMuted: ", isMuted.value)
 }
 
 watch(isMuted, newVal => {
@@ -28,28 +27,35 @@ watch(isMuted, newVal => {
     } else {
         audioPlayer.value.play()
     }
-
 })
 
 </script>
 
 <template>
     <div class="audio-wrapper">
-        <div class="audio-inner">
+        <div class="audio-inner" @click="handleAudioClick">
             <audio 
                 ref="audioPlayer"
                 class="player"
                 controls
                 src="/audios/main.mp3"
-                @click="handleAudioClick"
             />
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.audio-wrapper {
-    position: relative;
-    z-index: 500;
+.audio {
+    &-wrapper {
+        position: relative;
+        z-index: 500;
+    }
+
+    &-inner {
+        padding: 2rem;
+        border: solid 2px red;
+    }
+
 }
+
 </style>
