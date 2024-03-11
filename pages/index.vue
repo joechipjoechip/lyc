@@ -1,17 +1,12 @@
 <script setup>
 import { wording } from '@/assets/data/wording';
-const store = useMainStore()
-
 const route = useRoute()
-const isVisible = ref(route.fullPath.split("?")[0] === "/")
 
 onMounted(() => {
     if( route.query.anchor ){
         const anchor = route.query.anchor
         const target = document.querySelector(anchor)
 
-        // console.log("target", target)
-        
         setTimeout(() => {
             target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
         }, 800)
@@ -22,13 +17,15 @@ onMounted(() => {
 
 <template>
     <div class="page-index">
-        <HeroPortal v-if="isVisible"/>
+        <HeroPortal />
         
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />
             <MicroTitle text="Augmented reality play-to-earn" :isGradient="true" :isBig="true"/>
             <img src="/images/logos/solana.png" alt="logo solana" />
         </div>
+
+        <HeroKey :wording="wording.premint" />
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
@@ -40,8 +37,6 @@ onMounted(() => {
             <MicroTitle text="PARIS, NEW YORK, LONDON, TOKYO, ISTANBUL, SEOUL, MIAMI" :isGradient="true" :isBig="true"/>
             <MicroTitle text="... AND MANY MORE!" />
         </div>
-
-        <HeroKey v-if="isVisible" :wording="wording.premint" />
 
         <HeroBoxes :wording="wording.boxes" />
 
@@ -67,6 +62,7 @@ onMounted(() => {
 .strips {
     z-index: 60;
     position: relative;
+    margin: 10rem 0;
 }
 
 .punchlines {

@@ -66,7 +66,6 @@ function handleClickWallClick(){
     background-color: var(--color-contrast-100);
     min-height: 100vh;
 
-
     .nav {
         z-index: 100;
     }
