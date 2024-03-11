@@ -24,7 +24,7 @@ const props = defineProps({
     </div>
 
     <VideoDisplayer 
-        videoUrl="/videos/boxes.mp4" 
+        videoFileName="boxes.mp4" 
         videoName="key"
         :controls="false"
         class="video"

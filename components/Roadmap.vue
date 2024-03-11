@@ -42,7 +42,7 @@ function handleMove(event){
         <VideoDisplayer 
             class="videoPlayer"
             videoName="roadmap" 
-            videoUrl="/videos/roadmap.mp4" 
+            videoFileName="roadmap.mp4" 
             :controls="false"
         />
         <div class="roadmap-inner">

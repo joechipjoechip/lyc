@@ -77,7 +77,7 @@ function handleGyro(event){
         </div>
 
         <VideoDisplayer 
-            videoUrl="/videos/key.mp4" 
+            videoFileName="keys.mp4" 
             videoName="key"
             :controls="false"
             class="video"

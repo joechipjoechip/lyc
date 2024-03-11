@@ -4,7 +4,7 @@ import { useMainStore } from '#imports';
 const store = useMainStore()
 
 const props = defineProps({
-    videoUrl: {
+    videoFileName: {
         type: String,
         required: true
     },
@@ -22,6 +22,7 @@ const playerHaveBeenPaused = ref(false)
 const player = ref(null)
 const isVisible = useElementVisibility(player)
 const curtainIsActive = ref(false)
+const device = ref(store.isMobile ? "mobile" : "desktop")
 
 watch(isVisible, (value) => {
     if (value) {
@@ -78,7 +79,7 @@ function handleCurtainClick(){
         <video 
             ref="player"
             class="player"
-            :src="videoUrl"
+            :src="`/videos/${device}/${videoFileName}`"
             playsinline
             @play="handlePlay"
             @pause="handePause"

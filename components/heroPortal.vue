@@ -111,7 +111,7 @@ function handleTouchMove(event){
     normalizedPosition.x = normalizedX
     normalizedPosition.y = normalizedY
 
-    console.log("normalizedPosition.x", normalizedPosition.x)
+    // console.log("normalizedPosition.x", normalizedPosition.x)
 }
 
 $on("main-device-motion", handleGyro)
