@@ -56,7 +56,7 @@ function handleClickWallClick(){
         <NavigationDesktop v-else class="nav"/>
         <main>
             <NuxtPage />
-            <MainAudio class="main-audio"/>
+            <!-- <MainAudio class="main-audio"/> -->
         </main>
     </Lenis>
 </template>
