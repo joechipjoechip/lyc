@@ -37,7 +37,7 @@ const canvasIsVisible = useElementVisibility(canvas)
 const frameRate = 1/60
 const animate = ref(false)
 const scene = new THREE.Scene()
-const multiplicatorRatio = store.isMobile ? 1 : 3
+const multiplicatorRatio = store.isMobile ? 1 : 2
 let canvasBaseRatio = null
 
 let renderer = null
@@ -504,7 +504,7 @@ function initPostProcs(width, height){
     
 
     const blurConfig = {
-        focus: 3.6,
+        focus: cameraPosition[2] - portalPosition[2],
         aperture: 0.0025,
         maxblur: 0.002
     }

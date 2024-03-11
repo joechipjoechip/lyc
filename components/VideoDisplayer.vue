@@ -22,6 +22,7 @@ const playerHaveBeenPaused = ref(false)
 const player = ref(null)
 const isVisible = useElementVisibility(player)
 const curtainIsActive = ref(false)
+const muted = ref(!props.controls)
 const device = ref(store.isMobile ? "mobile" : "desktop")
 
 watch(isVisible, (value) => {
@@ -49,6 +50,10 @@ function actPlay(){
     player.value.play()
     .then(() => {
         // curtainIsActive.value = false
+        if( !muted ){
+            // add condition : && if user want audio
+            // play the audio
+        }
     })
     .catch(() => {
         console.log("display curtain video")
@@ -85,7 +90,7 @@ function handleCurtainClick(){
             @pause="handePause"
             :autoplay="!controls"
             :controls="controls"
-            :muted="!controls"
+            :muted="muted"
             :loop="!controls"
         />
     </section>

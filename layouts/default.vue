@@ -56,6 +56,7 @@ function handleClickWallClick(){
         <NavigationDesktop v-else class="nav"/>
         <main>
             <NuxtPage />
+            <MainAudio class="main-audio"/>
         </main>
     </Lenis>
 </template>
@@ -99,6 +100,12 @@ function handleClickWallClick(){
     align-items: center;
 
     font-size: var(--font-size-bigest);
+}
+
+.main-audio {
+    position: fixed;
+    bottom: 0;
+    right: 0;
 }
 
 </style>

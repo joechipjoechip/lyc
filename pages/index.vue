@@ -1,5 +1,7 @@
 <script setup>
+import { useMainStore } from '#imports';
 import { wording } from '@/assets/data/wording';
+const store = useMainStore()
 const route = useRoute()
 
 onMounted(() => {
@@ -29,13 +31,15 @@ onMounted(() => {
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
+            <div class="punchlines" v-if="store.isMobile">
+                <Cities />
+            </div>
             <Phones class="phones" />
             <Strip name="loot" :wording="wording.loot" direction="left"/>
         </div>
 
-        <div class="punchlines">
-            <MicroTitle text="PARIS, NEW YORK, LONDON, TOKYO, ISTANBUL, SEOUL, MIAMI" :isGradient="true" :isBig="true"/>
-            <MicroTitle text="... AND MANY MORE!" />
+        <div class="punchlines" v-if="!store.isMobile">
+            <Cities />
         </div>
 
         <HeroBoxes :wording="wording.boxes" />
@@ -95,7 +99,7 @@ onMounted(() => {
         position: relative;
         top: unset;
         left: unset;
-        padding: 6rem 0;
+        padding: 2rem 0;
 
         :deep(.phones-wrapper) {
             margin-left: unset;
