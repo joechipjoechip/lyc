@@ -37,6 +37,7 @@ function handleAnchorNavClick(e){
             v-for="navItem in goodNavData.filter(item => item.route)" :key="navItem.id"
             :to="navItem.route"
             class="nav-item"
+            :class="{ 'with-frame': navItem.withFrame }"
         >
             {{ navItem.name }}
         </NuxtLink>
@@ -104,6 +105,35 @@ function handleAnchorNavClick(e){
 
             &:last-child {
                 margin-right: 0;
+            }
+        }
+
+        &.with-frame {
+            // border: solid 2px orange;
+            background-image: url("./images/core/hud-signin.png");
+            background-size: cover;
+            padding: 3.5rem;
+            background-repeat: no-repeat;
+            background-position: 50% 0%;
+            
+            @media #{$mobile}{
+                position: relative;
+                margin-top: 2rem;
+                padding: 4rem;
+                background-position: 50% 20%;
+                white-space: nowrap;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 3rem;
+                    width: calc(100% - 6rem);
+                    height: 3px;
+                    background-color: var(--color-main-100);
+                    border-radius: 50%;
+                }
+                
             }
         }
 

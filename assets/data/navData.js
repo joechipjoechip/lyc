@@ -28,5 +28,6 @@ export default [
         route: "/",
         displayInPreFooter: false,
         displayInTopNav: true,
+        withFrame: true
     },
 ]
