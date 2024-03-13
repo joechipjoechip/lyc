@@ -32,7 +32,7 @@ const ratioHudTransformOnMove  = {
 }
 const ratioHudTransformOnGyro  = {
     tx: 1,
-    ty: -1,
+    ty: 1,
     rx: -10,
     ry: -15
 }
