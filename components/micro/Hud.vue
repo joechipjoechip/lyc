@@ -22,6 +22,7 @@ const translateX = ref(0)
 const translateY = ref(0)
 const rotateX = ref(0)
 const rotateY = ref(0)
+const rotateDeg = ref("13deg")
 const transitionString = ref("transform var(--transitionDurationShort)")
 const timeoutID = ref(null)
 const ratioHudTransformOnMove  = {
@@ -31,8 +32,8 @@ const ratioHudTransformOnMove  = {
     ry: -0.04
 }
 const ratioHudTransformOnGyro  = {
-    tx: 0.75,
-    ty: -0.5,
+    tx: 1.5,
+    ty: -1,
     rx: 35,
     ry: 40
 }
@@ -56,6 +57,7 @@ onMounted(() => {
 function initGyroEvent(){
     $on("main-device-motion", handleGyro)
     $off("main-touch-move", handleTouchMove)
+    rotateDeg.value = "25deg"
 }
 
 $on("main-touch-move", handleTouchMove)
@@ -149,7 +151,7 @@ watch(() => props.isHovered, newVal => {
         v-bind(rotateX),
         v-bind(rotateY),
         0,
-        13deg
+        v-bind(rotateDeg)
     );
 
     .text {
