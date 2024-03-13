@@ -118,7 +118,9 @@ function handleGyro(event){
             align-items: center;
 
             .hud {
-                margin-bottom: 2rem;
+                @media #{$mobile} {
+                    margin-bottom: 2rem;
+                }
             }
         }
     }

@@ -76,17 +76,17 @@ function handleGyro(event){
     
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
-        tx: translateX.value ? parseInt(translateX.value.replace("rem", "")) : 0, 
-        ty: translateY.value ? parseInt(translateY.value.replace("rem", "")) : 0,
-        rx: rotateY.value ? rotateY.value : 0,
-        ry: rotateX.value ? rotateX.value : 0,
+        tx: translateX.value ? (parseInt(translateX.value.replace("rem", "")) * ratioHudTransformOnGyro.tx) : 0, 
+        ty: translateY.value ? (parseInt(translateY.value.replace("rem", "")) * ratioHudTransformOnGyro.ty) : 0,
+        rx: rotateY.value ? (rotateY.value * ratioHudTransformOnGyro.rx) : 0,
+        ry: rotateX.value ? (rotateX.value * ratioHudTransformOnGyro.ry) : 0,
     }
 
     gsap.to(animatedObject, {
         tx: x * ratioHudTransformOnGyro.tx,
         ty: y * ratioHudTransformOnGyro.ty,
-        rx: parseInt(x * ratioHudTransformOnGyro.rx),
-        ry: parseInt(y * ratioHudTransformOnGyro.ry),
+        rx: x * ratioHudTransformOnGyro.rx,
+        ry: y * ratioHudTransformOnGyro.ry,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
