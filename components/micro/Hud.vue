@@ -32,9 +32,9 @@ const ratioHudTransformOnMove  = {
 }
 const ratioHudTransformOnGyro  = {
     tx: 1,
-    ty: 1,
-    rx: -2,
-    ry: -4
+    ty: -1,
+    rx: -10,
+    ry: -15
 }
 
 const { $on, $off } = useNuxtApp()
