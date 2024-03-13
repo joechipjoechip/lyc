@@ -59,8 +59,8 @@ function handleGyro(event){
     
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
-        tx: translateX.value, 
-        ty: translateY.value,
+        tx: parseInt(translateX.value.replace("rem", "")), 
+        ty: parseInt(translateY.value.replace("rem", "")),
         rx: rotateX.value,
         ry: rotateY.value,
     }
@@ -69,17 +69,19 @@ function handleGyro(event){
 
     gsap.to(animatedObject, {
         tx: x * 10,
-        ty: y * 10,
-        rx: x * 10,
-        ry: y * 10,
+        ty: y * -5,
+        rx: x * -0.02,
+        ry: y * -0.04,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
-            translateX.value = animatedObject.tx
-            translateY.value = animatedObject.ty
+            translateX.value = animatedObject.tx + "rem"
+            translateY.value = animatedObject.ty + "rem"
             rotateX.value = animatedObject.rx
             rotateY.value = animatedObject.ry
-            
+
+            console.log("dans le update :  animatedObject : ", animatedObject.tx)
+            console.log("dans le update :  translateX.value : ", translateX.value)
         }
     })
 }
