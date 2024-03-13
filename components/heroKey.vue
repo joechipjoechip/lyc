@@ -101,7 +101,7 @@ function handleGyro(event){
         }
 
         &-inner {
-            perspective: 500px;
+            perspective: 400px;
             z-index: 50;
             position: absolute;
             top: 0;
@@ -119,7 +119,7 @@ function handleGyro(event){
 
             .hud {
                 @media #{$mobile} {
-                    margin-bottom: 2rem;
+                    margin-bottom: 3rem;
                 }
             }
         }

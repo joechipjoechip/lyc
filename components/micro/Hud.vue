@@ -91,7 +91,7 @@ function handleGyro(event){
         ease: "linear",
         onUpdate: () => {
             translateX.value = animatedObject.tx + "rem"
-            translateY.value = animatedObject.ty + 1 + "rem"
+            translateY.value = animatedObject.ty + "rem"
             rotateX.value = animatedObject.rx
             rotateY.value = animatedObject.ry
         }
