@@ -35,6 +35,12 @@ onMounted(() => {
     }
 })
 
+watch(() => localStore.gyroIsAllowed, newVal => {
+    if( newVal ){
+        $on("main-device-motion", handleGyro)
+    }
+})
+
 $on("main-touch-move", handleTouchMove)
 
 function handleTouchMove(event){
@@ -58,6 +64,8 @@ function handleGyro(event){
         rx: rotateX.value,
         ry: rotateY.value,
     }
+
+    console.log("animatedObject: ", animatedObject.tx)
 
     gsap.to(animatedObject, {
         tx: x * 10,
