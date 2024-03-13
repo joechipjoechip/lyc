@@ -43,10 +43,20 @@ const parent = getCurrentInstance().parent.vnode
 
 watch(() => localStore.gyroIsAllowed, newVal => {
     if( newVal ){
-        $on("main-device-motion", handleGyro)
-        $off("main-touch-move", handleTouchMove)
+        initGyroEvent()
     }
 })
+
+onMounted(() => {
+    if( localStore.gyroIsAllowed ){
+        initGyroEvent()
+    }
+})
+
+function initGyroEvent(){
+    $on("main-device-motion", handleGyro)
+    $off("main-touch-move", handleTouchMove)
+}
 
 $on("main-touch-move", handleTouchMove)
 
