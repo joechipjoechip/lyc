@@ -57,7 +57,7 @@ onMounted(() => {
 function initGyroEvent(){
     $on("main-device-motion", handleGyro)
     $off("main-touch-move", handleTouchMove)
-    rotateDeg.value = "25deg"
+    rotateDeg.value = "30deg"
 }
 
 $on("main-touch-move", handleTouchMove)
@@ -85,7 +85,7 @@ function handleGyro(event){
     }
 
     gsap.to(animatedObject, {
-        tx: x * ratioHudTransformOnGyro.tx,
+        tx: (x + 1) * ratioHudTransformOnGyro.tx,
         ty: y * ratioHudTransformOnGyro.ty,
         rx: y * ratioHudTransformOnGyro.rx,
         ry: x * ratioHudTransformOnGyro.ry,
