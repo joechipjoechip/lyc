@@ -101,7 +101,7 @@ function handleGyro(event){
         }
 
         &-inner {
-            perspective: 1000px;
+            perspective: 500px;
             z-index: 50;
             position: absolute;
             top: 0;
