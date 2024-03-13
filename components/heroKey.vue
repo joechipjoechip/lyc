@@ -116,6 +116,10 @@ function handleGyro(event){
             flex-flow: column nowrap;
             justify-content: center;
             align-items: center;
+
+            .hud {
+                margin-bottom: 2rem;
+            }
         }
     }
 
