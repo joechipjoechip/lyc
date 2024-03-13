@@ -77,8 +77,6 @@ function handleGyro(event){
         ry: rotateY.value,
     }
 
-    console.log("animatedObject: ", animatedObject.tx)
-
     gsap.to(animatedObject, {
         tx: x * ratioHudTransformOnGyro.tx,
         ty: y * ratioHudTransformOnGyro.ty,
