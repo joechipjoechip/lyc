@@ -119,7 +119,7 @@ function handleGyro(event){
 
             .hud {
                 @media #{$mobile} {
-                    margin-bottom: 3rem;
+                    margin-bottom: 4rem;
                 }
             }
         }
