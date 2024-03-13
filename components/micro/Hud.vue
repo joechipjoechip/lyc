@@ -78,8 +78,8 @@ function handleGyro(event){
     const animatedObject = { 
         tx: translateX.value ? (parseInt(translateX.value.replace("rem", "")) * ratioHudTransformOnGyro.tx) : 0, 
         ty: translateY.value ? (parseInt(translateY.value.replace("rem", "")) * ratioHudTransformOnGyro.ty) : 0,
-        rx: rotateY.value ? (rotateY.value * ratioHudTransformOnGyro.rx) : 0,
-        ry: rotateX.value ? (rotateX.value * ratioHudTransformOnGyro.ry) : 0,
+        rx: rotateY.value ? (rotateY.value * ratioHudTransformOnGyro.ry) : 0,
+        ry: rotateX.value ? (rotateX.value * ratioHudTransformOnGyro.rx) : 0,
     }
 
     gsap.to(animatedObject, {
