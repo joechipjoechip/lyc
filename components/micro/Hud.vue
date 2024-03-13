@@ -59,8 +59,8 @@ function handleGyro(event){
     
     const { x, y } = event.accelerationIncludingGravity
     const animatedObject = { 
-        tx: parseInt(translateX.value.replace("rem", "")), 
-        ty: parseInt(translateY.value.replace("rem", "")),
+        tx: translateX.value ? parseInt(translateX.value.replace("rem", "")) : 0, 
+        ty: translateY.value ? parseInt(translateY.value.replace("rem", "")) : 0,
         rx: rotateX.value,
         ry: rotateY.value,
     }
