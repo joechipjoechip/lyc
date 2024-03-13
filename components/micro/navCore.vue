@@ -110,7 +110,7 @@ function handleAnchorNavClick(e){
 
         &.with-frame {
             // border: solid 2px orange;
-            background-image: url("./images/core/hud-signin.png");
+            background-image: url("/images/core/hud-signin.png");
             background-size: cover;
             padding: 3.5rem;
             background-repeat: no-repeat;
