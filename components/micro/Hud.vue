@@ -24,6 +24,18 @@ const rotateX = ref(0)
 const rotateY = ref(0)
 const transitionString = ref("transform var(--transitionDurationShort)")
 const timeoutID = ref(null)
+const ratioHudTransformOnMove  = {
+    tx: 10,
+    ty: -5,
+    rx: -0.02,
+    ry: -0.04
+}
+const ratioHudTransformOnGyro  = {
+    tx: 1,
+    ty: -2.5,
+    rx: -0.2,
+    ry: -0.4
+}
 
 const { $on } = useNuxtApp()
 
@@ -48,11 +60,11 @@ function handleTouchMove(event){
     if( !props.isHovered ){ return }
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y, parent.el)
-    translateX.value = normalizedX * 10 + "rem"
-    translateY.value = -normalizedY * 5 + "rem"
+    translateX.value = normalizedX * ratioHudTransformOnMove.tx + "rem"
+    translateY.value = normalizedY * ratioHudTransformOnMove.ty + "rem"
 
-    rotateX.value = -normalizedY * -0.02
-    rotateY.value = -normalizedX * -0.04
+    rotateX.value = -normalizedY * ratioHudTransformOnMove.rx
+    rotateY.value = -normalizedX * ratioHudTransformOnMove.ry
 }
 
 function handleGyro(event){
@@ -68,10 +80,10 @@ function handleGyro(event){
     console.log("animatedObject: ", animatedObject.tx)
 
     gsap.to(animatedObject, {
-        tx: x * 10,
-        ty: y * -5,
-        rx: x * -0.02,
-        ry: y * -0.04,
+        tx: x * ratioHudTransformOnGyro.tx,
+        ty: y * ratioHudTransformOnGyro.ty,
+        rx: x * ratioHudTransformOnGyro.rx,
+        ry: y * ratioHudTransformOnGyro.ry,
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
@@ -79,9 +91,6 @@ function handleGyro(event){
             translateY.value = animatedObject.ty + "rem"
             rotateX.value = animatedObject.rx
             rotateY.value = animatedObject.ry
-
-            console.log("dans le update :  animatedObject : ", animatedObject.tx)
-            console.log("dans le update :  translateX.value : ", translateX.value)
         }
     })
 }
