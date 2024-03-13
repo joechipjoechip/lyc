@@ -87,7 +87,7 @@ function handleGyro(event){
     gsap.to(animatedObject, {
         tx: x * ratioHudTransformOnGyro.tx,
         ty: y * ratioHudTransformOnGyro.ty,
-        rx: (y * ratioHudTransformOnGyro.rx) + 120,
+        rx: (y * ratioHudTransformOnGyro.rx) + 160,
         ry: x * ratioHudTransformOnGyro.ry,
         duration: 0.2,
         ease: "linear",
