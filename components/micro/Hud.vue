@@ -31,10 +31,10 @@ const ratioHudTransformOnMove  = {
     ry: -0.04
 }
 const ratioHudTransformOnGyro  = {
-    tx: 1,
-    ty: -1,
-    rx: 25,
-    ry: 30
+    tx: 0.75,
+    ty: -0.5,
+    rx: 35,
+    ry: 40
 }
 
 const { $on, $off } = useNuxtApp()
@@ -91,7 +91,7 @@ function handleGyro(event){
         ease: "linear",
         onUpdate: () => {
             translateX.value = animatedObject.tx + "rem"
-            translateY.value = animatedObject.ty + "rem"
+            translateY.value = animatedObject.ty + 1 + "rem"
             rotateX.value = animatedObject.rx
             rotateY.value = animatedObject.ry
         }
