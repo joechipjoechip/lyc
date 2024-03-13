@@ -32,24 +32,19 @@ const ratioHudTransformOnMove  = {
 }
 const ratioHudTransformOnGyro  = {
     tx: 1,
-    ty: -2.5,
-    rx: -0.2,
-    ry: -0.4
+    ty: 1,
+    rx: -2,
+    ry: -4
 }
 
-const { $on } = useNuxtApp()
+const { $on, $off } = useNuxtApp()
 
 const parent = getCurrentInstance().parent.vnode
-
-onMounted(() => {
-    if( localStore.gyroIsAllowed ){
-        $on("main-device-motion", handleGyro)
-    }
-})
 
 watch(() => localStore.gyroIsAllowed, newVal => {
     if( newVal ){
         $on("main-device-motion", handleGyro)
+        $off("main-touch-move", handleTouchMove)
     }
 })
 
