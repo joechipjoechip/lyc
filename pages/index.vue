@@ -6,14 +6,15 @@ const route = useRoute()
 
 onMounted(() => {
     if( route.query.anchor && !store.iOSSafari ){
-        // setTimeout(() => {
-            const anchor = route.query.anchor
-            const target = document.querySelector(anchor)
-
-            target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
-        // }, 1000)
+        setTimeout(goToAnchor, 1000)
     }
 })
+
+function goToAnchor(anchor){
+    const anchor = route.query.anchor
+    const target = document.querySelector(anchor)
+    target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+}
 
 </script>
 
