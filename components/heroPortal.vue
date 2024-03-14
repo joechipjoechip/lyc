@@ -104,7 +104,6 @@ $on("main-touch-move", handleTouchMove)
 const normalizedPosition = reactive({ x: 0, y: 0 })
 function handleTouchMove(event){
     if( localStore.gyroIsAllowed ){ return }
-    // if( !localStore.gyroIsAllowed && !isHovered.value ){ return }
 
     const { x, y } = useGetEventPosition(event)
     const { normalizedX, normalizedY } = useNormalizePosition(x, y)
@@ -122,7 +121,7 @@ function handleGyro(event){
 
     gsap.to(animatedObject, {
         x: clamp(x / 4, -0.85, 0.85),
-        y: clamp(y / 4, -1, 1),
+        y: clamp(y, -1, 100),
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
