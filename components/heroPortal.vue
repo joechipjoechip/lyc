@@ -555,6 +555,8 @@ function mainTick(){
         composer.render();
         // renderer.render(scene, camera);
         deltaTime = deltaTime % frameRate;
+    } else {
+        console.log("frame drop")
     }
 
     // console.log("hey tick")
