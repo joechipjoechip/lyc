@@ -6,12 +6,12 @@ const route = useRoute()
 
 onMounted(() => {
     if( route.query.anchor ){
-        const anchor = route.query.anchor
-        const target = document.querySelector(anchor)
-
         setTimeout(() => {
+            const anchor = route.query.anchor
+            const target = document.querySelector(anchor)
+
             target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
-        }, 800)
+        }, 1000)
     }
 })
 
