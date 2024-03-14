@@ -122,8 +122,8 @@ function handleGyro(event){
     // console.log("gyro y : ", y)
 
     gsap.to(animatedObject, {
-        x: clamp(x / 9, -0.95, 0.95),
-        y: clamp((y / 9) * 35 + 300, -2.5, 18),
+        x: clamp(x / 4, -1, 1),
+        y: clamp((y / 4) * 35 + 300, -2.5, 18),
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
