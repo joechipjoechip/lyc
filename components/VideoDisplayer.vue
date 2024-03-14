@@ -2,6 +2,7 @@
 import { useElementVisibility } from '@vueuse/core';
 import { useMainStore } from '#imports';
 const store = useMainStore()
+const { $emit } = useNuxtApp()
 
 const props = defineProps({
     videoFileName: {
@@ -15,35 +16,41 @@ const props = defineProps({
     controls: {
         type: Boolean,
         default: true
+    },
+    checkVisibility: {
+        type: Boolean,
+        default: false
     }
 })
 
 const playerHaveBeenPaused = ref(false)
+const wrapper = ref(null)
 const player = ref(null)
-const isVisible = useElementVisibility(player)
+const isVisible = useElementVisibility(wrapper)
 const curtainIsActive = ref(false)
 const muted = ref(!props.controls)
 const device = ref(store.isMobile ? "mobile" : "desktop")
 
-watch(isVisible, (value) => {
-    if (value) {
-
-        if( props.videoName === "master" ){
-            if( !playerHaveBeenPaused.value ){
-                actPlay()
-            }
-        } else {
+if( props.checkVisibility ){
+    watch(isVisible, (newVal) => {
+        if (newVal) {
             actPlay()
+        } else {
+            player.value.pause()
         }
-
-    } else {
-        player.value.pause()
-    }
-})
+    })
+}
 
 function handlePlay(){
     console.log("play triggered")
     curtainIsActive.value = false
+}
+
+function handlePause(){
+    console.log("pause triggered")
+    playerHaveBeenPaused.value = true
+
+    $emit("video-paused", {})
 }
 
 function actPlay(){
@@ -53,7 +60,10 @@ function actPlay(){
         if( !muted ){
             // add condition : && if user want audio
             // play the audio
+            
         }
+        $emit("video-played", {})
+        console.log("video : emit envoyé played")
     })
     .catch(() => {
         console.log("display curtain video")
@@ -64,19 +74,19 @@ function actPlay(){
 function handleCurtainClick(){
     curtainIsActive.value = false
     actPlay()
-
 }
 
 </script>
 
 <template>
-    <section 
+    <div 
+        ref="wrapper"
         class="video-wrapper"
         :class="`${props.videoName}`"
     >
         <div 
             class="curtain"
-            :class="{ 'curtain-active': curtainIsActive }"
+            :class="{ curtainIsActive }"
             @click="handleCurtainClick"
         >
             <IconsPlay class="icon" />
@@ -87,13 +97,12 @@ function handleCurtainClick(){
             :src="`/videos/${device}/${videoFileName}`"
             playsinline
             @play="handlePlay"
-            @pause="handePause"
-            :autoplay="!controls"
+            @pause="handlePause"
             :controls="controls"
             :muted="muted"
             :loop="!controls"
         />
-    </section>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -143,7 +152,7 @@ function handleCurtainClick(){
     opacity: 0;
 
     transition: opacity var(--transitionDurationMediumPlus);
-    &.curtain-active {
+    &.curtainIsActive {
         pointer-events: all;
         opacity: 1;
     }

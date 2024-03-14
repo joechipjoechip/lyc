@@ -44,7 +44,7 @@ onMounted(() => {
 
         <HeroBoxes :wording="wording.boxes" />
 
-        <VideoDisplayer videoName="master" videoFileName="master-2.mp4" />
+        <VideoDisplayer videoName="master" videoFileName="master-2.mp4" :checkVisibility="true" />
 
         <img src="/images/core/logo-typo-chrome.png" alt="arrow down" class="logo-lonely" />
 

@@ -8,9 +8,17 @@ const isMuted = ref(true)
 
 $on("main-touch-and-click", handleGlobalClick)
 
+$on("video-played", () => {
+    isMuted.value = true
+})
+
+$on("video-paused", () => {
+    if( store.userWantsAudio ){
+        isMuted.value = false
+    }
+})
 
 function handleGlobalClick(){
-    // console.log("global click")
     isMuted.value = false
     store.setUserWantsAudio(true)
     audioPlayer.value.play()
@@ -20,10 +28,10 @@ function handleGlobalClick(){
 function handleAudioClick(){
     isMuted.value = !isMuted.value
     store.setUserWantsAudio(!isMuted.value)
-    console.log("audio clicked, isMuted: ", isMuted.value)
 }
 
 watch(isMuted, newVal => {
+    console.log("audio: isMuted changed to : ", newVal)
     if( newVal ){
         audioPlayer.value.pause()
     } else {
