@@ -21,7 +21,7 @@ onMounted(async () => {
 
 <template>
     <div class="page-index">
-        <HeroPortal />
+        <!-- <HeroPortal /> -->
         
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />
