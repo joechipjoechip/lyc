@@ -14,6 +14,7 @@ function goToAnchor(){
     const anchor = route.query.anchor
     const target = document.querySelector(anchor)
     target && target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+    
 }
 
 </script>
