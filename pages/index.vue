@@ -4,9 +4,9 @@ import { wording } from '@/assets/data/wording';
 const store = useMainStore()
 const route = useRoute()
 
-onMounted(async () => {
+onMounted(() => {
     if( route.query.anchor ){
-        setTimeout(async () => {
+        setTimeout(() => {
             const anchor = route.query.anchor
             const target = document.querySelector(anchor)
 
@@ -21,7 +21,7 @@ onMounted(async () => {
 
 <template>
     <div class="page-index">
-        <!-- <HeroPortal /> -->
+        <HeroPortal />
         
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />

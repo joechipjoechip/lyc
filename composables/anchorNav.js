@@ -1,4 +1,4 @@
-const handleAnchorNav = async event => {
+const handleAnchorNav = event => {
     const anchor = event.target.dataset.anchor
     const target = document.body.querySelector(anchor)
     if( target ){
