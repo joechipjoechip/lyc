@@ -55,7 +55,7 @@ if( props.gyroIsWanted ){
 }
 
 onMounted(() => {
-    if( localStore.gyroIsAllowed ){
+    if( props.gyroIsWanted && localStore.gyroIsAllowed ){
         initGyroEvent()
     }
 })
