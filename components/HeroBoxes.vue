@@ -81,6 +81,10 @@ const props = defineProps({
 
     p {
         line-height: var(--font-size-bigest);
+
+        @media #{$mobile} {
+            font-size: var(--font-size-bigest);
+        }
     }
 }
 </style>
