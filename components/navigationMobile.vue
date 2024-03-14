@@ -24,10 +24,10 @@ onClickOutside(menu, (el) => {
 
             <div class="level-1">
                 
-                <div class="logos">
+                <NuxtLink class="logos" to="/">
                     <img class="logo-single" src="/images/core/logo-chrome.png" alt="logo lyc">
                     <img class="logo-typo" src="/images/core/logo-typo-chrome-big.png" alt="logo typo lyc">
-                </div>
+                </NuxtLink>
 
                 <img class="burger" data-opener src="/images/core/burger.png" alt="burger menu">
 
