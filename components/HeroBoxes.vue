@@ -72,6 +72,10 @@ const props = defineProps({
 .title {
     margin-top: 5rem;
     font-size: var(--font-size-bigest-plus);
+
+    @media #{$mobile} {
+        font-size: calc(var(--font-size-bigest-plus) + 1rem);
+    }
 }
 
 .paragraph {
@@ -81,9 +85,10 @@ const props = defineProps({
 
     p {
         line-height: var(--font-size-bigest);
-
+        
         @media #{$mobile} {
-            font-size: var(--font-size-bigest);
+            line-height: var(--font-size-bigest-plus);
+            font-size: var(--font-size-bigest-plus);
         }
     }
 }

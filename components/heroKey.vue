@@ -137,6 +137,10 @@ function handleGyro(event){
     .title {
         margin-top: 5rem;
         font-size: var(--font-size-bigest-plus);
+
+        @media #{$mobile} {
+            font-size: calc(var(--font-size-bigest-plus) + 1rem);
+        }
     }
     
     .paragraph {
