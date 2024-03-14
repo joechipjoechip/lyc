@@ -1,25 +1,12 @@
 <script setup>
-useHead({
-    script: {
-        src: "https://tally.so/widgets/embed.js",
-        async: true
-    }
-})
-
-let tallyLogo = null
-
 onMounted(() => {
-    setTimeout(() => {
-
-        document.querySelectorAll('iframe').forEach( item =>
-            tallyLogo = item.contentWindow.document.body.querySelector('.tally-powered')
-        )
-
-        console.log("tally : ", tallyLogo)
-        if( tallyLogo ){
-            tallyLogo.style.display = "none"
+    useHead({
+        script: {
+            src: "https://tally.so/widgets/embed.js",
+            async: true,
+            defer: true
         }
-    }, 4000)
+    })
 })
 </script>
 
