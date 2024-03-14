@@ -5,7 +5,7 @@ const store = useMainStore()
 const route = useRoute()
 
 onMounted(() => {
-    if( route.query.anchor ){
+    if( route.query.anchor && !store.iOSSafari ){
         setTimeout(() => {
             const anchor = route.query.anchor
             const target = document.querySelector(anchor)
