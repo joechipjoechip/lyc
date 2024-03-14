@@ -14,7 +14,6 @@ export const useMainStore = defineStore('storedMain', {
 		}),
 
 		actions: {
-			//
 			setUserWantsAudio( bool ){
 				this.userWantsAudio = bool
 			}
