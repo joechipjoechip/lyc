@@ -85,7 +85,7 @@ function handleMove(event){
         max-width: unset;
         
         :deep(video){
-            height: 80%;
+            height: 65%;
             object-fit: cover;
         }
     }
@@ -136,7 +136,16 @@ function handleMove(event){
         // animation: animQ calc(8s * var(--i)) infinite;
 
         @media #{$mobile} {
-            width: 70%;
+            width: 60%;
+
+            &.q1,
+            &.q3 {
+                left: -10vw;
+            }
+            &.q2,
+            &.q4 {
+                left: 10vw;
+            }
         }
 
         @media #{$desktop} {

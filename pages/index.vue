@@ -31,10 +31,10 @@ onMounted(() => {
 
         <div class="strips">
             <Strip name="explore" :wording="wording.explore" direction="right"/>
+            <Phones class="phones" />
             <div class="punchlines" v-if="store.isMobile">
                 <Cities />
             </div>
-            <Phones class="phones" />
             <Strip name="loot" :wording="wording.loot" direction="left"/>
         </div>
 

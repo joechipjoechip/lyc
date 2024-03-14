@@ -15,6 +15,10 @@ const props = defineProps({
     isHovered: {
         type: Boolean,
         default: false
+    },
+    gyroIsWanted: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -42,11 +46,13 @@ const { $on, $off } = useNuxtApp()
 
 const parent = getCurrentInstance().parent.vnode
 
-watch(() => localStore.gyroIsAllowed, newVal => {
-    if( newVal ){
-        initGyroEvent()
-    }
-})
+if( props.gyroIsWanted ){
+    watch(() => localStore.gyroIsAllowed, newVal => {
+        if( newVal ){
+            initGyroEvent()
+        }
+    })
+}
 
 onMounted(() => {
     if( localStore.gyroIsAllowed ){

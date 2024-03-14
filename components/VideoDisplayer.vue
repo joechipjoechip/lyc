@@ -99,6 +99,7 @@ function handleCurtainClick(){
             @play="handlePlay"
             @pause="handlePause"
             :controls="controls"
+            :autoplay="muted"
             :muted="muted"
             :loop="!controls"
         />
