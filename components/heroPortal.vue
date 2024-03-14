@@ -119,9 +119,11 @@ function handleGyro(event){
     const { x, y, z } = event.accelerationIncludingGravity
     const animatedObject = { x: normalizedPosition.x, y: normalizedPosition.y }
 
+    console.log("gyro y : ", y)
+
     gsap.to(animatedObject, {
         x: clamp(x / 4, -0.85, 0.85),
-        y: clamp((y / 360) * 35 + 300, -2.5, 20) / 4,
+        y: clamp(y * 35 + 300, -2.5, 25),
         duration: 0.2,
         ease: "linear",
         onUpdate: () => {
