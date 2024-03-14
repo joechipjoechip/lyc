@@ -17,7 +17,7 @@ const goodNavData = computed(() => {
     }
 })
 
-function handleAnchorNavClick(e){
+async function handleAnchorNavClick(e){
     handleAnchorNav(e)
 }
 

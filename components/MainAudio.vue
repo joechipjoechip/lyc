@@ -50,6 +50,7 @@ watch(isMuted, newVal => {
                 class="player"
                 controls
                 src="/audios/main.mp3"
+                loop
             />
         </div>
     </div>
