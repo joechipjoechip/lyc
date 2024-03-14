@@ -6,11 +6,11 @@ const footerWording = {
         },
         {
             name: "x",
-            link: "https://x.com",
+            link: "https://twitter.com/lootyourcity",
         },
         {
             name: "insta",
-            link: "https://insta.com",
+            link: "https://www.instagram.com/lootyourcity/",
         },
         {
             name: "mail",
