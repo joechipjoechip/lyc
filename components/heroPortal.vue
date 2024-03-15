@@ -25,6 +25,7 @@ const store = useMainStore()
 const localStore = useLocalStorageStore()
 const { $on } = useNuxtApp()
 const isHovered = ref(false)
+const curtainIsActive = ref(true)
 
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
@@ -610,6 +611,7 @@ function initPostProcs(width, height){
 
 function mainTick(){
     if( !animate.value ){ return }
+    if( curtainIsActive.value ) { curtainIsActive.value = false }
 
     deltaTime += clock.getDelta();
     
@@ -661,6 +663,10 @@ function mainTick(){
 <template>
     <section class="portal-wrapper" id="portal">
 
+        <div class="curtain" :class="{ curtainIsActive }">
+            <IconsLoading />
+        </div>
+
         <canvas 
             ref="canvas"
             @mouseenter="isHovered = true"
@@ -706,5 +712,28 @@ function mainTick(){
             height: calc(100vh);
         }
         
+    }
+
+    .curtain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-contrast-100);
+        // background-color: red;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
+        opacity: 0;
+        pointer-events: none;
+
+        transition: opacity var(--transitionDurationMediumPlus);
+
+        &.curtainIsActive {
+            opacity: 1;
+        }
     }
 </style>
