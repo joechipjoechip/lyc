@@ -1,9 +1,9 @@
 const footerWording = {
     socials: [
-        {
-            name: "discord",
-            link: "https://discord.com",
-        },
+        // {
+        //     name: "discord",
+        //     link: "https://discord.com",
+        // },
         {
             name: "x",
             link: "https://twitter.com/lootyourcity",
@@ -14,7 +14,7 @@ const footerWording = {
         },
         {
             name: "mail",
-            link: "mailto:heyhey@hey.com",
+            link: "mailto:team@lootyourcity.com",
         },
     ]
 }

@@ -42,12 +42,12 @@ if( props.checkVisibility ){
 }
 
 function handlePlay(){
-    console.log("play triggered")
+    // console.log("play triggered")
     curtainIsActive.value = false
 }
 
 function handlePause(){
-    console.log("pause triggered")
+    // console.log("pause triggered")
     playerHaveBeenPaused.value = true
 
     $emit("video-paused", {})
@@ -63,7 +63,7 @@ function actPlay(){
             
         }
         $emit("video-played", {})
-        console.log("video : emit envoyé played")
+        // console.log("video : emit envoyé played")
     })
     .catch(() => {
         console.log("display curtain video")

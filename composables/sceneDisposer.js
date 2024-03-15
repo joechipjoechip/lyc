@@ -1,7 +1,7 @@
 function disposeScene( scene, renderer ){
 
     sceneTraverse(scene, o => {
-        console.log("disposer action")
+        // console.log("disposer action")
 
         if (o.geometry) {
             o.geometry.dispose();
@@ -23,7 +23,7 @@ function disposeScene( scene, renderer ){
     renderer.forceContextLoss()
     scene = null;
     renderer = null;
-    console.log("context loss forced")
+    // console.log("context loss forced")
 
 }
 

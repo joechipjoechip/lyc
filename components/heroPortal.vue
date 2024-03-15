@@ -81,7 +81,7 @@ let benchmarkIsActive = false
 
 
 onMounted(() => {
-    console.log("mounted du hero portal")
+    // console.log("mounted du hero portal")
     initScene().then(() => initRenderer().then(() => {
 
         if( store.isBadComputer ){
@@ -114,10 +114,10 @@ onBeforeUnmount(() => {
 watch(() => canvasIsVisible.value, newVal => {
     if( newVal ){
         renderer && mainTick()
-        console.log("start tick")
+        // console.log("start tick")
     } else {
         // dispose
-        console.log("stop tick")
+        // console.log("stop tick")
     }
 })
 
@@ -139,7 +139,7 @@ function benchmarkResultsManager(){
         store.setIsBadComputer(true)
         downgrade()
     }
-    console.log("missingFrames : ", benchmark.missingFrames)
+    // console.log("missingFrames : ", benchmark.missingFrames)
 }
 
 function downgrade(){
@@ -631,7 +631,9 @@ function mainTick(){
         // box.rotation.x = normalizedPosition.y * -0.4;
         // box.position.z = boxPosition[2] + normalizedPosition.y * -0.4;
         box.rotation.set(
-            normalizedPosition.y * -0.4,
+            localStore.gyroIsAllowed ? 
+                clamp(normalizedPosition.y * -0.4, -0.4, 0.4)  
+                : normalizedPosition.y * -0.4,
             normalizedPosition.x * 0.9,
             0
         )
