@@ -157,7 +157,7 @@ function removePostProc(){
 
 function downgradeComposer(){
     renderer.setPixelRatio(1)
-    // composer.setPixelRatio(1)
+    composer.setPixelRatio(1)
     // composer.removePass(bloom)
     frameRate = 1/45
     multiplicatorRatio = 1
