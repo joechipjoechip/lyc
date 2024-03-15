@@ -291,7 +291,7 @@ async function initRenderer(){
         });
     
         renderer.setSize(width, height)
-        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
         // renderer.setClearColor();
 
