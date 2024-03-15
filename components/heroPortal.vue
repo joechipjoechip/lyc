@@ -38,6 +38,7 @@ const canvasIsVisible = useElementVisibility(canvas)
 const animate = ref(false)
 const scene = new THREE.Scene()
 let lightOne = null
+let lightTwo = null
 let multiplicatorRatio = store.isMobile ? 1 : 2
 let canvasBaseRatio = null
 let deltaTime = 0
@@ -132,6 +133,7 @@ function downgrade(){
     handleResize()
     downgradeComposer()
     scene.remove(lightOne)
+    scene.remove(lightTwo)
 }
 
 function removePostProc(){
@@ -151,6 +153,7 @@ function downgradeComposer(){
 
 $on("main-resize", handleResize)
 function handleResize(){
+    if( !canvas.value.parentNode ){ return }
     const { width } = canvas.value.parentNode.getBoundingClientRect()
     const computedHeight = width / canvasBaseRatio
     renderer.setSize(width, computedHeight)
@@ -197,13 +200,6 @@ async function initScene(){
     
         // lights
         const lightAmbient = new THREE.AmbientLight( 0xffffff, 5.7)
-        lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
-        const lightTwo = new THREE.PointLight( 0x631fff, 30, 50)
-
-        lightOne.position.set(3, 6, -10)
-        lightTwo.position.set(0, 3, -10)
-        // const pointLightHelperOne = new THREE.PointLightHelper( lightOne, 2 );
-        // const pointLightHelperTwo = new THREE.PointLightHelper( lightTwo, 2 );
         
         // camera
         camera = new THREE.PerspectiveCamera( cameraFov, width / height, 0.001, 25 )
@@ -243,14 +239,18 @@ async function initScene(){
                         portal, 
                         box,
                         camera,
-                        lightAmbient,
-                        lightTwo,
-                        // pointLightHelperOne,
-                        // pointLightHelperTwo
+                        lightAmbient
                     )
 
                     if( !store.isBadComputer ){
+                        lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
+                        lightTwo = new THREE.PointLight( 0x631fff, 30, 50)
+
+                        lightOne.position.set(3, 6, -10)
+                        lightTwo.position.set(0, 3, -10)
+                        
                         scene.add(lightOne)
+                        scene.add(lightTwo)
                     }
                     
                     res()
