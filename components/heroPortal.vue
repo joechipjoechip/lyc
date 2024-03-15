@@ -166,11 +166,13 @@ function downgradeComposer(){
 
 $on("main-resize", handleResize)
 function handleResize(){
-    if( !canvas.value.parentNode ){ return }
-    const { width } = canvas.value.parentNode.getBoundingClientRect()
-    const computedHeight = width / canvasBaseRatio
-    renderer.setSize(width, computedHeight)
-    composer.setSize(width * multiplicatorRatio, computedHeight * multiplicatorRatio)
+    if( canvas.value ){
+        if( !canvas.value.parentNode ){ return }
+        const { width } = canvas.value.parentNode.getBoundingClientRect()
+        const computedHeight = width / canvasBaseRatio
+        renderer.setSize(width, computedHeight)
+        composer.setSize(width * multiplicatorRatio, computedHeight * multiplicatorRatio)
+    }
 }
 
 
