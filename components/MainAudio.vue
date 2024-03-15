@@ -44,7 +44,7 @@ watch(isMuted, newVal => {
 <template>
     <div class="audio-wrapper">
         <div class="audio-inner" @click="handleAudioClick">
-            <IconsSound class="icon" :class="{ isMuted }" width="3rem" height="3rem"/>
+            <IconsSound class="icon" :class="{ isMuted }" width="3em" height="3em"/>
             <audio 
                 ref="audioPlayer"
                 class="player"

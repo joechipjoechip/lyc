@@ -3,11 +3,11 @@
 const props = defineProps({
     width: {
         type: String,
-        default: "12rem"
+        default: "12em"
     },
     height: {
         type: String,
-        default: "12rem"
+        default: "12em"
     },
 })
 </script>

@@ -3,11 +3,11 @@
 defineProps({
     width: {
         type: String,
-        default: "4rem"
+        default: "4em"
     },
     height: {
         type: String,
-        default: "4rem"
+        default: "4em"
     }
 })
 </script>
