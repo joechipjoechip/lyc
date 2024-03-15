@@ -291,7 +291,8 @@ async function initRenderer(){
         });
     
         renderer.setSize(width, height)
-        renderer.setPixelRatio(1)
+        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
         // renderer.setClearColor();
 
         renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -302,7 +303,7 @@ async function initRenderer(){
         
         composer = new EffectComposer(renderer)
         composer.setSize(width * multiplicatorRatio, height * multiplicatorRatio)
-        composer.setPixelRatio(1)
+        composer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         renderPass = new RenderPass(scene, camera)
         composer.addPass(renderPass)
 
