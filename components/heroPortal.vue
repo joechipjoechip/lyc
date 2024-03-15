@@ -89,7 +89,7 @@ onMounted(() => {
         }
 
         animate.value = true
-        mainTick()
+        // mainTick()
 
         
         if( !store.benchmarkAlreadyDone ){
