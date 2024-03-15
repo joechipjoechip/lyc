@@ -7,16 +7,16 @@ const indexIsMounted = ref(false)
 
 onMounted(() => {
     indexIsMounted.value = true
-    // if( route.query.anchor ){
-    //     setTimeout(() => {
-    //         const anchor = route.query.anchor
-    //         const target = document.querySelector(anchor)
+    if( route.query.anchor ){
+        setTimeout(() => {
+            const anchor = route.query.anchor
+            const target = document.querySelector(anchor)
 
-    //         if( target ){
-    //             target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
-    //         } 
-    //     }, 1000)
-    // }
+            if( target ){
+                target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
+            } 
+        }, 1000)
+    }
 })
 
 onBeforeUnmount(() => {
