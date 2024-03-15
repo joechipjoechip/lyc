@@ -16,6 +16,7 @@ import { useGetEventPosition } from '@/composables/getEventPosition'
 import { useNormalizePosition } from '@/composables/getNormalizedPosition'
 import { disposeScene } from '@/composables/sceneDisposer'
 import { clamp } from '@/composables/computes'
+import { Benchmark } from '@/composables/benchmark'
 
 import { useMainStore } from '@/stores/main';
 import { useLocalStorageStore } from '@/stores/localStorageStore';
@@ -34,12 +35,12 @@ glbLoader.setDRACOLoader(dracoLoader);
 
 const canvas = ref(null)
 const canvasIsVisible = useElementVisibility(canvas)
-const frameRate = 1/60
 const animate = ref(false)
 const scene = new THREE.Scene()
-const multiplicatorRatio = store.isMobile ? 1 : 2
+let lightOne = null
+let multiplicatorRatio = store.isMobile ? 1 : 2
 let canvasBaseRatio = null
-
+let deltaTime = 0
 let renderer = null
 let composer = null
 let renderPass = null
@@ -52,7 +53,6 @@ let boxMaterial = null
 let boxMap = null
 let envMapTexture = null
 let envMapTextureNight = null
-let deltaTime = 0
 let curtainMaterial = null
 let planeTexture = null
 const groundTextures = {}
@@ -67,12 +67,29 @@ const cameraFov = store.isMobile ? 40 : 22
 // effetcs
 const vignetteOffset = store.isMobile ? 0.05 : 0.5
 const vignetteDarkness = store.isMobile ? 1.05 : 1.75
+let bloom = null
+let vignette = null
+let blurPass = null
+
+// benchmark
+let frameRate = 1/60
+const idealFPSValueLimit = 45
+const benchmark = new Benchmark(frameRate, idealFPSValueLimit)
+let benchmarkIsActive = false
+let badComputer = false
+
 
 onMounted(() => {
     console.log("mounted du hero portal")
     initScene().then(() => initRenderer().then(() => {
         animate.value = true
         mainTick()
+
+        benchmarkIsActive = true
+        setTimeout(() => {
+            benchmarkIsActive = false
+            benchmarkResultsManager()
+        }, 3000)
     }))
 })
 
@@ -90,6 +107,26 @@ watch(() => canvasIsVisible.value, newVal => {
         console.log("stop tick")
     }
 })
+
+function benchmarkResultsManager(){
+    if( benchmark.missingFrames >  1 ){
+        badComputer = true
+        console.log("bad computer spotted -> downgrade()")
+        downgrade()
+    }
+    console.log("missingFrames : ", benchmark.missingFrames)
+}
+
+function downgrade(){
+    composer.removePass(blur)
+    composer.removePass(vignette)
+    composer.setPixelRatio(1)
+    // composer.removePass(bloom)
+    frameRate = 1/45
+    multiplicatorRatio = 1
+    scene.remove(lightOne)
+    handleResize()
+}
 
 $on("main-resize", handleResize)
 function handleResize(){
@@ -139,7 +176,7 @@ async function initScene(){
     
         // lights
         const lightAmbient = new THREE.AmbientLight( 0xffffff, 5.7)
-        const lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
+        lightOne = new THREE.PointLight( 0x96e7ff, 30, 50)
         const lightTwo = new THREE.PointLight( 0x631fff, 30, 50)
 
         lightOne.position.set(3, 6, -10)
@@ -493,15 +530,15 @@ async function initEnvMapAndMaterials(model){
 }
 
 function initPostProcs(width, height){
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloomPass.threshold = 0.212
-    bloomPass.strength = 0.24
-    bloomPass.radius = 0.92
+    bloom = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
+    bloom.threshold = 0.212
+    bloom.strength = 0.24
+    bloom.radius = 0.92
 
-    const effectVignette = new ShaderPass( VignetteShader );
+    vignette = new ShaderPass( VignetteShader );
 
-    effectVignette.uniforms["offset"].value = vignetteOffset
-    effectVignette.uniforms["darkness"].value = vignetteDarkness
+    vignette.uniforms["offset"].value = vignetteOffset
+    vignette.uniforms["darkness"].value = vignetteDarkness
     
 
     const blurConfig = {
@@ -510,7 +547,7 @@ function initPostProcs(width, height){
         maxblur: 0.002
     }
 
-    const blurPass = new BokehPass( 
+    blurPass = new BokehPass( 
         scene, 
         camera, 
         {
@@ -520,11 +557,9 @@ function initPostProcs(width, height){
         }
     );
 
-    composer.addPass(bloomPass)
-    composer.addPass(effectVignette)
+    composer.addPass(bloom)
+    composer.addPass(vignette)
     composer.addPass(blurPass)
-
-    
 }
 
 function mainTick(){
@@ -534,6 +569,11 @@ function mainTick(){
     
     // NOW CHECK IF FRAMERATE IS GOOD
     if( deltaTime >= frameRate ){
+
+        if( benchmarkIsActive ){
+            benchmark.computeFPS()
+        }
+
         portal.rotation.y = normalizedPosition.x * 0.3;
         plane.rotation.z = normalizedPosition.x * -0.1;
         plane.position.x = normalizedPosition.x * 20;
@@ -556,8 +596,6 @@ function mainTick(){
         composer.render();
         // renderer.render(scene, camera);
         deltaTime = deltaTime % frameRate;
-    } else {
-        console.log("frame drop")
     }
 
     // console.log("hey tick")

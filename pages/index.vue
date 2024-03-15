@@ -3,8 +3,10 @@ import { useMainStore } from '#imports';
 import { wording } from '@/assets/data/wording';
 const store = useMainStore()
 const route = useRoute()
+const indexIsMounted = ref(false)
 
 onMounted(() => {
+    indexIsMounted.value = true
     if( route.query.anchor ){
         setTimeout(() => {
             const anchor = route.query.anchor
@@ -17,11 +19,15 @@ onMounted(() => {
     }
 })
 
+onBeforeUnmount(() => {
+    indexIsMounted.value = false
+})
+
 </script>
 
 <template>
     <div class="page-index">
-        <HeroPortal />
+        <HeroPortal v-if="indexIsMounted"/>
         
         <div class="punchlines">
             <MicroTitle text="The first crypto treasure hunt" />
