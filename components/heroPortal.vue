@@ -632,7 +632,7 @@ function mainTick(){
         // box.position.z = boxPosition[2] + normalizedPosition.y * -0.4;
         box.rotation.set(
             localStore.gyroIsAllowed ? 
-                clamp(normalizedPosition.y * -0.4, -0.4, 0.4)  
+                clamp(normalizedPosition.y * -0.15, -0.4, 0.4)  
                 : normalizedPosition.y * -0.4,
             normalizedPosition.x * 0.9,
             0
