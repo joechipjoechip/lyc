@@ -134,7 +134,7 @@ function benchmarkLaunch(){
 }
 
 function benchmarkResultsManager(){
-    if( benchmark.missingFrames >  1 ){
+    if( benchmark.missingFrames >  70 ){
         console.log("bad computer spotted -> downgrade()")
         store.setIsBadComputer(true)
         downgrade()
