@@ -89,6 +89,7 @@ onMounted(() => {
         }
 
         animate.value = true
+        setTimeout(() => mainTick(), 500)
         // mainTick()
 
         
@@ -609,9 +610,14 @@ function mainTick(){
         plane.position.x = normalizedPosition.x * 20;
         // portal.rotation.x = normalizedPosition.y * -0.05;
 
-        box.rotation.y = normalizedPosition.x * 0.9;
-        box.rotation.x = normalizedPosition.y * -0.4;
+        // box.rotation.y = normalizedPosition.x * 0.9;
+        // box.rotation.x = normalizedPosition.y * -0.4;
         // box.position.z = boxPosition[2] + normalizedPosition.y * -0.4;
+        box.rotation.set(
+            normalizedPosition.y * -0.4,
+            normalizedPosition.x * 0.9,
+            0
+        )
 
         camera.position.set(
             normalizedPosition.x * 0.3,
