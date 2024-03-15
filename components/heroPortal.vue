@@ -76,20 +76,30 @@ let frameRate = 1/60
 const idealFPSValueLimit = 45
 const benchmark = new Benchmark(frameRate, idealFPSValueLimit)
 let benchmarkIsActive = false
-let badComputer = false
 
 
 onMounted(() => {
     console.log("mounted du hero portal")
     initScene().then(() => initRenderer().then(() => {
+
+        if( store.isBadComputer ){
+            console.log("au mounted, on capte que c'est badComputer direct, donc downgrade()")
+            downgrade()
+        }
+
         animate.value = true
         mainTick()
 
-        benchmarkIsActive = true
-        setTimeout(() => {
-            benchmarkIsActive = false
-            benchmarkResultsManager()
-        }, 3000)
+        
+        if( !store.benchmarkAlreadyDone ){
+            benchmarkIsActive = true
+            
+            setTimeout(() => {
+                benchmarkIsActive = false
+                store.setBenchmarkAlreadyDone(true)
+                benchmarkResultsManager()
+            }, 3000)
+        }
     }))
 })
 
@@ -110,22 +120,33 @@ watch(() => canvasIsVisible.value, newVal => {
 
 function benchmarkResultsManager(){
     if( benchmark.missingFrames >  1 ){
-        badComputer = true
         console.log("bad computer spotted -> downgrade()")
+        store.setIsBadComputer(true)
         downgrade()
     }
     console.log("missingFrames : ", benchmark.missingFrames)
 }
 
 function downgrade(){
-    composer.removePass(blur)
+    removePostProc()
+    handleResize()
+    downgradeComposer()
+    scene.remove(lightOne)
+}
+
+function removePostProc(){
+    composer.removePass(bloom)
     composer.removePass(vignette)
-    composer.setPixelRatio(1)
+    composer.removePass(blur)
+}
+
+function downgradeComposer(){
+    renderer.setPixelRatio(1)
+    // composer.setPixelRatio(1)
     // composer.removePass(bloom)
     frameRate = 1/45
     multiplicatorRatio = 1
-    scene.remove(lightOne)
-    handleResize()
+    composer = null
 }
 
 $on("main-resize", handleResize)
@@ -223,11 +244,14 @@ async function initScene(){
                         box,
                         camera,
                         lightAmbient,
-                        lightOne,
                         lightTwo,
                         // pointLightHelperOne,
                         // pointLightHelperTwo
                     )
+
+                    if( !store.isBadComputer ){
+                        scene.add(lightOne)
+                    }
                     
                     res()
                 })
@@ -530,36 +554,42 @@ async function initEnvMapAndMaterials(model){
 }
 
 function initPostProcs(width, height){
-    bloom = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
-    bloom.threshold = 0.212
-    bloom.strength = 0.24
-    bloom.radius = 0.92
-
-    vignette = new ShaderPass( VignetteShader );
-
-    vignette.uniforms["offset"].value = vignetteOffset
-    vignette.uniforms["darkness"].value = vignetteDarkness
     
+    if( !store.isBadComputer ){
 
-    const blurConfig = {
-        focus: cameraPosition[2] - portalPosition[2],
-        aperture: 0.0025,
-        maxblur: 0.002
+        bloom = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
+        bloom.threshold = 0.212
+        bloom.strength = 0.24
+        bloom.radius = 0.92
+    
+        composer.addPass(bloom)
+
+        vignette = new ShaderPass( VignetteShader );
+    
+        vignette.uniforms["offset"].value = vignetteOffset
+        vignette.uniforms["darkness"].value = vignetteDarkness
+        
+    
+        const blurConfig = {
+            focus: cameraPosition[2] - portalPosition[2],
+            aperture: 0.0025,
+            maxblur: 0.002
+        }
+    
+        blurPass = new BokehPass( 
+            scene, 
+            camera, 
+            {
+                ...blurConfig,
+                width: width,
+                height: height
+            }
+        );
+
+        composer.addPass(vignette)
+        composer.addPass(blurPass)
     }
 
-    blurPass = new BokehPass( 
-        scene, 
-        camera, 
-        {
-            ...blurConfig,
-            width: width,
-            height: height
-        }
-    );
-
-    composer.addPass(bloom)
-    composer.addPass(vignette)
-    composer.addPass(blurPass)
 }
 
 function mainTick(){
@@ -593,8 +623,11 @@ function mainTick(){
         // custom shader update
         curtainMaterial.uniforms.iTime.value = clock.elapsedTime
 
-        composer.render();
-        // renderer.render(scene, camera);
+        if( !store.isBadComputer ){
+            composer.render();
+        } else {
+            renderer.render(scene, camera);
+        }
         deltaTime = deltaTime % frameRate;
     }
 
