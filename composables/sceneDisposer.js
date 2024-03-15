@@ -21,8 +21,9 @@ function disposeScene( scene, renderer ){
     
     
     renderer.forceContextLoss()
-    // scene = null;
-    // renderer = null;
+    scene = null;
+    renderer = null;
+    console.log("context loss forced")
 
 }
 
