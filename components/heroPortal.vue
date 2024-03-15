@@ -89,8 +89,8 @@ onMounted(() => {
         }
 
         animate.value = true
-        setTimeout(() => mainTick(), 500)
-        // mainTick()
+
+        setTimeout(() => mainTick(), 1500)
 
         
         if( !store.benchmarkAlreadyDone ){
@@ -557,13 +557,13 @@ async function initEnvMapAndMaterials(model){
 function initPostProcs(width, height){
     
     if( !store.isBadComputer ){
-
         bloom = new UnrealBloomPass(new THREE.Vector2(width, height), 1.5, 0.4, 0.85)
         bloom.threshold = 0.212
         bloom.strength = 0.24
         bloom.radius = 0.92
     
         composer.addPass(bloom)
+
 
         vignette = new ShaderPass( VignetteShader );
     
