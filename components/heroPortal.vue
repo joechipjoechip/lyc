@@ -90,18 +90,18 @@ onMounted(() => {
 
         animate.value = true
 
-        setTimeout(() => mainTick(), 1500)
+        if( store.isMobile || store.isBadComputer ) {
+            setTimeout(() => {
+                mainTick()
+                benchmarkLaunch()
+            }, 2000)
+        } else {
+            mainTick()
+            benchmarkLaunch()
+        }
 
         
-        if( !store.benchmarkAlreadyDone ){
-            benchmarkIsActive = true
-            
-            setTimeout(() => {
-                benchmarkIsActive = false
-                store.setBenchmarkAlreadyDone(true)
-                benchmarkResultsManager()
-            }, 3000)
-        }
+        
     }))
 })
 
@@ -119,6 +119,18 @@ watch(() => canvasIsVisible.value, newVal => {
         console.log("stop tick")
     }
 })
+
+function benchmarkLaunch(){
+    if( !store.benchmarkAlreadyDone ){
+        benchmarkIsActive = true
+        
+        setTimeout(() => {
+            benchmarkIsActive = false
+            store.setBenchmarkAlreadyDone(true)
+            benchmarkResultsManager()
+        }, 3000)
+    }
+}
 
 function benchmarkResultsManager(){
     if( benchmark.missingFrames >  1 ){
