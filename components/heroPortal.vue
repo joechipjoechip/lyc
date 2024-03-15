@@ -170,8 +170,8 @@ function handleResize(){
         if( !canvas.value.parentNode ){ return }
         const { width } = canvas.value.parentNode.getBoundingClientRect()
         const computedHeight = width / canvasBaseRatio
-        renderer.setSize(width, computedHeight)
-        composer.setSize(width * multiplicatorRatio, computedHeight * multiplicatorRatio)
+        renderer && renderer.setSize(width, computedHeight)
+        composer && composer.setSize(width * multiplicatorRatio, computedHeight * multiplicatorRatio)
     }
 }
 
