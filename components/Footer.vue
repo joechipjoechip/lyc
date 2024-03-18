@@ -20,10 +20,10 @@ import { footerWording } from '@/assets/data/footer';
 
             <p class="copyright">Copyright 2024 by LOOT YOUR CITY</p>
 
-            <section class="legal">
+            <!-- <section class="legal">
                 <a href="#">Privacy</a>
                 <a href="#">Terms of service</a>
-            </section>
+            </section> -->
 
             <!-- <MicroTechnoPack class="technospack"/> -->
 
