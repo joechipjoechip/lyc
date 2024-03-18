@@ -57,7 +57,7 @@ function changeImages(){
             <div class="left">
                 <Transition name="anim-photo">
                     <img ref="imgLeft" class="imgLeft"
-                        :src="`/images/visuals/phones-slider/xx${leftIndex}.jpg`" 
+                        :src="`/images/visuals/phones-slider/xx${leftIndex}.png`" 
                         alt=""
                         v-show="isShowed"
                         :class="{ isShowed }"
@@ -67,7 +67,7 @@ function changeImages(){
             <div class="right">
                 <Transition name="anim-photo">
                     <img ref="imgRight" class="imgRight"
-                        :src="`/images/visuals/phones-slider/xx${rightIndex}.jpg`" 
+                        :src="`/images/visuals/phones-slider/xx${rightIndex}.png`" 
                         alt=""
                         v-show="isShowed"
                         :class="{ isShowed }"
