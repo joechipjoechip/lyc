@@ -19,7 +19,7 @@ export default [
     },
     {
         name: "Contact",
-        route: "/contact",
+        route: "mailto:team@lootyourcity.com",
         displayInPreFooter: true,
         displayInTopNav: false,
     },
