@@ -19,7 +19,7 @@ watch(wrapperIsVisible, (newVal) => {
 })
 
 function handleClick(){
-    console.log("clicked")
+    // console.log("clicked")
     isShowed.value = false
     setTimeout(() => {
         isShowed.value = true
@@ -51,7 +51,7 @@ function changeImages(){
 </script>
 
 <template>
-    <section ref="wrapper" class="phones-wrapper" @click="handleClick" >
+    <section ref="wrapper" class="phones-wrapper" @click="handleClick" :class="{ isShowed }">
         <div class="phones-inner">
             <img class="frame" src="/images/visuals/phones.png" alt="">
             <div class="left">
@@ -82,6 +82,11 @@ function changeImages(){
 .phones {
     &-wrapper {
         position: relative;
+        pointer-events: none;
+
+        &.isShowed {
+            pointer-events: all;
+        }
     }
 
     &-inner {
