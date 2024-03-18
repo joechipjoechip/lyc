@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 				{ property: "og:title", content: "LOOT YOUR CITY | Crypto Treasure Hunt | Augmented Reality Mobile Game" },
 				{ property: "og:description", content: "Loot Your City web3 play-to-earn is the next biggest crypto treasure hunt on the blockchain Solana, playable soon on your mobile all over the World. Get your Key NFT now in early access and get in Looters Community." },
 				{ property: "og:url", content: "https://www.lootyourcity.com" },
-				{ property: "og:image", content: "/images/visuals/strip-loot.jpg" },
+				{ property: "og:image", content: "/images/core/ogbanner.png" },
 		
 				{ name: "msapplication-TileColor", content: "#da532c" },
 				{ name: "theme-color", content: "#ffffff" }
